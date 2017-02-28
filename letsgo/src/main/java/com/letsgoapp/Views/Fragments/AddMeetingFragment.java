@@ -1,5 +1,6 @@
 package com.letsgoapp.Views.Fragments;
 
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapFragment;
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.AddMeetingViewModel;
+import com.letsgoapp.Views.SetMeetingActivity;
 import com.letsgoapp.databinding.FragmentAddMeetingBinding;
+
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 /**
  * Created by normalteam on 19.02.17.
@@ -48,6 +52,7 @@ public class AddMeetingFragment extends Fragment {
                 R.layout.fragment_add_meeting, container, false);
         View view = fragmentAddMeetingBinding.getRoot();
         fragmentAddMeetingBinding.setAddVM(addMeetingViewModel);
+        SetTopContext(getActivity());
         return view;
     }
 

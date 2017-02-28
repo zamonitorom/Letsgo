@@ -1,5 +1,7 @@
 package com.letsgoapp.ViewModels;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
@@ -11,12 +13,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.BR;
+import com.letsgoapp.Views.SetMeetingActivity;
 
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 /**
  * Created by normalteam on 19.02.17.
@@ -56,5 +61,13 @@ public class AddMeetingViewModel extends BaseObservable {
                     });
 
         });
+    }
+
+    public void click(){
+        Activity activity=(Activity)GetTopContext();
+        Intent intent = new Intent(activity, SetMeetingActivity.class);
+        intent.putExtra("Lat",mMap.getCameraPosition().target.latitude);
+        intent.putExtra("Lon",mMap.getCameraPosition().target.longitude);
+        activity.startActivity(intent);
     }
 }

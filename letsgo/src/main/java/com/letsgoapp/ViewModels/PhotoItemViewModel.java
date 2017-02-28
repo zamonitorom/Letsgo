@@ -12,8 +12,8 @@ import com.letsgoapp.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import static com.letsgoapp.Utils.ContextUtil.GetContextApplication;
-import static com.letsgoapp.Utils.ContextUtil.GetTopContext;
+import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
+
 
 /**
  * Created by normalteam on 15.02.17.

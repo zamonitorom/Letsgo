@@ -1,0 +1,87 @@
+[
+  {
+    "id": 5,
+    "title": "t1",
+    "description": "d1",
+    "owner": {
+      "id": 2,
+      "first_name": "",
+      "about": "",
+      "username": "qq",
+      "avatar": "https%3A//pp.vk.me/c837339/v837339379/7b0c/slDNvsJMG00.jpg"
+    },
+    "coordinates": {
+      "lng": 37.676239,
+      "lat": 55.795105
+    },
+    "subway": null
+  },
+  {
+    "id": 4,
+    "title": "t1",
+    "description": "d1",
+    "owner": {
+      "id": 2,
+      "first_name": "",
+      "about": "",
+      "username": "qq",
+      "avatar": "https%3A//pp.vk.me/c837339/v837339379/7b0c/slDNvsJMG00.jpg"
+    },
+    "coordinates": {
+      "lng": 37.544403,
+      "lat": 55.825973
+    },
+    "subway": null
+  },
+  {
+    "id": 3,
+    "title": "Catch pokemons together",
+    "description": "CAtch",
+    "owner": {
+      "id": 1,
+      "first_name": "",
+      "about": "",
+      "username": "kic",
+      "avatar": "https%3A//pp.vk.me/c837420/v837420379/86d1/KWkq1NfQyNs.jpg"
+    },
+    "coordinates": {
+      "lng": 37.483292,
+      "lat": 55.739675
+    },
+    "subway": null
+  },
+  {
+    "id": 6,
+    "title": "t1",
+    "description": "d1",
+    "owner": {
+      "id": 2,
+      "first_name": "",
+      "about": "",
+      "username": "qq",
+      "avatar": "https%3A//pp.vk.me/c837339/v837339379/7b0c/slDNvsJMG00.jpg"
+    },
+    "coordinates": {
+      "lng": 37.676239,
+      "lat": 55.795105
+    },
+    "subway": null
+  },
+  {
+    "id": 1,
+    "title": "Catch pokemons together",
+    "description": "CAtch",
+    "owner": {
+      "id": 1,
+      "first_name": "",
+      "about": "",
+      "username": "kic",
+      "avatar": "https%3A//pp.vk.me/c837420/v837420379/86d1/KWkq1NfQyNs.jpg"
+    },
+    "coordinates": {
+      "lng": 37.624397,
+      "lat": 55.761702
+    },
+    "subway": null
+  }
+]
