@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="addVM"
+            type="com.letsgoapp.ViewModels.AddMeetingViewModel"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/map_add"
+            class="com.google.android.gms.maps.MapFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:rotation="270"
+            android:src="@drawable/ic_back" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#14ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="88dp"
+            android:visibility="@{addVM.isButtonOnTop ? View.VISIBLE : View.GONE}"
+            android:text="Let's GO!" />
+
+
+    </RelativeLayout>
+</layout>

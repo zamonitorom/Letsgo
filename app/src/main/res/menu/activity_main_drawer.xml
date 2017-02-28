@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_map"
+            android:title="Актуальные события" />
+        <item
+            android:id="@+id/nav_my_actions"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Мои события" />
+        <item
+            android:id="@+id/nav_"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Сообщения" />
+        <item
+            android:id="@+id/nav_create_action"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Создать событие" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Настройки" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Выход" />
+        </menu>
+    </item>
+
+</menu>
