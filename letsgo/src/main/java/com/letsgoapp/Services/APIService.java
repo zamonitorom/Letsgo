@@ -1,9 +1,21 @@
 package com.letsgoapp.Services;
 
-import com.letsgoapp.Models.Meeting;
+import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.SendMeeting;
+
+
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,7 +27,7 @@ import rx.Observable;
 
 public class APIService {
 
-    Retrofit retrofit = new Retrofit.Builder()
+    private Retrofit retrofit = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("http://185.76.147.143/")
@@ -26,7 +38,7 @@ public class APIService {
         return iapiService.getMeetingList(authorization);
     }
 
-    Retrofit getmeetimg = new Retrofit.Builder()
+    private Retrofit getmeetimg = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("http://185.76.147.143/")
@@ -36,6 +48,53 @@ public class APIService {
 
     public Observable<Meeting> getMeeting(String url,String authorization) {
         return iapiService2.getMeeting(url,authorization);
+    }
+
+
+    public static class LoggingInterceptor implements Interceptor {
+        @Override public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            long t1 = System.nanoTime();
+            String requestLog = String.format("Sending request %s on %s%n%s%s",
+                    request.url(), chain.connection(), request.headers(),request.body().toString());
+            //YLog.d(String.format("Sending request %s on %s%n%s",
+            //        request.url(), chain.connection(), request.headers()));
+            if(request.method().compareToIgnoreCase("post")==0){
+                requestLog ="\n"+requestLog+"\n";
+            }
+            Log.d("retrofit","request"+"\n"+requestLog);
+
+            Response response = chain.proceed(request);
+            long t2 = System.nanoTime();
+
+            String responseLog = String.format("Received response for %s in %.1fms%n%s",
+                    response.request().url(), (t2 - t1) / 1e6d, response.headers());
+
+            String bodyString = response.body().string();
+
+            Log.d("retrofit","response"+"\n"+responseLog+"\n"+bodyString);
+
+            return response.newBuilder()
+                    .body(ResponseBody.create(response.body().contentType(), bodyString))
+                    .build();
+            //return response;
+        }
+    }
+    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();
+
+
+    private Retrofit postmeeting = new Retrofit.Builder()
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("http://185.76.147.143/")
+            .client(client)
+            .build();
+
+    private IAPIService iapiService3 = postmeeting.create(IAPIService.class);
+
+    public Observable<Object> postMeeting(Object sendMeeting, String authorization,
+                                          String contentType,String length) {
+        return iapiService3.postMeeting(sendMeeting,authorization,contentType,length);
     }
 
 }
