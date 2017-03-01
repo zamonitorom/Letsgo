@@ -11,6 +11,8 @@ import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.SetMeetingViewModel;
 import com.letsgoapp.databinding.ActivitySetMeetingBinding;
 
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
+
 public class SetMeetingActivity extends AppCompatActivity {
     SetMeetingViewModel setMeetingViewModel;
 
@@ -23,6 +25,7 @@ public class SetMeetingActivity extends AppCompatActivity {
         gestureDetector = new GestureDetectorCompat(this, new LearnGesture());
         setMeetingViewModel = new SetMeetingViewModel();
         binding.setSetViewModel(setMeetingViewModel);
+        SetTopContext(this);
         setSupportActionBar(setMeetingViewModel.toolbarViewModel.getToolbar());
         setMeetingViewModel.toolbarViewModel.setToolbar(binding.toolbar);
         setMeetingViewModel.toolbarViewModel.getToolbar().setNavigationIcon(R.drawable.ic_close_dark);

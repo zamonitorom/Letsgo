@@ -8,10 +8,12 @@ import android.databinding.ObservableList;
 
 import android.graphics.Bitmap;
 
+import android.support.design.widget.NavigationView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,6 +24,8 @@ import com.letsgoapp.Utils.CircleTransform;
 import com.letsgoapp.Utils.ExtendedEditText;
 import com.letsgoapp.Utils.LayoutManagers;
 
+import com.letsgoapp.ViewModels.MainActivityViewModel;
+import com.letsgoapp.databinding.NavHeaderMainBinding;
 import com.squareup.picasso.Picasso;
 
 public class BindingRecyclerViewAdapters {
@@ -103,6 +107,14 @@ public class BindingRecyclerViewAdapters {
     @BindingConversion
     public static String convertObservableStringToString(MyObservableString observableString) {
         return observableString.get();
+    }
+
+    @BindingAdapter({"model"})
+    public static void loadHeader(NavigationView view, MainActivityViewModel model) {
+        NavHeaderMainBinding binding = NavHeaderMainBinding.inflate(LayoutInflater.from(view.getContext()));
+        binding.setMainVM(model);
+        binding.executePendingBindings();
+        view.addHeaderView(binding.getRoot());
     }
 
 }

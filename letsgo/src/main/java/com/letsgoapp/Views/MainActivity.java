@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.letsgoapp.R;
+import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     GMapFragment gMapFragment;
     FloatingActionButton fab;
+    MainActivityViewModel mainActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
+        activityMainBinding.setMainVM(mainActivityViewModel);
         toolbar = activityMainBinding.toolbar;
         toolbar.setTitle("Актуальные события");
 //        fab.setOnClickListener(new View.OnClickListener() {
