@@ -24,11 +24,13 @@ import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
 
+import static com.letsgoapp.Utils.ContextUtill.SetMainContext;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    FragmentManager fragmentManager;
+    public FragmentManager fragmentManager;
     DrawerLayout drawer;
     Toolbar toolbar;
-    GMapFragment gMapFragment;
+    public GMapFragment gMapFragment;
     FloatingActionButton fab;
     MainActivityViewModel mainActivityViewModel;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
         activityMainBinding.setMainVM(mainActivityViewModel);
+        SetMainContext(this);
         toolbar = activityMainBinding.toolbar;
         toolbar.setTitle("Актуальные события");
 //        fab.setOnClickListener(new View.OnClickListener() {
