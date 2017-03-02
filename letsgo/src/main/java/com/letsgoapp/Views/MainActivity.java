@@ -1,6 +1,9 @@
 package com.letsgoapp.Views;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,15 +27,21 @@ import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
 
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String APP_PREFERENCES = "mySettings";
+    public static final String APP_PREFERENCES_REGISTER = "register";
+
     public FragmentManager fragmentManager;
     DrawerLayout drawer;
     Toolbar toolbar;
     public GMapFragment gMapFragment;
     FloatingActionButton fab;
     MainActivityViewModel mainActivityViewModel;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +72,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SetTopContext(this);
+        sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        if(!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivityForResult(intent,0);
+        }
+
+
         fragmentManager = getFragmentManager();
         gMapFragment = new GMapFragment();
         //fragmentManager.beginTransaction().add(gMapFragment,"123");
         //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container,gMapFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
 
 
     }
@@ -79,6 +96,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK){
+            if(data.getExtras().getBoolean("auth")){
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(APP_PREFERENCES_REGISTER, true);
+                editor.apply();
+            }
+        }
+
     }
 
 //    @Override
@@ -113,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_map) {
             //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,gMapFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
             toolbar.setTitle("Актуальные события");
             item.setChecked(true);
             fab.show();

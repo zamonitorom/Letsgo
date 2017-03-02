@@ -1,21 +1,16 @@
 package com.letsgoapp.ViewModels;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
-import com.letsgoapp.Services.IAPIService;
 import com.letsgoapp.Utils.CircleTransform;
-import com.letsgoapp.Views.MeetingActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -51,7 +46,7 @@ public class MapFragmentViewModel {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moscow, initZoom));
         mMap.setOnCameraChangeListener(cameraPosition -> Log.d("mapFragment", "CHANDE+\n"));
 //        mMap.setOnMarkerClickListener(marker -> {
-//            Intent meetingIntent = new Intent(context, MeetingActivity.class);
+//            Intent meetingIntent = new Intent(context, MeetingDescriptionActivity.class);
 //            meetingIntent.putExtra("id",marker.getId().toString());
 //            meetingIntent.putExtra("href",marker.getTag().toString());
 //            context.startActivity(meetingIntent);

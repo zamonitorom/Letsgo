@@ -11,7 +11,7 @@ import com.letsgoapp.ViewModels.ToolbarViewModel;
 import com.letsgoapp.databinding.ActivityMeetingBinding;
 
 
-public class MeetingActivity extends AppCompatActivity {
+public class MeetingDescriptionActivity extends AppCompatActivity {
     Intent intent;
     MeetingViewModel meetingViewModel;
 

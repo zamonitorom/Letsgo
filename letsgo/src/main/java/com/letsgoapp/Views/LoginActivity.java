@@ -13,12 +13,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Intent answerIntent = new Intent();
-        answerIntent.putExtra("auth",true);
-        setResult(RESULT_OK,answerIntent);
+
     }
 
     public void click(View view) {
+        Intent answerIntent = new Intent();
+        answerIntent.putExtra("auth",true);
+        setResult(RESULT_OK,answerIntent);
         finish();
     }
 }

@@ -14,7 +14,7 @@ import com.google.android.gms.maps.MapFragment;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MapFragmentViewModel;
-import com.letsgoapp.Views.MeetingActivity;
+import com.letsgoapp.Views.MeetingDescriptionActivity;
 
 
 public class GMapFragment extends Fragment {
@@ -45,7 +45,7 @@ public class GMapFragment extends Fragment {
         mapFragment.getMapAsync(googleMap -> {
                     mapFragmentViewModel = new MapFragmentViewModel(googleMap, getActivity().getBaseContext());
                     mapFragmentViewModel.getmMap().setOnMarkerClickListener(marker -> {
-                        Intent meetingIntent = new Intent(getActivity(), MeetingActivity.class);
+                        Intent meetingIntent = new Intent(getActivity(), MeetingDescriptionActivity.class);
                         meetingIntent.putExtra("id", marker.getId().toString());
                         meetingIntent.putExtra("href", marker.getTag().toString());
                         startActivity(meetingIntent);
