@@ -7,16 +7,20 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import com.letsgoapp.R;
+import com.letsgoapp.ViewModels.ProfileViewModel;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private GestureDetectorCompat gestureDetector;
+    public ProfileViewModel profileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         gestureDetector = new GestureDetectorCompat(this, new LearnGesture());
+
+        profileViewModel = new ProfileViewModel();
     }
 
 
