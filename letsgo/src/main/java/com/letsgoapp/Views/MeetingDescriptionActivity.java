@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MeetingViewModel;
-import com.letsgoapp.ViewModels.ToolbarViewModel;
 import com.letsgoapp.databinding.ActivityMeetingBinding;
 
 
 public class MeetingDescriptionActivity extends AppCompatActivity {
     Intent intent;
     MeetingViewModel meetingViewModel;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +23,13 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
         ActivityMeetingBinding activityMeetingBinding = DataBindingUtil.setContentView(this, R.layout.activity_meeting);
         intent = getIntent();
         meetingViewModel = new MeetingViewModel(intent.getExtras().getString("href"),this);
-
-        meetingViewModel.getToolbarViewModel().setToolbar(activityMeetingBinding.tlbar);
-        activityMeetingBinding.setToolbar(meetingViewModel.getToolbarViewModel());
+        toolbar = activityMeetingBinding.tlbar;
         activityMeetingBinding.setMeetingVM(meetingViewModel);
-        setSupportActionBar(meetingViewModel.getToolbarViewModel().getToolbar());
-        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
-        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationOnClickListener(v -> finish());
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_close_dark);
+        toolbar.setNavigationOnClickListener(v -> finish());
+//        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
+//        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationOnClickListener(v -> finish());
     }
 
 }

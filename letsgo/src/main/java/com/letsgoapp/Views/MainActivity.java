@@ -22,6 +22,7 @@ import android.view.View;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
+import com.letsgoapp.ViewModels.ToolbarViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
         activityMainBinding.setMainVM(mainActivityViewModel);
-        toolbar = activityMainBinding.toolbar;
+        activityMainBinding.toolbar.setToolbar(mainActivityViewModel.getToolbarViewModel());
+        toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            }
 //        });
 
-        fab = activityMainBinding.fabs.fab;
+        fab = activityMainBinding.toolbar.fab.fab;
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

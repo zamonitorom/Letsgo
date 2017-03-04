@@ -49,6 +49,8 @@ public class ProfileViewModel extends BaseObservable {
                             }
                         })
                         .subscribe();
+            }else {
+                setUsername("Чиж пидор");
             }
         }
 

@@ -11,6 +11,7 @@ import com.letsgoapp.BR;
 
 public class ToolbarViewModel extends BaseObservable{
     private String toolbarTitle;
+    private String title;
     private Toolbar toolbar;
 
     public ToolbarViewModel() {
@@ -36,5 +37,15 @@ public class ToolbarViewModel extends BaseObservable{
 
     public void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
+    }
+
+    @Bindable
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+        notifyPropertyChanged(BR.title);
     }
 }

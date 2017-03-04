@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="toolbar"
-            type="com.letsgoapp.ViewModels.ToolbarViewModel"/>
+            type="com.letsgoapp.ViewModels.ToolbarViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.letsgoapp.Views.MainActivity">
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -27,31 +26,33 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="@{toolbar.toolbarTitle}"
-                        android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/imageViewToolbar"
-                        android:layout_marginEnd="83dp" />
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="horizontal">-->
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@mipmap/ic_launcher"
-                        android:id="@+id/imageViewToolbar"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true" />
-                </RelativeLayout>
+                    <!--<ImageView-->
+                        <!--android:layout_width="60dp"-->
+                        <!--android:layout_height="60dp"-->
+                        <!--android:src="@drawable/ic_close_dark"-->
+                        <!--/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="150dp"-->
+                        <!--android:layout_height="60dp"-->
+                        <!--android:text="@{toolbar.title}"/>-->
+                <!--</LinearLayout>-->
+
             </android.support.v7.widget.Toolbar>
+
+
         </android.support.design.widget.AppBarLayout>
 
         <include layout="@layout/content_main" />
+
+        <include
+            android:id="@+id/fab"
+            layout="@layout/layout_fab" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

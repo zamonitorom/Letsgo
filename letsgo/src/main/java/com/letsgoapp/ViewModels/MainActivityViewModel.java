@@ -17,8 +17,10 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class MainActivityViewModel extends BaseObservable {
 
     private String mem;
+    private ToolbarViewModel toolbarViewModel;
 
     public MainActivityViewModel(String mem) {
+        toolbarViewModel = new ToolbarViewModel();
         this.mem = mem;
     }
 
@@ -37,5 +39,13 @@ public class MainActivityViewModel extends BaseObservable {
         Intent intent = new Intent(activity, ProfileActivity.class);
         intent.putExtra("link","");
         activity.startActivity(intent);
+    }
+
+    public ToolbarViewModel getToolbarViewModel() {
+        return toolbarViewModel;
+    }
+
+    public void setToolbarViewModel(ToolbarViewModel toolbarViewModel) {
+        this.toolbarViewModel = toolbarViewModel;
     }
 }
