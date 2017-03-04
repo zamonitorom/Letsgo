@@ -11,23 +11,28 @@ import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MeetingViewModel;
 import com.letsgoapp.databinding.ActivityMeetingBinding;
 
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
+
 
 public class MeetingDescriptionActivity extends AppCompatActivity {
     Intent intent;
     MeetingViewModel meetingViewModel;
-    Toolbar toolbar;
+    //Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetTopContext(this);
         ActivityMeetingBinding activityMeetingBinding = DataBindingUtil.setContentView(this, R.layout.activity_meeting);
         intent = getIntent();
         meetingViewModel = new MeetingViewModel(intent.getExtras().getString("href"),this);
-        toolbar = activityMeetingBinding.tlbar;
+        //toolbar = activityMeetingBinding.tlbar;
         activityMeetingBinding.setMeetingVM(meetingViewModel);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_close_dark);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        activityMeetingBinding.setToolbar(meetingViewModel.getToolbarViewModel());
+        setSupportActionBar(activityMeetingBinding.tlbar);
+        //setSupportActionBar(toolbar);
+        //toolbar.setNavigationIcon(R.drawable.ic_close_dark);
+        //toolbar.setNavigationOnClickListener(v -> finish());
 //        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
 //        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationOnClickListener(v -> finish());
     }

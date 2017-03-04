@@ -47,9 +47,6 @@ public class MeetingViewModel extends BaseObservable {
     public MeetingViewModel(String href, Context context) {
         //this.context = context;
         toolbarViewModel = new ToolbarViewModel();
-
-
-
         loadData(href);
     }
 
@@ -165,12 +162,19 @@ public class MeetingViewModel extends BaseObservable {
         this.toolbarViewModel = toolbarViewModel;
     }
 
-    public void toUser(){
+    public void toUser() {
         Activity activity = (Activity) GetTopContext();
-        if(activity!=null) {
+        if (activity != null) {
             Intent intent = new Intent(activity, ProfileActivity.class);
             intent.putExtra("link", getUhref());
             activity.startActivity(intent);
+        }
+    }
+
+    public void close() {
+        Activity activity = (Activity) GetTopContext();
+        if (activity != null) {
+            activity.finish();
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.letsgoapp.Adapters;
 
-import android.app.Activity;
-
 import android.databinding.BindingAdapter;
 import android.databinding.BindingConversion;
 import android.databinding.ObservableList;
@@ -24,11 +22,12 @@ import com.letsgoapp.Utils.CircleTransform;
 import com.letsgoapp.Utils.ExtendedEditText;
 import com.letsgoapp.Utils.LayoutManagers;
 
+import com.letsgoapp.Utils.CropTransformation;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.databinding.NavHeaderMainBinding;
 import com.squareup.picasso.Picasso;
 
-public class BindingRecyclerViewAdapters {
+public class BindingViewAdapters {
 
     @BindingAdapter({"onClick"})
     public static void bindOnClick(View view, final Runnable runnable) {
@@ -56,6 +55,18 @@ public class BindingRecyclerViewAdapters {
                 .load(url)
                 .placeholder(R.drawable.cast_mini_controller_progress_drawable)
                 .transform(new CircleTransform())
+                .into(view);
+
+    }
+
+    @BindingAdapter({"imageURL3"})
+    public static void bindImage3(final ImageView view, final String url) {
+        Log.d("imageURL3", "start");
+        Log.d("imageURL3", "url = " + url);
+        view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        Picasso.with(view.getContext())
+                .load(url)
+                .transform(new CropTransformation(0,0,0,0))
                 .into(view);
 
     }
