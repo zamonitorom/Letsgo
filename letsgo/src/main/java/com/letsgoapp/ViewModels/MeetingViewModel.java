@@ -1,7 +1,9 @@
 package com.letsgoapp.ViewModels;
 
+import android.app.Activity;
 import android.content.Context;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -13,8 +15,12 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Views.ProfileActivity;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 /**
  * Created by normalteam on 11.02.17.
@@ -157,5 +163,14 @@ public class MeetingViewModel extends BaseObservable {
 
     public void setToolbarViewModel(ToolbarViewModel toolbarViewModel) {
         this.toolbarViewModel = toolbarViewModel;
+    }
+
+    public void toUser(){
+        Activity activity = (Activity) GetTopContext();
+        if(activity!=null) {
+            Intent intent = new Intent(activity, ProfileActivity.class);
+            intent.putExtra("link", getUhref());
+            activity.startActivity(intent);
+        }
     }
 }

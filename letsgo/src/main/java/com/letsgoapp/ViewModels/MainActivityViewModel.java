@@ -35,6 +35,7 @@ public class MainActivityViewModel extends BaseObservable {
     public void getProfile(){
         Activity activity = (Activity) GetTopContext();
         Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra("link","");
         activity.startActivity(intent);
     }
 }

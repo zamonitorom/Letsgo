@@ -48,7 +48,7 @@
                     android:layout_height="210dp"
                     android:layout_weight="1"
                     app:itemLayout="@{@layout/photo_recycler_item}"
-                    app:items="@{meetingVM.photos}"
+                    app:items="@{profileVM.photos}"
                     app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
                     app:variable="@{Variables.Item}"
                     />
@@ -57,14 +57,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="@{profileVM.name}"
+                    android:text="@{profileVM.username}"
                     android:padding="@dimen/activity_horizontal_margin"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:text="@{profileVM.description}"
+                    android:text="@{profileVM.about}"
                     android:padding="@dimen/activity_horizontal_margin"/>
 
             </LinearLayout>

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.JsonObject;
 import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
 
 
@@ -96,5 +97,19 @@ public class APIService {
                                           String contentType,String length) {
         return iapiService3.postMeeting(sendMeeting,authorization,contentType,length);
     }
+
+
+    private Retrofit getuser = new Retrofit.Builder()
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("http://185.76.147.143/")
+            .build();
+
+    private IAPIService iapiService4 = getuser.create(IAPIService.class);
+
+    public Observable<Owner> getUser(String link,String authorization) {
+        return iapiService4.getUser(link,authorization);
+    }
+
 
 }
