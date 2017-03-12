@@ -66,7 +66,7 @@ public class BindingViewAdapters {
         view.setScaleType(ImageView.ScaleType.FIT_CENTER);
         Picasso.with(view.getContext())
                 .load(url)
-                .transform(new CropTransformation(0,0,0,0))
+                .transform(new CropTransformation(0,0,240,320))
                 .into(view);
 
     }

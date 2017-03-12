@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.letsgoapp.Utils.Variables" />
+
+        <import type="android.view.View" />
+
+        <import type="com.letsgoapp.Utils.LayoutManagers" />
+
+        <variable
+            name="profileVM"
+            type="com.letsgoapp.ViewModels.ProfileViewModel" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:itemLayout="@{@layout/photo_recycler_item}"
+                app:items="@{profileVM.photos}"
+                app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
+                app:variable="@{Variables.Item}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@{profileVM.about}" />
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

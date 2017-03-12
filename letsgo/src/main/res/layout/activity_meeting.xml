@@ -51,6 +51,7 @@
                     android:paddingRight="3dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
+                    app:onClick="@{meetingVM::toUser}"
                     app:imageURL2="@{meetingVM.avatar}"/>
 
                 <TextView
@@ -88,8 +89,12 @@
                 android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     app:itemLayout="@{@layout/photo_recycler_item}"
                     app:items="@{meetingVM.photos}"
                     app:layoutManager="@{LayoutManagers.grid(1,0,false)}"

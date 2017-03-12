@@ -1,47 +1,39 @@
 package com.letsgoapp.Views;
 
 import android.databinding.DataBindingUtil;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
-import com.letsgoapp.databinding.ActivityProfileBinding;
+import com.letsgoapp.databinding.ActivityProfile2Binding;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ActivityProfileBinding activityProfileBinding;
-    private GestureDetectorCompat gestureDetector;
+    ActivityProfile2Binding activityProfile2Binding;
     public ProfileViewModel profileViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        gestureDetector = new GestureDetectorCompat(this, new LearnGesture());
-        activityProfileBinding = DataBindingUtil.setContentView(this,R.layout.activity_profile);
+        activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile2);
+        Toolbar toolbar = activityProfile2Binding.toolbar;
+        setSupportActionBar(toolbar);
+
         profileViewModel = new ProfileViewModel(getIntent().getExtras().getString("link"));
-        activityProfileBinding.setProfileVM(profileViewModel);
-    }
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.gestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
-
-    class LearnGesture extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e2.getX() > e1.getX()) {
-                finish();
+        activityProfile2Binding.setProfileVM(profileViewModel);
+        activityProfile2Binding.content.setProfileVM(profileViewModel);
+        toolbar.setTitle(profileViewModel.getUsername());
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-            return true;
-        }
+        });
     }
 }
