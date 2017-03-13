@@ -38,7 +38,7 @@ public class BindingViewAdapters {
     public static void bindImage(final ImageView view, final String url) {
         Log.d("imageURL", "start");
         Log.d("imageURL", "url = " + url);
-        view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Picasso.with(view.getContext())
                 .load(url)
                 .placeholder(R.drawable.cast_mini_controller_progress_drawable)

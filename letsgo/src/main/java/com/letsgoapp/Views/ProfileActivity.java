@@ -16,11 +16,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     ActivityProfile2Binding activityProfile2Binding;
     public ProfileViewModel profileViewModel;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile2);
-        Toolbar toolbar = activityProfile2Binding.toolbar;
+        toolbar = activityProfile2Binding.toolbar;
         setSupportActionBar(toolbar);
 
         profileViewModel = new ProfileViewModel(getIntent().getExtras().getString("link"));

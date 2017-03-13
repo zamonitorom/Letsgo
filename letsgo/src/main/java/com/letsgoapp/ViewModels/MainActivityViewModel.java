@@ -7,7 +7,6 @@ import android.databinding.Bindable;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Views.ProfileActivity;
-import com.letsgoapp.Views.ProfileActivity2;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 

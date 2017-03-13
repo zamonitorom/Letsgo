@@ -15,7 +15,6 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Views.ProfileActivity;
-import com.letsgoapp.Views.ProfileActivity2;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
