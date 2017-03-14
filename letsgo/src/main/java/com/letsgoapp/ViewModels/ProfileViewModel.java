@@ -7,6 +7,7 @@ import android.util.Log;
 import android.util.StringBuilderPrinter;
 
 import com.letsgoapp.BR;
+import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Services.APIService;
 
@@ -35,16 +36,25 @@ public class ProfileViewModel extends BaseObservable {
         dataService = new APIService();
         loadData(link);
         isMine = false;
+        notifyPropertyChanged(BR.isMine);
     }
 
     private void loadData(String link) {
         if (link != null) {
             if (!link.isEmpty()) {
                 getUser(link);
-                isMine = (false);
+                isMine = false;
+                notifyPropertyChanged(BR.isMine);
             }else {
                 getUser("http://185.76.147.143/user-detail/2/");
-                isMine = (true);
+                isMine = true;
+                notifyPropertyChanged(BR.isMine);
+                EditableUser data = new EditableUser("testusernamename","testname","tesetabout");
+                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
+                        "application/json", String.valueOf(data.toString().length()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
             }
         }
 
@@ -56,8 +66,11 @@ public class ProfileViewModel extends BaseObservable {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
                     setUsername(user.getUsername());
+                    Log.d("getUser","username = "+ getUsername());
                     setAbout(user.getAbout());
+                    Log.d("getUser","username = "+ getUsername());
                     setAvatar(user.getAvatar());
+                    Log.d("getUser","username = "+ getUsername());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
                         Log.d("ProfileViewModel", photo.getPhoto());

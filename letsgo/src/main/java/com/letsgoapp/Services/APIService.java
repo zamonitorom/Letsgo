@@ -112,11 +112,11 @@ public class APIService {
         return iapiService4.getUser(link,authorization);
     }
 
-    private IAPIService iapiService5 = getuser.create(IAPIService.class);
+    private IAPIService iapiService5 = retrofit.create(IAPIService.class);
 
-    public Observable<EditableUser> setUserData(Object editableUser, String authorization,
+    public Observable<Object> setUserData(Object editableUser, String authorization,
                                                 String contentType, String length) {
-        return iapiService4.setUserData(editableUser,authorization,contentType,length);
+        return iapiService.setUserData(editableUser,authorization,contentType,length);
     }
 
 }

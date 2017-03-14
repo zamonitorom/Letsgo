@@ -45,6 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.ProfileActivity"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

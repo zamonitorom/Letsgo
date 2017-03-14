@@ -43,8 +43,8 @@ public interface IAPIService {
     @GET
     Observable<Owner> getUser(@Url String url,@Header("Authorization") String authorization);
 
-    @PUT("user-detail/")
-    Observable<EditableUser> setUserData(@Body Object EditableUser,
+    @PUT("user-detail/1/")
+    Observable<Object> setUserData(@Body Object EditableUser,
                                          @Header("Authorization") String authorization,
                                          @Header("Content-Type") String contentType,
                                          @Header("Content-Length") String length);

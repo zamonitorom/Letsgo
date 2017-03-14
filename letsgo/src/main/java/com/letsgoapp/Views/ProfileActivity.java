@@ -38,6 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        Slidr.attach(this);
+        //Slidr.attach(this);
     }
 }
