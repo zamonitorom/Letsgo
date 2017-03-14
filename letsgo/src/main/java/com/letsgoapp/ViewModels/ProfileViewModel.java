@@ -23,8 +23,11 @@ public class ProfileViewModel extends BaseObservable {
     private String username;
     private String about;
     private String uhref;
+    private String firstName;
     @Bindable
     public Boolean isMine;
+    @Bindable
+    public Boolean isTouchable;
 
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
@@ -34,9 +37,11 @@ public class ProfileViewModel extends BaseObservable {
     public ProfileViewModel(String link) {
         photos = new ObservableArrayList<>();
         dataService = new APIService();
-        loadData(link);
         isMine = false;
+        isTouchable = false;
+        loadData(link);
         notifyPropertyChanged(BR.isMine);
+        notifyPropertyChanged(BR.isTouchable);
     }
 
     private void loadData(String link) {
@@ -45,55 +50,49 @@ public class ProfileViewModel extends BaseObservable {
                 getUser(link);
                 isMine = false;
                 notifyPropertyChanged(BR.isMine);
-            }else {
+            } else {
                 getUser("http://185.76.147.143/user-detail/2/");
                 isMine = true;
                 notifyPropertyChanged(BR.isMine);
-                EditableUser data = new EditableUser("testusernamename","testname","tesetabout");
-                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
-                        "application/json", String.valueOf(data.toString().length()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe();
+//                EditableUser data = new EditableUser("testusernamename", "testname", "tesetabout");
+//                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
+//                        "application/json", String.valueOf(data.toString().length()))
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe();
             }
         }
 
     }
 
-    private void getUser(String link){
-        dataService.getUser(link,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+    private void getUser(String link) {
+        dataService.getUser(link, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
+                    setFirstName(user.getFirstName());
                     setUsername(user.getUsername());
-                    Log.d("getUser","username = "+ getUsername());
+                    //Log.d("getUser", "username = " + getUsername());
                     setAbout(user.getAbout());
-                    Log.d("getUser","username = "+ getUsername());
+                    //Log.d("getUser", "username = " + getUsername());
                     setAvatar(user.getAvatar());
-                    Log.d("getUser","username = "+ getUsername());
+                    //Log.d("getUser", "username = " + getUsername());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
-                        Log.d("ProfileViewModel", photo.getPhoto());
+                        //Log.d("ProfileViewModel", photo.getPhoto());
                     }
                 })
                 .subscribe();
     }
 
-//    Изменение юзера
-//    PUT /user-detail/1/
-//    Example request headers:
-//    User-Agent: curl/7.35.0
-//    Host: 185.76.147.143
-//    Accept: */*
-//Content-Type: application/json
-//Authorization: Token 163df7faa712e242f7e6b4d270e29401e604b9b2
-//Content-Length: 77
-//
-//{
-//"username": "new_nick",
-//"firs_name": "new first name",
-//"about": "new about"
-//}
+    public void fabClick(){
+        Log.d("fabClick", "username = " + getUsername()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
+        if(isMine) {
+            isTouchable = true;
+            notifyPropertyChanged(BR.isTouchable);
+        }
+        Log.d("fabClick2", "username = " + getUsername()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
+    }
 
     @Bindable
     public String getAvatar() {
@@ -134,4 +133,13 @@ public class ProfileViewModel extends BaseObservable {
         this.uhref = uhref;
     }
 
+    @Bindable
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+        notifyPropertyChanged(BR.firstName);
+    }
 }

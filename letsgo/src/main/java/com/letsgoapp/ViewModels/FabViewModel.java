@@ -5,4 +5,7 @@ package com.letsgoapp.ViewModels;
  */
 
 public class FabViewModel {
+
+    public FabViewModel() {
+    }
 }

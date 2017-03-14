@@ -10,19 +10,19 @@ import android.view.View;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
-import com.letsgoapp.databinding.ActivityProfile2Binding;
+import com.letsgoapp.databinding.ActivityProfileBinding;
 import com.r0adkll.slidr.Slidr;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    ActivityProfile2Binding activityProfile2Binding;
+    ActivityProfileBinding activityProfile2Binding;
     public ProfileViewModel profileViewModel;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile2);
+        activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile);
         toolbar = activityProfile2Binding.toolbar;
         setSupportActionBar(toolbar);
 
@@ -31,13 +31,16 @@ public class ProfileActivity extends AppCompatActivity {
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         toolbar.setTitle(profileViewModel.getUsername());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(profileViewModel!=null){
+//                    if{profileViewModel.isMine{
+//                        profileViewModel.isTouchable = true;
+//                    }
+//                }
+//            }
+//        });
         //Slidr.attach(this);
     }
 }
