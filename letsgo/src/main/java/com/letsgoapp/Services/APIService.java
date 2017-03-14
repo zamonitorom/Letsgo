@@ -3,6 +3,7 @@ package com.letsgoapp.Services;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
@@ -111,5 +112,11 @@ public class APIService {
         return iapiService4.getUser(link,authorization);
     }
 
+    private IAPIService iapiService5 = getuser.create(IAPIService.class);
+
+    public Observable<EditableUser> setUserData(Object editableUser, String authorization,
+                                                String contentType, String length) {
+        return iapiService4.setUserData(editableUser,authorization,contentType,length);
+    }
 
 }

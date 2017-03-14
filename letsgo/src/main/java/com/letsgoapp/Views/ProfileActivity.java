@@ -11,6 +11,7 @@ import android.view.View;
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
 import com.letsgoapp.databinding.ActivityProfile2Binding;
+import com.r0adkll.slidr.Slidr;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile2);
         toolbar = activityProfile2Binding.toolbar;
         setSupportActionBar(toolbar);
@@ -36,5 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        Slidr.attach(this);
     }
 }

@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
@@ -21,6 +22,8 @@ public class ProfileViewModel extends BaseObservable {
     private String username;
     private String about;
     private String uhref;
+    @Bindable
+    public Boolean isMine;
 
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
@@ -31,30 +34,53 @@ public class ProfileViewModel extends BaseObservable {
         photos = new ObservableArrayList<>();
         dataService = new APIService();
         loadData(link);
+        isMine = false;
     }
 
     private void loadData(String link) {
         if (link != null) {
             if (!link.isEmpty()) {
-                dataService.getUser(link,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(user -> {
-                            setUsername(user.getUsername());
-                            setAbout(user.getAbout());
-                            setAvatar(user.getAvatar());
-                            for (Photo photo : user.getPhotos()) {
-                                photos.add(new PhotoItemViewModel(photo.getPhoto()));
-                                Log.d("ProfileViewModel", photo.getPhoto());
-                            }
-                        })
-                        .subscribe();
+                getUser(link);
+                isMine = (false);
             }else {
-                setUsername("Чиж пидор");
+                getUser("http://185.76.147.143/user-detail/2/");
+                isMine = (true);
             }
         }
 
     }
+
+    private void getUser(String link){
+        dataService.getUser(link,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(user -> {
+                    setUsername(user.getUsername());
+                    setAbout(user.getAbout());
+                    setAvatar(user.getAvatar());
+                    for (Photo photo : user.getPhotos()) {
+                        photos.add(new PhotoItemViewModel(photo.getPhoto()));
+                        Log.d("ProfileViewModel", photo.getPhoto());
+                    }
+                })
+                .subscribe();
+    }
+
+//    Изменение юзера
+//    PUT /user-detail/1/
+//    Example request headers:
+//    User-Agent: curl/7.35.0
+//    Host: 185.76.147.143
+//    Accept: */*
+//Content-Type: application/json
+//Authorization: Token 163df7faa712e242f7e6b4d270e29401e604b9b2
+//Content-Length: 77
+//
+//{
+//"username": "new_nick",
+//"firs_name": "new first name",
+//"about": "new about"
+//}
 
     @Bindable
     public String getAvatar() {
@@ -94,4 +120,5 @@ public class ProfileViewModel extends BaseObservable {
     public void setUhref(String uhref) {
         this.uhref = uhref;
     }
+
 }
