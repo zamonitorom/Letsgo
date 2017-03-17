@@ -94,6 +94,10 @@ public class ProfileViewModel extends BaseObservable {
         Log.d("fabClick2", "username = " + getUsername()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
     }
 
+    public void sendChanges(){
+
+    }
+
     @Bindable
     public String getAvatar() {
         return avatar;

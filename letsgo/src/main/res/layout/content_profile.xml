@@ -8,6 +8,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.InputType" />
+
         <import type="com.letsgoapp.Utils.LayoutManagers" />
 
         <variable
@@ -18,13 +20,13 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -32,22 +34,29 @@
                 app:itemLayout="@{@layout/photo_recycler_item}"
                 app:items="@{profileVM.photos}"
                 app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
-                app:variable="@{Variables.Item}"
-                />
+                app:variable="@{Variables.Item}" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:focusable="@{profileVM.isTouchable}"
+                android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
                 android:text="@{profileVM.firstName}" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:focusable="@{profileVM.isTouchable}"
+                android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
                 android:text="@{profileVM.about}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="@{profileVM.isTouchable? true: false}"
+                android:text="Send"
+                android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
+                app:onClick="@{profileVM::sendChanges}" />
 
 
         </LinearLayout>
