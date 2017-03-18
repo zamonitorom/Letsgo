@@ -83,10 +83,10 @@ public class MeetingViewModel extends BaseObservable {
                             if (activity != null) {
                                 ZGallery.with(activity, photosFull)
                                         .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
-                                        .setGalleryBackgroundColor(ZColor.WHITE) // activity background color
+                                        .setGalleryBackgroundColor(ZColor.BLACK) // activity background color
                                         .setToolbarColorResId(R.color.colorPrimary) // toolbar color
                                         .setSelectedImgPosition(5)
-                                        .setTitle("Zak Gallery") // toolbar title
+                                        .setTitle(getUsername()) // toolbar title
                                         .show();
                             }
                         });

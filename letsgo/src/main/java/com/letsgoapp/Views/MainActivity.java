@@ -7,10 +7,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-//import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +25,8 @@ import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
+
+//import android.support.v4.app.FragmentManager;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -153,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Актуальные события");
             item.setChecked(true);
             fab.show();
-            fab.setImageResource(R.drawable.quantum_ic_forward_30_white_24);
         } else if (id == R.id.nav_my_actions) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new ActionFragment()).commit();
             toolbar.setTitle("Мои события");

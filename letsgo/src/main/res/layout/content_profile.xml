@@ -29,6 +29,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -36,6 +37,17 @@
                 app:items="@{profileVM.photos}"
                 app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
                 app:variable="@{Variables.Item}" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab228"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
+                app:layout_anchor="@+id/recyclerView"
+                app:layout_anchorGravity="bottom|end"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
 
             <com.letsgoapp.Utils.ExtendedEditText
                 android:layout_width="wrap_content"
