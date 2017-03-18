@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
         activityProfile2Binding.setProfileVM(profileViewModel);
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         toolbar.setTitle(profileViewModel.username.get());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        //Slidr.attach(this);
+//        Slidr.attach(this);
 
         //Сажин Ю.Б самохин кто то там методические рекомендации.
     }

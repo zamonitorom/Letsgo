@@ -76,14 +76,14 @@ public class ProfileViewModel extends BaseObservable {
                 .doOnNext(user -> {
                     firstName.set(user.getFirstName());
                     username.set(user.getUsername());
-                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
+//                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
                     about.set(user.getAbout());
-                    Log.d("ProfileViewModel", "username = " + username.get());
+//                    Log.d("ProfileViewModel", "username = " + username.get());
                     setAvatar(user.getAvatar());
-                    Log.d("ProfileViewModel", "about = " + about.get());
+//                    Log.d("ProfileViewModel", "about = " + about.get());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
-                        //Log.d("ProfileViewModel", photo.getPhoto());
+//                        Log.d("ProfileViewModel", photo.getPhoto());
                     }
                 })
                 .subscribe();

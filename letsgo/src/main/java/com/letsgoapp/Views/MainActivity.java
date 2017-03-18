@@ -22,7 +22,6 @@ import android.view.View;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
-import com.letsgoapp.ViewModels.ToolbarViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
@@ -49,21 +48,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        //fab = (FloatingActionButton) findViewById(R.id.fab);
 
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
         activityMainBinding.setMainVM(mainActivityViewModel);
         activityMainBinding.toolbar.setToolbar(mainActivityViewModel.getToolbarViewModel());
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//            }
-//        });
-
         fab = activityMainBinding.toolbar.fab.fab;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
+                toolbar.setTitle("Создание события");
+                fab.hide();
+            }
+        });
+
+
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         SetTopContext(this);
+//        PreferencesManager preferencesManager = new PreferencesManager();
+//        preferencesManager.checkFirst();
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if(!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
