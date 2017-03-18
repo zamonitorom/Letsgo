@@ -4,10 +4,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
+import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Services.APIService;
 
@@ -20,10 +20,11 @@ import rx.schedulers.Schedulers;
 
 public class ProfileViewModel extends BaseObservable {
     private String avatar;
-    private String username;
-    private String about;
+    public MyObservableString username;
+    public MyObservableString about;
+    //private String about;
     private String uhref;
-    private String firstName;
+    public MyObservableString firstName;
     @Bindable
     public Boolean isMine;
     @Bindable
@@ -37,6 +38,9 @@ public class ProfileViewModel extends BaseObservable {
     public ProfileViewModel(String link) {
         photos = new ObservableArrayList<>();
         dataService = new APIService();
+        username = new MyObservableString();
+        about = new MyObservableString();
+        firstName = new MyObservableString();
         isMine = false;
         isTouchable = false;
         loadData(link);
@@ -51,10 +55,10 @@ public class ProfileViewModel extends BaseObservable {
                 isMine = false;
                 notifyPropertyChanged(BR.isMine);
             } else {
-                getUser("http://185.76.147.143/user-detail/2/");
+                getUser("http://185.76.147.143/user-detail/1/");
                 isMine = true;
                 notifyPropertyChanged(BR.isMine);
-//                EditableUser data = new EditableUser("testusernamename", "testname", "tesetabout");
+//                EditableUser data = new EditableUser("testusernamename2", "testname2", "tesetabout2");
 //                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
 //                        "application/json", String.valueOf(data.toString().length()))
 //                        .subscribeOn(Schedulers.io())
@@ -70,13 +74,13 @@ public class ProfileViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
-                    setFirstName(user.getFirstName());
-                    setUsername(user.getUsername());
-                    //Log.d("getUser", "username = " + getUsername());
-                    setAbout(user.getAbout());
-                    //Log.d("getUser", "username = " + getUsername());
+                    firstName.set(user.getFirstName());
+                    username.set(user.getUsername());
+                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
+                    about.set(user.getAbout());
+                    Log.d("ProfileViewModel", "username = " + username.get());
                     setAvatar(user.getAvatar());
-                    //Log.d("getUser", "username = " + getUsername());
+                    Log.d("ProfileViewModel", "about = " + about.get());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
                         //Log.d("ProfileViewModel", photo.getPhoto());
@@ -86,16 +90,28 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void fabClick(){
-        Log.d("fabClick", "username = " + getUsername()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
+        Log.d("fabClick", "username = " + username.get()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
         if(isMine) {
             isTouchable = true;
             notifyPropertyChanged(BR.isTouchable);
         }
-        Log.d("fabClick2", "username = " + getUsername()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
+        Log.d("fabClick2", "username = " + username.get()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
     }
 
     public void sendChanges(){
-
+        Log.d("ProfileViewModel", "sendChanges");
+        if(isTouchable&isMine) {
+            Log.d("ProfileViewModel", isMine.toString()+"  " + isTouchable.toString());
+            EditableUser data = new EditableUser(username.get(), firstName.get(), about.get());
+            Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
+            dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
+                    "application/json", String.valueOf(data.toString().length()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+        }
+        isTouchable = false;
+        notifyPropertyChanged(BR.isTouchable);
     }
 
     @Bindable
@@ -109,26 +125,6 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-        notifyPropertyChanged(BR.username);
-    }
-
-    @Bindable
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-        notifyPropertyChanged(BR.about);
-    }
-
-    @Bindable
     public String getUhref() {
         return uhref;
     }
@@ -137,13 +133,4 @@ public class ProfileViewModel extends BaseObservable {
         this.uhref = uhref;
     }
 
-    @Bindable
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-        notifyPropertyChanged(BR.firstName);
-    }
 }

@@ -36,19 +36,19 @@
                 app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
                 app:variable="@{Variables.Item}" />
 
-            <EditText
+            <com.letsgoapp.Utils.ExtendedEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                android:text="@{profileVM.firstName}" />
+                app:binding="@{profileVM.firstName}" />
 
-            <EditText
+            <com.letsgoapp.Utils.ExtendedEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                android:text="@{profileVM.about}" />
+                app:binding="@{profileVM.about}" />
 
             <Button
                 android:layout_width="wrap_content"
