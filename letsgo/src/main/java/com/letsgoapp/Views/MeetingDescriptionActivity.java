@@ -2,10 +2,8 @@ package com.letsgoapp.Views;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-
+import android.support.v7.app.AppCompatActivity;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MeetingViewModel;
@@ -35,6 +33,7 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
         //toolbar.setNavigationOnClickListener(v -> finish());
 //        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
 //        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationOnClickListener(v -> finish());
+
     }
 
 }

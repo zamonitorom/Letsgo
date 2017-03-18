@@ -2,19 +2,21 @@ package com.letsgoapp.ViewModels;
 
 import android.app.Activity;
 import android.content.Context;
-
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
-
 import android.util.Log;
-
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
+import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Views.ProfileActivity;
+import com.mzelzoghbi.zgallery.ZGallery;
+import com.mzelzoghbi.zgallery.entities.ZColor;
+
+import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,42 +43,70 @@ public class MeetingViewModel extends BaseObservable {
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
 
+    public ArrayList<String> photosFull;
+
     //private Context context;
 
     public MeetingViewModel(String href, Context context) {
         //this.context = context;
         toolbarViewModel = new ToolbarViewModel();
+        photosFull = new ArrayList<>();
+        photos = new ObservableArrayList<>();
+        dataService = new APIService();
         loadData(href);
     }
 
     private void loadData(String reference) {
-
-        photos = new ObservableArrayList<>();
-        dataService = new APIService();
-
         dataService.getMeeting(reference, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
-                    setMeetingTitle(meeting.getTitle());
-                    setMeetingDescription(meeting.getDescription());
-                    setAvatar(meeting.getOwner().getAvatar());
-                    setAbout(meeting.getOwner().getAbout());
-                    setUsername(meeting.getOwner().getUsername());
-                    setUhref(meeting.getOwner().getHref());
-                    setUserId(meeting.getOwner().getId().toString());
-                    toolbarViewModel.setToolbarTitle(meeting.getTitle());
-                    for (Photo photo : meeting.getOwner().getPhotos()) {
-                        addAbout(photo.getPhoto() + "\n");
-                        photos.add(new PhotoItemViewModel(photo.getPhoto()));
-                        Log.d("meetingActivity", photo.getPhoto());
-                    }
-                }, throwable -> Log.d("meetingActivity", throwable.toString()), () -> {
-                    Log.d("meetingActivity", "complete\n");
-                    Log.d("meetingActivity", photos.toString());
-                });
+                            setMeetingTitle(meeting.getTitle());
+                            setMeetingDescription(meeting.getDescription());
+                            setAvatar(meeting.getOwner().getAvatar());
+                            setAbout(meeting.getOwner().getAbout());
+                            setUsername(meeting.getOwner().getUsername());
+                            setUhref(meeting.getOwner().getHref());
+                            setUserId(meeting.getOwner().getId().toString());
+                            toolbarViewModel.setToolbarTitle(meeting.getTitle());
+                            for (Photo photo : meeting.getOwner().getPhotos()) {
+                                addAbout(photo.getPhoto() + "\n");
+                                photos.add(new PhotoItemViewModel(photo.getPhoto()));
+                                photosFull.add(photo.getPhoto());
+                                Log.d("meetingActivity", photo.getPhoto());
+                            }
+                        }, throwable -> Log.d("meetingActivity", throwable.toString())
+                        , () -> {
+                            Log.d("meetingActivity", "complete\n");
+                            Log.d("meetingActivity", photos.toString());
+                            Activity activity = (Activity) GetTopContext();
+                            if (activity != null) {
+                                ZGallery.with(activity, photosFull)
+                                        .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
+                                        .setGalleryBackgroundColor(ZColor.WHITE) // activity background color
+                                        .setToolbarColorResId(R.color.colorPrimary) // toolbar color
+                                        .setSelectedImgPosition(5)
+                                        .setTitle("Zak Gallery") // toolbar title
+                                        .show();
+                            }
+                        });
     }
 
+    public void toUser() {
+        Activity activity = (Activity) GetTopContext();
+        if (activity != null) {
+            Intent intent = new Intent(activity, ProfileActivity.class);
+            intent.putExtra("link", getUhref());
+            activity.startActivity(intent);
+        }
+    }
+
+    public void close() {
+        Activity activity = (Activity) GetTopContext();
+        if (activity != null) {
+            activity.finish();
+        }
+    }
 
     @Bindable
     public String getMeetingTitle() {
@@ -161,19 +191,5 @@ public class MeetingViewModel extends BaseObservable {
         this.toolbarViewModel = toolbarViewModel;
     }
 
-    public void toUser() {
-        Activity activity = (Activity) GetTopContext();
-        if (activity != null) {
-            Intent intent = new Intent(activity, ProfileActivity.class);
-            intent.putExtra("link", getUhref());
-            activity.startActivity(intent);
-        }
-    }
 
-    public void close() {
-        Activity activity = (Activity) GetTopContext();
-        if (activity != null) {
-            activity.finish();
-        }
-    }
 }
