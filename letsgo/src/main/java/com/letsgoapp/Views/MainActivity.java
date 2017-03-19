@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
+        SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
         activityMainBinding.toolbar.setToolbar(mainActivityViewModel.getToolbarViewModel());
         toolbar = activityMainBinding.toolbar.toolbar;
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SetTopContext(this);
 //        PreferencesManager preferencesManager = new PreferencesManager();
 //        preferencesManager.checkFirst();
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(resultCode==RESULT_OK){
             if(data.getExtras().getBoolean("auth")){
-                Toast.makeText(this,data.getStringExtra("token"), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this,data.getStringExtra("token")+"\n"+data.getStringExtra("mail")+
+//                        "\n"+data.getStringExtra("vkId"), Toast.LENGTH_LONG).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(APP_PREFERENCES_REGISTER, true);
                 editor.apply();
