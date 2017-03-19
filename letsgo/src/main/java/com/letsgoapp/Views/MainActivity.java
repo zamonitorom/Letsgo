@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
@@ -78,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        PreferencesManager preferencesManager = new PreferencesManager();
 //        preferencesManager.checkFirst();
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if(!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivityForResult(intent,0);
         }
 
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(resultCode==RESULT_OK){
             if(data.getExtras().getBoolean("auth")){
+                Toast.makeText(this,data.getStringExtra("token"), Toast.LENGTH_LONG).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(APP_PREFERENCES_REGISTER, true);
                 editor.apply();

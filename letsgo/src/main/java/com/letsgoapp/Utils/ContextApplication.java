@@ -2,6 +2,8 @@ package com.letsgoapp.Utils;
 
 import android.app.Application;
 
+import com.vk.sdk.VKSdk;
+
 public class ContextApplication extends Application {
 
     private Object topActivity;
@@ -18,6 +20,7 @@ public class ContextApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        VKSdk.initialize(this);
     }
 
 }
