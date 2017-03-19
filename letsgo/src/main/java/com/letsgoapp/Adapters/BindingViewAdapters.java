@@ -6,6 +6,8 @@ import android.databinding.ObservableList;
 
 import android.graphics.Bitmap;
 
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -114,6 +116,12 @@ public class BindingViewAdapters {
         }
 
     }
+
+    @BindingAdapter("imageResource")
+    public static void setImageResource(ImageView imageView, int resource){
+        imageView.setImageResource(resource);
+    }
+
 
     @BindingConversion
     public static String convertObservableStringToString(MyObservableString observableString) {

@@ -79,16 +79,16 @@ public class MeetingViewModel extends BaseObservable {
                         , () -> {
                             Log.d("meetingActivity", "complete\n");
                             Log.d("meetingActivity", photos.toString());
-                            Activity activity = (Activity) GetTopContext();
-                            if (activity != null) {
-                                ZGallery.with(activity, photosFull)
-                                        .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
-                                        .setGalleryBackgroundColor(ZColor.BLACK) // activity background color
-                                        .setToolbarColorResId(R.color.colorPrimary) // toolbar color
-                                        .setSelectedImgPosition(5)
-                                        .setTitle(getUsername()) // toolbar title
-                                        .show();
-                            }
+//                            Activity activity = (Activity) GetTopContext();
+//                            if (activity != null) {
+//                                ZGallery.with(activity, photosFull)
+//                                        .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
+//                                        .setGalleryBackgroundColor(ZColor.BLACK) // activity background color
+//                                        .setToolbarColorResId(R.color.colorPrimary) // toolbar color
+//                                        .setSelectedImgPosition(5)
+//                                        .setTitle(getUsername()) // toolbar title
+//                                        .show();
+//                            }
                         });
     }
 

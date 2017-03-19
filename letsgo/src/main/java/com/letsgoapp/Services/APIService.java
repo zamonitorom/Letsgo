@@ -40,16 +40,8 @@ public class APIService {
         return iapiService.getMeetingList(authorization);
     }
 
-    private Retrofit getmeetimg = new Retrofit.Builder()
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://185.76.147.143/")
-            .build();
-
-    private IAPIService iapiService2 = getmeetimg.create(IAPIService.class);
-
     public Observable<Meeting> getMeeting(String url,String authorization) {
-        return iapiService2.getMeeting(url,authorization);
+        return iapiService.getMeeting(url,authorization);
     }
 
 
@@ -99,20 +91,9 @@ public class APIService {
         return iapiService3.postMeeting(sendMeeting,authorization,contentType,length);
     }
 
-
-    private Retrofit getuser = new Retrofit.Builder()
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://185.76.147.143/")
-            .build();
-
-    private IAPIService iapiService4 = getuser.create(IAPIService.class);
-
     public Observable<Owner> getUser(String link,String authorization) {
-        return iapiService4.getUser(link,authorization);
+        return iapiService.getUser(link,authorization);
     }
-
-    private IAPIService iapiService5 = retrofit.create(IAPIService.class);
 
     public Observable<Object> setUserData(Object editableUser, String authorization,
                                                 String contentType, String length) {

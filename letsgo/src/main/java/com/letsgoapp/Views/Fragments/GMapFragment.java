@@ -43,7 +43,7 @@ public class GMapFragment extends Fragment {
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(googleMap -> {
-                    mapFragmentViewModel = new MapFragmentViewModel(googleMap, getActivity().getBaseContext());
+                    mapFragmentViewModel = new MapFragmentViewModel(googleMap/*, getActivity().getBaseContext()*/);
                     mapFragmentViewModel.getmMap().setOnMarkerClickListener(marker -> {
                         Intent meetingIntent = new Intent(getActivity(), MeetingDescriptionActivity.class);
                         meetingIntent.putExtra("id", marker.getId().toString());

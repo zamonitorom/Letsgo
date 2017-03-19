@@ -1,6 +1,7 @@
 package com.letsgoapp.ViewModels;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,14 +9,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.barcode.Barcode;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
@@ -30,6 +28,8 @@ import java.util.List;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 
 /**
@@ -47,8 +47,9 @@ public class MapFragmentViewModel {
 
     private GoogleMap mMap;
 
-    public MapFragmentViewModel(GoogleMap googleMap, Context context) {
+    public MapFragmentViewModel(GoogleMap googleMap/*, Context context*/) {
 
+        Activity context = (Activity) GetTopContext();
         dataservice = new APIService();
         targetsList = new ArrayList<>();
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="profileVM"
             type="com.letsgoapp.ViewModels.ProfileViewModel" />
@@ -55,7 +56,18 @@
             app:onClick="@{profileVM::fabClick}"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:imageResource="@{profileVM.icToolbar}" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab228"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
+            app:onClick="@{profileVM::addPhoto}"
+            app:layout_anchor="@+id/recyclerView"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

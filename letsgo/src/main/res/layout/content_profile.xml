@@ -17,63 +17,50 @@
             type="com.letsgoapp.ViewModels.ProfileViewModel" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="#FFFFFF"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:itemLayout="@{@layout/photo_recycler_item}"
-                app:items="@{profileVM.photos}"
-                app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
-                app:variable="@{Variables.Item}" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab228"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
-                app:layout_anchor="@+id/recyclerView"
-                app:layout_anchorGravity="bottom|end"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:itemLayout="@{@layout/photo_recycler_item}"
+                    app:items="@{profileVM.photos}"
+                    app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
+                    app:variable="@{Variables.Item}" />
 
+                <com.letsgoapp.Utils.ExtendedEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
+                    app:binding="@{profileVM.firstName}" />
 
-            <com.letsgoapp.Utils.ExtendedEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                app:binding="@{profileVM.firstName}" />
+                <com.letsgoapp.Utils.ExtendedEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
+                    app:binding="@{profileVM.about}" />
 
-            <com.letsgoapp.Utils.ExtendedEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                app:binding="@{profileVM.about}" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="@{profileVM.isTouchable? true: false}"
+                    android:text="Send"
+                    android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
+                    app:onClick="@{profileVM::sendChanges}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="@{profileVM.isTouchable? true: false}"
-                android:text="Send"
-                android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
-                app:onClick="@{profileVM::sendChanges}" />
+            </LinearLayout>
 
-
-        </LinearLayout>
-
-
-    </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
 </layout>

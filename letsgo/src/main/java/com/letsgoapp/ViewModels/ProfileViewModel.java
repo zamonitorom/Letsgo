@@ -9,6 +9,7 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
+import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,6 +21,7 @@ import rx.schedulers.Schedulers;
 
 public class ProfileViewModel extends BaseObservable {
     private String avatar;
+    private Integer icToolbar;
     public MyObservableString username;
     public MyObservableString about;
     //private String about;
@@ -53,10 +55,12 @@ public class ProfileViewModel extends BaseObservable {
             if (!link.isEmpty()) {
                 getUser(link);
                 isMine = false;
+                setIcToolbar(R.drawable.ic_dialog_email);
                 notifyPropertyChanged(BR.isMine);
             } else {
                 getUser("http://185.76.147.143/user-detail/1/");
                 isMine = true;
+                setIcToolbar(R.drawable.ic_menu_manage);
                 notifyPropertyChanged(BR.isMine);
 //                EditableUser data = new EditableUser("testusernamename2", "testname2", "tesetabout2");
 //                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
@@ -100,7 +104,7 @@ public class ProfileViewModel extends BaseObservable {
 
     public void sendChanges(){
         Log.d("ProfileViewModel", "sendChanges");
-        if(isTouchable&isMine) {
+        if(isTouchable && isMine) {
             Log.d("ProfileViewModel", isMine.toString()+"  " + isTouchable.toString());
             EditableUser data = new EditableUser(username.get(), firstName.get(), about.get());
             Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
@@ -112,6 +116,15 @@ public class ProfileViewModel extends BaseObservable {
         }
         isTouchable = false;
         notifyPropertyChanged(BR.isTouchable);
+    }
+
+    public void addPhoto(){
+        /*
+         http://185.76.147.143/upload-photo/
+         --upload-file ~/Pictures/2.png -H 'Authorization: Token 163df7faa712e242f7e6b4d270e29401e604b9b2'
+
+
+         */
     }
 
     @Bindable
@@ -133,4 +146,13 @@ public class ProfileViewModel extends BaseObservable {
         this.uhref = uhref;
     }
 
+    @Bindable
+    public Integer getIcToolbar() {
+        return icToolbar;
+    }
+
+    public void setIcToolbar(Integer icToolbar) {
+        this.icToolbar = icToolbar;
+        notifyPropertyChanged(BR.icToolbar);
+    }
 }
