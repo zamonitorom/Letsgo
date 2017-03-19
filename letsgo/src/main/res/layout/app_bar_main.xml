@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="toolbar"
-            type="com.letsgoapp.ViewModels.ToolbarViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

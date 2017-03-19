@@ -24,7 +24,6 @@ public class ProfileViewModel extends BaseObservable {
     private Integer icToolbar;
     public MyObservableString username;
     public MyObservableString about;
-    //private String about;
     private String uhref;
     public MyObservableString firstName;
     @Bindable

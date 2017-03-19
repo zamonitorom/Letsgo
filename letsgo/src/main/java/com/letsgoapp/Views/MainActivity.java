@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
-        activityMainBinding.toolbar.setToolbar(mainActivityViewModel.getToolbarViewModel());
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
         fab = activityMainBinding.toolbar.fab.fab;

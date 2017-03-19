@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -17,6 +18,7 @@ public class SetMeetingActivity extends AppCompatActivity {
     SetMeetingViewModel setMeetingViewModel;
 
     ActivitySetMeetingBinding binding;
+    Toolbar toolbar;
     private GestureDetectorCompat gestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +27,13 @@ public class SetMeetingActivity extends AppCompatActivity {
         gestureDetector = new GestureDetectorCompat(this, new LearnGesture());
         setMeetingViewModel = new SetMeetingViewModel();
         binding.setSetViewModel(setMeetingViewModel);
+        toolbar= binding.toolbar;
         SetTopContext(this);
-        setSupportActionBar(setMeetingViewModel.toolbarViewModel.getToolbar());
-        setMeetingViewModel.toolbarViewModel.setToolbar(binding.toolbar);
-        setMeetingViewModel.toolbarViewModel.getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
-        setMeetingViewModel.toolbarViewModel.getToolbar().setNavigationOnClickListener(v -> finish());
-        setMeetingViewModel.toolbarViewModel.getToolbar().setTitle("Cоздание события");
+
+        toolbar.setTitle("Создание события");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_close_dark);
+        toolbar.setNavigationOnClickListener(v -> finish());
         setMeetingViewModel.lat = getIntent().getExtras().getDouble("Lat");
         setMeetingViewModel.lon = getIntent().getExtras().getDouble("Lon");
 

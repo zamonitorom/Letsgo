@@ -45,10 +45,7 @@ public class MeetingViewModel extends BaseObservable {
 
     public ArrayList<String> photosFull;
 
-    //private Context context;
-
-    public MeetingViewModel(String href, Context context) {
-        //this.context = context;
+    public MeetingViewModel(String href) {
         toolbarViewModel = new ToolbarViewModel();
         photosFull = new ArrayList<>();
         photos = new ObservableArrayList<>();

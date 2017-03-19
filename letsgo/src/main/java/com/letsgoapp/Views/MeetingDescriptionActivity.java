@@ -23,7 +23,7 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
         SetTopContext(this);
         ActivityMeetingBinding activityMeetingBinding = DataBindingUtil.setContentView(this, R.layout.activity_meeting);
         intent = getIntent();
-        meetingViewModel = new MeetingViewModel(intent.getExtras().getString("href"),this);
+        meetingViewModel = new MeetingViewModel(intent.getExtras().getString("href"));
         //toolbar = activityMeetingBinding.tlbar;
         activityMeetingBinding.setMeetingVM(meetingViewModel);
         activityMeetingBinding.setToolbar(meetingViewModel.getToolbarViewModel());

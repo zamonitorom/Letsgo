@@ -25,13 +25,11 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class SetMeetingViewModel {
     public MyObservableString title;
     public MyObservableString description;
-    public ToolbarViewModel toolbarViewModel;
     private APIService apiService;
 
     public SetMeetingViewModel() {
         title = new MyObservableString();
         description = new MyObservableString();
-        toolbarViewModel = new ToolbarViewModel();
         apiService = new APIService();
 
     }
