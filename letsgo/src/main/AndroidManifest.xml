@@ -51,7 +51,9 @@
             android:name=".Views.ProfileActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Views.ImagePickActivity"></activity>
+        <activity android:name=".Views.ImagePickActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>

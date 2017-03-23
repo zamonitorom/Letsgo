@@ -1,5 +1,7 @@
 package com.letsgoapp.Services;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -8,13 +10,17 @@ import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
 
-
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -98,6 +104,32 @@ public class APIService {
     public Observable<Object> setUserData(Object editableUser, String authorization,
                                                 String contentType, String length) {
         return iapiService.setUserData(editableUser,authorization,contentType,length);
+    }
+
+    public Observable<ResponseBody> putPhoto(URI fileUri,String path, String authorization) {
+        // На данный момент объект, реализующий API уже создан, и называется service
+
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // Используем FileUtils чтобы получить файл из uri
+        File file = new File(fileUri); // FileUtils.getFile(this, fileUri);
+
+        // Создаем RequestBody
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part используется, чтобы передать имя файла
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+
+        // Добавляем описание
+        String descriptionString = "hello, this is description speaking";
+        RequestBody description =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), descriptionString);
+
+        // Выполняем запрос
+        return iapiService3.putPhoto(body,path,authorization);
+
     }
 
 }

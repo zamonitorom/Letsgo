@@ -57,11 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-        }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+//                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+//        }
 
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
