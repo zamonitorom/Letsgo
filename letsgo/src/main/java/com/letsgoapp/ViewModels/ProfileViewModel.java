@@ -1,5 +1,7 @@
 package com.letsgoapp.ViewModels;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -11,9 +13,12 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Views.ImagePickActivity;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 /**
  * Created by normalteam on 02.03.17.
@@ -124,6 +129,13 @@ public class ProfileViewModel extends BaseObservable {
 
 
          */
+
+        Activity activity = (Activity) GetTopContext();
+        if (activity != null) {
+            Intent intent = new Intent(activity, ImagePickActivity.class);
+            activity.startActivity(intent);
+        }
+
     }
 
     @Bindable

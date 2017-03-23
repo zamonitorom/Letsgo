@@ -52,15 +52,7 @@ public class MapFragmentViewModel {
         Activity context = (Activity) GetTopContext();
         dataservice = new APIService();
         targetsList = new ArrayList<>();
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//        Log.d("mapFragment",location.toString() + "\n");
-//        Log.d("mapFragment",locationManager.toString() + "\n");
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("mapFragment","permission OK");
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Log.d("mapFragment",location.toString() + "\n");
-        }
+
         mMap = googleMap;
         final float initZoom = (float) 10.5;
 
@@ -68,10 +60,8 @@ public class MapFragmentViewModel {
         LatLng moscow = new LatLng(55.76, 37.61);
 
         mMap.getUiSettings().setZoomControlsEnabled(false);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-        }
+//        mMap.getUiSettings().set
+
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), initZoom));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moscow, initZoom));
         mMap.setOnCameraChangeListener(cameraPosition -> Log.d("mapFragment", "CHANDE+\n"));

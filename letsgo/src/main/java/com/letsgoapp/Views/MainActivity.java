@@ -1,14 +1,17 @@
 package com.letsgoapp.Views;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String APP_PREFERENCES = "mySettings";
     public static final String APP_PREFERENCES_REGISTER = "register";
+    static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 
     public FragmentManager fragmentManager;
     DrawerLayout drawer;
@@ -52,6 +56,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
+
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
         fab = activityMainBinding.toolbar.fab.fab;
@@ -78,10 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        PreferencesManager preferencesManager = new PreferencesManager();
 //        preferencesManager.checkFirst();
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivityForResult(intent,0);
-        }
+//        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
+//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//            startActivityForResult(intent,0);
+//        }
 
 
         fragmentManager = getFragmentManager();

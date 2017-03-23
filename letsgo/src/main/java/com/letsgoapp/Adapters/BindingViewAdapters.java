@@ -122,6 +122,11 @@ public class BindingViewAdapters {
         imageView.setImageResource(resource);
     }
 
+    @BindingAdapter("imageBitmap")
+    public static void setImageResource(ImageView imageView, Bitmap bitmap){
+        imageView.setImageBitmap(bitmap);
+    }
+
 
     @BindingConversion
     public static String convertObservableStringToString(MyObservableString observableString) {
