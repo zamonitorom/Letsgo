@@ -36,7 +36,7 @@ public class ImagePickActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_pick);
         SetTopContext(this);
         imagePickViewModel = new ImagePickViewModel();
-        imagePickViewModel.getPicture();
+//        imagePickViewModel.getPicture();
     }
 
 
@@ -44,24 +44,11 @@ public class ImagePickActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        Bitmap bitmap = null;
-//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-
         switch (requestCode) {
             case ImagePickViewModel.GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                    imagePickViewModel.startPicker(selectedImage);
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    CropImage.activity(selectedImage)
-//                            .setMinCropResultSize(1200,1200)
-//                            .setMaxCropResultSize(1200,1200)
-//                            .setGuidelines(CropImageView.Guidelines.ON)
-//                            .start(this);
+                    imagePickViewModel.startCropper(selectedImage);
                     break;
                 }
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:

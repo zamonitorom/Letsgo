@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.net.Uri;
 import android.util.Log;
 
 import com.letsgoapp.BR;
@@ -41,6 +42,8 @@ public class ProfileViewModel extends BaseObservable {
 
     private APIService dataService;
 
+    public ImagePickViewModel imagePickViewModel;
+
     public ProfileViewModel(String link) {
         photos = new ObservableArrayList<>();
         dataService = new APIService();
@@ -52,6 +55,7 @@ public class ProfileViewModel extends BaseObservable {
         loadData(link);
         notifyPropertyChanged(BR.isMine);
         notifyPropertyChanged(BR.isTouchable);
+        imagePickViewModel = new ImagePickViewModel();
     }
 
     private void loadData(String link) {
@@ -59,12 +63,12 @@ public class ProfileViewModel extends BaseObservable {
             if (!link.isEmpty()) {
                 getUser(link);
                 isMine = false;
-                setIcToolbar(R.drawable.ic_dialog_email);
+                setIcToolbar(R.drawable.ic_message_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             } else {
                 getUser("http://185.76.147.143/user-detail/1/");
                 isMine = true;
-                setIcToolbar(R.drawable.ic_menu_manage);
+                setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
 //                EditableUser data = new EditableUser("testusernamename2", "testname2", "tesetabout2");
 //                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
@@ -122,7 +126,7 @@ public class ProfileViewModel extends BaseObservable {
         notifyPropertyChanged(BR.isTouchable);
     }
 
-    public void addPhoto(){
+    public void addPhotoGallery(){
         /*
          http://185.76.147.143/upload-photo/
          --upload-file ~/Pictures/2.png -H 'Authorization: Token 163df7faa712e242f7e6b4d270e29401e604b9b2'
@@ -130,12 +134,28 @@ public class ProfileViewModel extends BaseObservable {
 
          */
 
-        Activity activity = (Activity) GetTopContext();
-        if (activity != null) {
-            Intent intent = new Intent(activity, ImagePickActivity.class);
-            activity.startActivity(intent);
-        }
+//        Activity activity = (Activity) GetTopContext();
+//        if (activity != null) {
+//            Intent intent = new Intent(activity, ImagePickActivity.class);
+//            activity.startActivity(intent);
+//        }
 
+        imagePickViewModel.getPictureGallery();
+
+    }
+
+    public void addPhotoCamera(){
+
+        imagePickViewModel.getPictureCamera();
+
+    }
+
+    public void startCropper(Uri uri){
+        imagePickViewModel.startCropper(uri);
+    }
+
+    public void sendPicture(Uri uri){
+        imagePickViewModel.sendPicture(uri);
     }
 
     @Bindable
