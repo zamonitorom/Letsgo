@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
+import com.vk.sdk.util.VKUtil;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String APP_PREFERENCES = "mySettings";
     public static final String APP_PREFERENCES_REGISTER = "register";
-    static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 
     public FragmentManager fragmentManager;
     DrawerLayout drawer;
@@ -57,11 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-//        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
 
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
@@ -89,12 +91,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        PreferencesManager preferencesManager = new PreferencesManager();
 //        preferencesManager.checkFirst();
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-//        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivityForResult(intent,0);
-//        }
+        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivityForResult(intent,0);
+        }
 
 
+//        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+//        Log.d("fingerprint",fingerprints[0]);
         fragmentManager = getFragmentManager();
         gMapFragment = new GMapFragment();
         //fragmentManager.beginTransaction().add(gMapFragment,"123");
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     @Override
     public void onBackPressed() {

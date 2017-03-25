@@ -12,5 +12,6 @@
     <string name="action_fragment">action</string>
 
     <string name="title_activity_profile">ProfileActivity</string>
-    <integer name="com_vk_sdk_AppId">5877941</integer>
+    <string name="crop_image_menu_crop">Send</string>
+    <integer name="com_vk_sdk_AppId">5945764</integer>
 </resources>

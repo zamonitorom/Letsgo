@@ -14,6 +14,7 @@ import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.util.VKUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getLogin();
         answerIntent = new Intent();
+
     }
 
     @Override
@@ -61,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(VKError error) {
+                Log.d("LoginActivity: ", "onError"+error.errorMessage);
+                Log.d("LoginActivity: ", "onError"+error.toString());
                 answerIntent.putExtra("auth", false);
                 getLogin();
                 //finish();

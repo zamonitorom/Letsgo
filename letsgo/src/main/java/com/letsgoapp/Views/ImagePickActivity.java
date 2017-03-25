@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.ViewModels.ImagePickViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -22,26 +23,20 @@ import java.net.URI;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS_REQUEST_READ_CONTACTS;
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 public class ImagePickActivity extends AppCompatActivity {
 
-    static final int GALLERY_REQUEST = 19985;
 
+    ImagePickViewModel imagePickViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_pick);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-        }
+        SetTopContext(this);
+        imagePickViewModel = new ImagePickViewModel();
+        imagePickViewModel.getPicture();
     }
 
 
@@ -50,47 +45,30 @@ public class ImagePickActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         Bitmap bitmap = null;
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
         switch (requestCode) {
-            case GALLERY_REQUEST:
+            case ImagePickViewModel.GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    imageView.setImageBitmap(bitmap);
-                    CropImage.activity(selectedImage)
-//                            .setInitialCropWindowPaddingRatio(0.4f)
-                            .setMinCropResultSize(500,500)
-                            .setMaxCropResultSize(500,500)
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(this);
+                    imagePickViewModel.startPicker(selectedImage);
+//                    try {
+//                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    CropImage.activity(selectedImage)
+//                            .setMinCropResultSize(1200,1200)
+//                            .setMaxCropResultSize(1200,1200)
+//                            .setGuidelines(CropImageView.Guidelines.ON)
+//                            .start(this);
                     break;
                 }
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(imageReturnedIntent);
                 if (resultCode == RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    URI uri = URI.create(resultUri.toString());
-                    APIService apiService= new APIService();
-                    String path= uri.getPath();
-                    int cut = path.lastIndexOf('/');
-                    if (cut != -1) {
-                        path = path.substring(cut + 1);
-                    }
-//                    apiService.putPhoto(uri,path,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
-//                            .subscribeOn(Schedulers.newThread())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
-                        imageView.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    imagePickViewModel.sendPicture(resultUri);
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
