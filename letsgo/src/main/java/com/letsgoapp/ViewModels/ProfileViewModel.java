@@ -14,7 +14,6 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
-import com.letsgoapp.Views.ImagePickActivity;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

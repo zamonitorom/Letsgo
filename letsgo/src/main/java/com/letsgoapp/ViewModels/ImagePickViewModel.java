@@ -11,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -32,23 +34,23 @@ import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS_REQUEST_READ_CONTA
 
 public class ImagePickViewModel {
 
-    public static final int GALLERY_REQUEST = 19985;
-    public static final int REQUEST_IMAGE_CAPTURE = 19984;
+
     private static int IMG_HEIGHT = 1200;
     private static int IMG_WIDTH = 1200;
 
     Activity activity;
 
+    private INavigationService navigationService;
+
     public ImagePickViewModel() {
         activity = (Activity) GetTopContext();
+        navigationService = new NavigationService();
     }
 
     public void getPictureGallery() {
         if (activity != null) {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                activity.startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                navigationService.goGalleryPick();
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -60,11 +62,7 @@ public class ImagePickViewModel {
     public void getPictureCamera() {
         if (activity != null) {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                Intent photoPickerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (photoPickerIntent.resolveActivity(activity.getPackageManager()) != null) {
-                    activity.startActivityForResult(photoPickerIntent, REQUEST_IMAGE_CAPTURE);
-                }
-
+                navigationService.goCameraPick();
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.CAMERA},

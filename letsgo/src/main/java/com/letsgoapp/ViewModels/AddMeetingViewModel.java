@@ -13,6 +13,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.BR;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Views.SetMeetingActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,8 @@ public class AddMeetingViewModel extends BaseObservable {
     @Bindable
     public Boolean isButtonOnTop;
 
+    private INavigationService navigationService;
+
     public AddMeetingViewModel() {
         isButtonOnTop = false;
     }
@@ -42,6 +46,7 @@ public class AddMeetingViewModel extends BaseObservable {
         this.mMap = googleMap;
 
         final float initZoom = (float) 12.5;
+        navigationService = new NavigationService();
 
         LatLng moscow = new LatLng(55.76, 37.61);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moscow, initZoom));
@@ -64,10 +69,6 @@ public class AddMeetingViewModel extends BaseObservable {
     }
 
     public void click(){
-        Activity activity=(Activity)GetTopContext();
-        Intent intent = new Intent(activity, SetMeetingActivity.class);
-        intent.putExtra("Lat",mMap.getCameraPosition().target.latitude);
-        intent.putExtra("Lon",mMap.getCameraPosition().target.longitude);
-        activity.startActivity(intent);
+        navigationService.goSetMeeting(mMap.getCameraPosition().target.latitude,mMap.getCameraPosition().target.longitude);
     }
 }

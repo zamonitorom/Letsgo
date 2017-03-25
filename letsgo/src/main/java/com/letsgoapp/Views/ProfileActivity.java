@@ -16,6 +16,8 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
 
+import static com.letsgoapp.Services.NavigationService.GALLERY_REQUEST;
+import static com.letsgoapp.Services.NavigationService.REQUEST_IMAGE_CAPTURE;
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -56,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch (requestCode) {
-            case ImagePickViewModel.GALLERY_REQUEST:
+            case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     profileViewModel.startCropper(selectedImage);
@@ -71,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Exception error = result.getError();
                 }
                 break;
-            case ImagePickViewModel.REQUEST_IMAGE_CAPTURE:
+            case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     profileViewModel.startCropper(selectedImage);

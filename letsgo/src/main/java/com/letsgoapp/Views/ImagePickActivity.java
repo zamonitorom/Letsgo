@@ -25,41 +25,41 @@ import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
-public class ImagePickActivity extends AppCompatActivity {
-
-
-    ImagePickViewModel imagePickViewModel;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_pick);
-        SetTopContext(this);
-        imagePickViewModel = new ImagePickViewModel();
-//        imagePickViewModel.getPicture();
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        switch (requestCode) {
-            case ImagePickViewModel.GALLERY_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    imagePickViewModel.startCropper(selectedImage);
-                    break;
-                }
-            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                CropImage.ActivityResult result = CropImage.getActivityResult(imageReturnedIntent);
-                if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    imagePickViewModel.sendPicture(resultUri);
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                }
-                break;
-        }
-    }
-}
+//public class ImagePickActivity extends AppCompatActivity {
+//
+//
+//    ImagePickViewModel imagePickViewModel;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_image_pick);
+//        SetTopContext(this);
+//        imagePickViewModel = new ImagePickViewModel();
+////        imagePickViewModel.getPicture();
+//    }
+//
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+//
+//        switch (requestCode) {
+//            case GALLERY_REQUEST:
+//                if (resultCode == RESULT_OK) {
+//                    Uri selectedImage = imageReturnedIntent.getData();
+//                    imagePickViewModel.startCropper(selectedImage);
+//                    break;
+//                }
+//            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+//                CropImage.ActivityResult result = CropImage.getActivityResult(imageReturnedIntent);
+//                if (resultCode == RESULT_OK) {
+//                    Uri resultUri = result.getUri();
+//                    imagePickViewModel.sendPicture(resultUri);
+//                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                    Exception error = result.getError();
+//                }
+//                break;
+//        }
+//    }
+//}
