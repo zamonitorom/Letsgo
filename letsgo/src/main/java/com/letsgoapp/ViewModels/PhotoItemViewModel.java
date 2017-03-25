@@ -31,6 +31,13 @@ public class PhotoItemViewModel extends BaseObservable {
         }
     }
 
+    public PhotoItemViewModel(String link,Integer position) {
+        if (link != null) {
+            this.link = link;
+            //loadBitmap(link);
+        }
+    }
+
     @Bindable
     public String getLink() {
         return link;
@@ -72,4 +79,5 @@ public class PhotoItemViewModel extends BaseObservable {
         this.bitmap = bitmap;
         notifyPropertyChanged(BR.bitmap);
     }
+
 }

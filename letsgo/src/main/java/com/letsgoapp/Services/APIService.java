@@ -24,6 +24,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.BufferedSink;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -57,12 +58,12 @@ public class APIService {
             long t1 = System.nanoTime();
             String requestLog = String.format("Sending request %s on %s%n%s%s",
                     request.url(), chain.connection(), request.headers(),request.body().toString());
-            //YLog.d(String.format("Sending request %s on %s%n%s",
-            //        request.url(), chain.connection(), request.headers()));
+
             if(request.method().compareToIgnoreCase("post")==0){
                 requestLog ="\n"+requestLog+"\n";
             }
-            Log.d("retrofit","request"+"\n"+requestLog);
+
+            Log.d("retrofit","request"+"\n"+requestLog+"\n\n"+request.body());
 
             Response response = chain.proceed(request);
             long t2 = System.nanoTime();
@@ -103,7 +104,7 @@ public class APIService {
 
     public Observable<Object> setUserData(Object editableUser, String authorization,
                                                 String contentType, String length) {
-        return iapiService.setUserData(editableUser,authorization,contentType,length);
+        return iapiService3.setUserData(editableUser,authorization,contentType,length);
     }
 
     public Observable<ResponseBody> putPhoto(URI fileUri,String path, String authorization) {

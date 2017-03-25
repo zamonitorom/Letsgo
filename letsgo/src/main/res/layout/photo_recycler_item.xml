@@ -9,10 +9,16 @@
             type="com.letsgoapp.ViewModels.PhotoItemViewModel" />
     </data>
 
-
-    <ImageView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:imageURL3="@{item.link}" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:imageURL3="@{item.link}" />
+    </LinearLayout>
+
 
 </layout>

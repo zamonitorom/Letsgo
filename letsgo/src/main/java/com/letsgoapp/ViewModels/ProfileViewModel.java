@@ -114,7 +114,7 @@ public class ProfileViewModel extends BaseObservable {
         Log.d("ProfileViewModel", "sendChanges");
         if(isTouchable && isMine) {
             Log.d("ProfileViewModel", isMine.toString()+"  " + isTouchable.toString());
-            EditableUser data = new EditableUser(username.get(), firstName.get(), about.get());
+            EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
             Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
             dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
                     "application/json", String.valueOf(data.toString().length()))
@@ -127,27 +127,11 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void addPhotoGallery(){
-        /*
-         http://185.76.147.143/upload-photo/
-         --upload-file ~/Pictures/2.png -H 'Authorization: Token 163df7faa712e242f7e6b4d270e29401e604b9b2'
-
-
-         */
-
-//        Activity activity = (Activity) GetTopContext();
-//        if (activity != null) {
-//            Intent intent = new Intent(activity, ImagePickActivity.class);
-//            activity.startActivity(intent);
-//        }
-
         imagePickViewModel.getPictureGallery();
-
     }
 
     public void addPhotoCamera(){
-
         imagePickViewModel.getPictureCamera();
-
     }
 
     public void startCropper(Uri uri){
