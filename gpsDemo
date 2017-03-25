@@ -72,16 +72,13 @@ public class CoordinatesViewModel extends BaseObservable {
         locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+//            return;
+        }else {
+            showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }
-        showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 //        setTvLocationGPS(String.valueOf(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude())+"\n "
 //                + String.valueOf(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()));
     }
