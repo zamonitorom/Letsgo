@@ -39,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
         activityProfile2Binding.setProfileVM(profileViewModel);
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         toolbar.setTitle(profileViewModel.username.get());
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
 //        Slidr.attach(this);
@@ -75,8 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    profileViewModel.startCropper(selectedImage);
+                    Bundle extras = imageReturnedIntent.getExtras();
+                    profileViewModel.startCropper(extras);
                 }
                 break;
         }

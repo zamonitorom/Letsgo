@@ -7,6 +7,7 @@ import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -24,6 +25,8 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -35,6 +38,10 @@ public interface IAPIService {
 
     @GET("meetings-list/")
     Observable<List<Meeting>> getMeetingList(@Header("Authorization") String authorization);
+
+    @GET("meetings-list/")
+    Observable<List<Meeting>> getLocalMeetingList(@QueryMap Map<String, String> parameters,
+                                                  @Header("Authorization") String authorization);
 
     @GET
     Observable<Meeting> getMeeting(@Url String url,

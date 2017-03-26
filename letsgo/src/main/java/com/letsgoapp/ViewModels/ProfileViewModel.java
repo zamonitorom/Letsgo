@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.letsgoapp.BR;
@@ -135,6 +137,10 @@ public class ProfileViewModel extends BaseObservable {
 
     public void startCropper(Uri uri){
         imagePickViewModel.startCropper(uri);
+    }
+    public void startCropper(Bundle bundle){
+        Bitmap imageBitmap = (Bitmap) bundle.get("data");
+        imagePickViewModel.startCropper(imageBitmap);
     }
 
     public void sendPicture(Uri uri){

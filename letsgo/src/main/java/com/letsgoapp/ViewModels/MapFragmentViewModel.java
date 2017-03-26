@@ -23,7 +23,9 @@ import com.squareup.picasso.Picasso;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,7 +51,7 @@ public class MapFragmentViewModel {
 
     public MapFragmentViewModel(GoogleMap googleMap/*, Context context*/) {
 
-        Activity context = (Activity) GetTopContext();
+        Context context = (Context) GetTopContext();
         dataservice = new APIService();
         targetsList = new ArrayList<>();
 
@@ -73,13 +75,30 @@ public class MapFragmentViewModel {
 //            Log.d("mapFragment", "onMarkerClick+\n");
 //            return false;
 //        });
-        getData(context);
+//        getData(context);
+        getMeetings(context);
     }
 
     public void getData(Context context) {
         dataservice.getMeetingList("Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .flatMap(meetings -> Observable.from(meetings))
+                .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
+                .doOnNext(meeting -> meetingList.add(meeting))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meeting -> {
+                }, throwable -> {
+                }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
+    }
+
+    public void getMeetings(Context context){
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("lat", "55.76");
+        parameters.put("lng", "37.61");
+        parameters.put("r", "5");
+        dataservice.getLocalMeetingList(parameters,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+                .subscribeOn(Schedulers.io())
+                .flatMap(Observable::from)
                 .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
                 .doOnNext(meeting -> meetingList.add(meeting))
                 .observeOn(AndroidSchedulers.mainThread())

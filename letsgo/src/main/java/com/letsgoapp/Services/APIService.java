@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -45,6 +46,10 @@ public class APIService {
 
     public Observable<List<Meeting>> getMeetingList(String authorization) {
         return iapiService.getMeetingList(authorization);
+    }
+
+    public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters, String authorization){
+        return iapiService.getLocalMeetingList(parameters,authorization);
     }
 
     public Observable<Meeting> getMeeting(String url,String authorization) {

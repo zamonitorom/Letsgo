@@ -32,7 +32,7 @@ public class SetMeetingActivity extends AppCompatActivity {
 
         toolbar.setTitle("Создание события");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_close_dark);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
         toolbar.setNavigationOnClickListener(v -> finish());
         setMeetingViewModel.lat = getIntent().getExtras().getDouble("Lat");
         setMeetingViewModel.lon = getIntent().getExtras().getDouble("Lon");

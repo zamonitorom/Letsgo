@@ -19,7 +19,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -72,11 +76,47 @@ public class ImagePickViewModel {
     }
 
     public void startCropper(Uri uri) {
+        Log.d("ImagePickViewModel",uri.toString());
         CropImage.activity(uri)
                 .setMinCropResultSize(IMG_WIDTH, IMG_HEIGHT)
                 .setMaxCropResultSize(IMG_WIDTH, IMG_HEIGHT)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(activity);
+    }
+
+    public void startCropper(Bitmap bitmap) {
+//        Uri outputFileUri =  getCaptureImageOutputUri();
+        String path = activity.getExternalCacheDir().toString();
+        OutputStream outputStream = null;
+        File file = new File(path,"cachedImage.jpg");
+        try {
+            outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,85,outputStream);
+            Log.d("ImagePickViewModel",file.getAbsolutePath());
+            outputStream.flush();
+            outputStream.close();
+            Uri uri = Uri.fromFile(file);
+            CropImage.activity(uri)
+                    .setMinCropResultSize(IMG_WIDTH, IMG_HEIGHT)
+                    .setMaxCropResultSize(IMG_WIDTH, IMG_HEIGHT)
+                    .setCropShape(CropImageView.CropShape.RECTANGLE)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(activity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private Uri getCaptureImageOutputUri() {
+        Uri outputFileUri = null;
+        File getImage = activity.getExternalCacheDir();
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new  File(getImage.getPath(), "cameraResult.jpeg"));
+        }
+        return outputFileUri;
     }
 
     public void sendPicture(Uri uri) {

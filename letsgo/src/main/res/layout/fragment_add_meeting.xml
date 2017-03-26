@@ -26,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:rotation="270"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_room_lime_700_36dp" />
 
         <Button
             android:layout_width="wrap_content"
