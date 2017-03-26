@@ -44,14 +44,14 @@ public class GMapFragment extends Fragment {
 
         mapFragment.getMapAsync(googleMap -> {
                     mapFragmentViewModel = new MapFragmentViewModel(googleMap/*, getActivity().getBaseContext()*/);
-                    mapFragmentViewModel.getmMap().setOnMarkerClickListener(marker -> {
-                        Intent meetingIntent = new Intent(getActivity(), MeetingDescriptionActivity.class);
-                        meetingIntent.putExtra("id", marker.getId().toString());
-                        meetingIntent.putExtra("href", marker.getTag().toString());
-                        startActivity(meetingIntent);
-                        Log.d("mapFragment", "onMarkerClick+\n");
-                        return false;
-                    });
+//                    mapFragmentViewModel.getmMap().setOnMarkerClickListener(marker -> {
+//                        Intent meetingIntent = new Intent(getActivity(), MeetingDescriptionActivity.class);
+//                        meetingIntent.putExtra("id", marker.getId().toString());
+//                        meetingIntent.putExtra("href", marker.getTag().toString());
+//                        startActivity(meetingIntent);
+//                        Log.d("mapFragment", "onMarkerClick+\n");
+//                        return false;
+//                    });
                 }
         );
 

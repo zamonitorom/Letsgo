@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Мои события");
             fab.hide();
             item.setChecked(true);
-            fab.setImageResource(R.drawable.cast_ic_expanded_controller_mute);
         } else if (id == R.id.nav_) {
 
         } else if (id == R.id.nav_create_action) {

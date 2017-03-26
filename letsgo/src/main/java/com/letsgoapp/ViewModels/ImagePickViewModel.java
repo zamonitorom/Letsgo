@@ -45,10 +45,12 @@ public class ImagePickViewModel {
     Activity activity;
 
     private INavigationService navigationService;
+    private APIService apiService;
 
     public ImagePickViewModel() {
         activity = (Activity) GetTopContext();
         navigationService = new NavigationService();
+        apiService = new APIService();
     }
 
     public void getPictureGallery() {
@@ -76,17 +78,11 @@ public class ImagePickViewModel {
     }
 
     public void startCropper(Uri uri) {
-        Log.d("ImagePickViewModel",uri.toString());
-        CropImage.activity(uri)
-                .setMinCropResultSize(IMG_WIDTH, IMG_HEIGHT)
-                .setMaxCropResultSize(IMG_WIDTH, IMG_HEIGHT)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(activity);
+//        Log.d("ImagePickViewModel",uri.toString());
+        navigationService.goCropper(IMG_WIDTH,IMG_HEIGHT,uri);
     }
 
     public void startCropper(Bitmap bitmap) {
-//        Uri outputFileUri =  getCaptureImageOutputUri();
         String path = activity.getExternalCacheDir().toString();
         OutputStream outputStream = null;
         File file = new File(path,"cachedImage.jpg");
@@ -97,17 +93,10 @@ public class ImagePickViewModel {
             outputStream.flush();
             outputStream.close();
             Uri uri = Uri.fromFile(file);
-            CropImage.activity(uri)
-                    .setMinCropResultSize(IMG_WIDTH, IMG_HEIGHT)
-                    .setMaxCropResultSize(IMG_WIDTH, IMG_HEIGHT)
-                    .setCropShape(CropImageView.CropShape.RECTANGLE)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(activity);
+            navigationService.goCropper(IMG_WIDTH,IMG_HEIGHT,uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private Uri getCaptureImageOutputUri() {
@@ -121,7 +110,6 @@ public class ImagePickViewModel {
 
     public void sendPicture(Uri uri) {
         URI uri2 = URI.create(uri.toString());
-        APIService apiService = new APIService();
         String path = uri2.getPath();
         int cut = path.lastIndexOf('/');
         if (cut != -1) {
@@ -133,11 +121,11 @@ public class ImagePickViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(responseBody -> {
                     try {
-                        Log.d("response11", responseBody.string());
+                        Log.d("ImagePickViewModel","responseBody"+ responseBody.string());
                         JSONObject jsonObject = new JSONObject(responseBody.string());
                         Integer status = jsonObject.getInt("status");
                         if (status != 204) {
-
+                            Log.d("ImagePickViewModel","Successful");
                         }
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();

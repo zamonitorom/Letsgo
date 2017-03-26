@@ -3,6 +3,7 @@ package com.letsgoapp.ViewModels;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,7 +18,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
+import com.letsgoapp.Views.MeetingDescriptionActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -40,6 +44,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 public class MapFragmentViewModel {
     private APIService dataservice;
+    private INavigationService navigationService;
 
     public List<Meeting> meetingList = new ArrayList<>();
     private LocationManager locationManager;
@@ -53,6 +58,7 @@ public class MapFragmentViewModel {
 
         Context context = (Context) GetTopContext();
         dataservice = new APIService();
+        navigationService = new NavigationService();
         targetsList = new ArrayList<>();
 
         mMap = googleMap;
@@ -67,14 +73,11 @@ public class MapFragmentViewModel {
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), initZoom));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moscow, initZoom));
         mMap.setOnCameraChangeListener(cameraPosition -> Log.d("mapFragment", "CHANDE+\n"));
-//        mMap.setOnMarkerClickListener(marker -> {
-//            Intent meetingIntent = new Intent(context, MeetingDescriptionActivity.class);
-//            meetingIntent.putExtra("id",marker.getId().toString());
-//            meetingIntent.putExtra("href",marker.getTag().toString());
-//            context.startActivity(meetingIntent);
-//            Log.d("mapFragment", "onMarkerClick+\n");
-//            return false;
-//        });
+        mMap.setOnMarkerClickListener(marker -> {
+            navigationService.goMeeting(marker.getId(),marker.getTag().toString());
+            Log.d("mapFragment", "onMarkerClick+\n");
+            return false;
+        });
 //        getData(context);
         getMeetings(context);
     }
@@ -91,12 +94,12 @@ public class MapFragmentViewModel {
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 
-    public void getMeetings(Context context){
+    public void getMeetings(Context context) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("lat", "55.76");
         parameters.put("lng", "37.61");
-        parameters.put("r", "5");
-        dataservice.getLocalMeetingList(parameters,"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        parameters.put("r", "15");
+        dataservice.getLocalMeetingList(parameters, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
                 .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))

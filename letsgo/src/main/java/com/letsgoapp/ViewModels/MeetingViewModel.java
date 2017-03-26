@@ -12,6 +12,8 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Views.ProfileActivity;
 import com.mzelzoghbi.zgallery.ZGallery;
 import com.mzelzoghbi.zgallery.entities.ZColor;
@@ -45,11 +47,14 @@ public class MeetingViewModel extends BaseObservable {
 
     public ArrayList<String> photosFull;
 
+    private INavigationService navigationService;
+
     public MeetingViewModel(String href) {
         toolbarViewModel = new ToolbarViewModel();
         photosFull = new ArrayList<>();
         photos = new ObservableArrayList<>();
         dataService = new APIService();
+        navigationService = new NavigationService();
         loadData(href);
     }
 
@@ -90,12 +95,13 @@ public class MeetingViewModel extends BaseObservable {
     }
 
     public void toUser() {
-        Activity activity = (Activity) GetTopContext();
-        if (activity != null) {
-            Intent intent = new Intent(activity, ProfileActivity.class);
-            intent.putExtra("link", getUhref());
-            activity.startActivity(intent);
-        }
+//        Activity activity = (Activity) GetTopContext();
+//        if (activity != null) {
+//            Intent intent = new Intent(activity, ProfileActivity.class);
+//            intent.putExtra("link", getUhref());
+//            activity.startActivity(intent);
+//        }
+        navigationService.goProfile(getUhref());
     }
 
     public void close() {

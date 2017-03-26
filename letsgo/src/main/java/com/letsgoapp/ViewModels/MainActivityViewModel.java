@@ -6,6 +6,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.letsgoapp.BR;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Views.ProfileActivity;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
@@ -18,8 +20,10 @@ public class MainActivityViewModel extends BaseObservable {
 
     private String mem;
 
+    private INavigationService navigationService;
     public MainActivityViewModel(String mem) {
         this.mem = mem;
+        navigationService = new NavigationService();
     }
 
     @Bindable
@@ -33,10 +37,7 @@ public class MainActivityViewModel extends BaseObservable {
     }
 
     public void getProfile(){
-        Activity activity = (Activity) GetTopContext();
-        Intent intent = new Intent(activity, ProfileActivity.class);
-        intent.putExtra("link","");
-        activity.startActivity(intent);
+        navigationService.goProfile(null);
     }
 
 }
