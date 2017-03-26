@@ -28,11 +28,15 @@ public class MyConfirmsViewModel extends BaseObservable{
     @Bindable
     public ObservableArrayList<ConfirmItemViewModel> confirms = null;
 
+    @Bindable
+    public ObservableArrayList<PhotoItemViewModel> photos = null;
+
     private Integer count=0;
 
     public MyConfirmsViewModel() {
         dataService = new APIService();
         confirms = new ObservableArrayList<>();
+        photos = new ObservableArrayList<>();
         loadConfirms();
     }
 
@@ -45,7 +49,8 @@ public class MyConfirmsViewModel extends BaseObservable{
                     setCount(confirms1.size());
                     Log.d("MyConfirmsViewModel",confirms.toString());
                     for (Confirm confirm:confirms1) {
-                        confirms.add(new ConfirmItemViewModel(confirm));
+                        confirms.add(new ConfirmItemViewModel(confirm.getUser().getAvatar()));
+                        photos.add(new PhotoItemViewModel(confirm.getUser().getAvatar()));
                     }
                     Log.d("MyConfirmsViewModel",confirms.toString());
                 })

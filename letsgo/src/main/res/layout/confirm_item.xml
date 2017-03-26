@@ -3,24 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="confirm"
+            name="item"
             type="com.letsgoapp.ViewModels.ConfirmItemViewModel" />
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:imageURL2="@{confirm.userAvatar}"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{confirm.meetingTitle}"/>
-
+            app:imageURL3="@{item.link}" />
     </LinearLayout>
+
+
 </layout>

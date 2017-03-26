@@ -18,6 +18,7 @@ import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 public class MyConfirmsFragment extends Fragment {
 
     private MyConfirmsViewModel myConfirmsViewModel;
+    FragmentMyConfirmsBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MyConfirmsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        binding.setConfirmsVM(myConfirmsViewModel);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -34,10 +36,10 @@ public class MyConfirmsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myConfirmsViewModel = new MyConfirmsViewModel();
-        FragmentMyConfirmsBinding binding = DataBindingUtil.inflate(inflater,
+        binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_my_confirms, container, false);
         View view = binding.getRoot();
-        binding.setConfirmsVM(myConfirmsViewModel);
+
         SetTopContext(getActivity());
         return view;
     }
