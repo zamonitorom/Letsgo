@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String APP_PREFERENCES = "mySettings";
     public static final String APP_PREFERENCES_REGISTER = "register";
-    public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    public static final int MY_PERMISSIONS = 1;
 
     public FragmentManager fragmentManager;
     DrawerLayout drawer;
@@ -60,13 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-        }
-
         toolbar = activityMainBinding.toolbar.toolbar;
         toolbar.setTitle("Актуальные события");
         fab = activityMainBinding.toolbar.fab.fab;
@@ -78,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fab.hide();
             }
         });
-
 
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -95,9 +87,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivityForResult(intent,0);
+            startActivityForResult(intent, 0);
         }
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS);
+        }
 
 //        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
 //        Log.d("fingerprint",fingerprints[0]);
@@ -110,6 +113,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     public void onBackPressed() {
@@ -124,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==RESULT_OK){
-            if(data.getExtras().getBoolean("auth")){
+        if (resultCode == RESULT_OK) {
+            if (data.getExtras().getBoolean("auth")) {
 //                Toast.makeText(this,data.getStringExtra("token")+"\n"+data.getStringExtra("mail")+
 //                        "\n"+data.getStringExtra("vkId"), Toast.LENGTH_LONG).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();

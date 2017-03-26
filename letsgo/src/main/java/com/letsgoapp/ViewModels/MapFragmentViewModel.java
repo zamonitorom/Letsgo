@@ -21,6 +21,7 @@ import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
+import com.letsgoapp.Utils.GpsProvider;
 import com.letsgoapp.Views.MeetingDescriptionActivity;
 import com.squareup.picasso.Picasso;
 
@@ -49,7 +50,7 @@ public class MapFragmentViewModel {
     public List<Meeting> meetingList = new ArrayList<>();
     private LocationManager locationManager;
     private ArrayList<PicassoMarker> targetsList;
-    private Location location;
+    private LatLng latLng;
     public static final int AVATAR_SIZE = 100;
 
     private GoogleMap mMap;
@@ -64,14 +65,15 @@ public class MapFragmentViewModel {
         mMap = googleMap;
         final float initZoom = (float) 10.5;
 
+        GpsProvider gpsProvider = new GpsProvider();
 
-        LatLng moscow = new LatLng(55.76, 37.61);
+        latLng = gpsProvider.getLocation();
 
         mMap.getUiSettings().setZoomControlsEnabled(false);
 //        mMap.getUiSettings().set
 
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), initZoom));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moscow, initZoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, initZoom));
         mMap.setOnCameraChangeListener(cameraPosition -> Log.d("mapFragment", "CHANDE+\n"));
         mMap.setOnMarkerClickListener(marker -> {
             navigationService.goMeeting(marker.getId(),marker.getTag().toString());
@@ -96,8 +98,10 @@ public class MapFragmentViewModel {
 
     public void getMeetings(Context context) {
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("lat", "55.76");
-        parameters.put("lng", "37.61");
+        if(latLng!=null) {
+            parameters.put("lat", String.valueOf(latLng.latitude));
+            parameters.put("lng", String.valueOf(latLng.longitude));
+        }
         parameters.put("r", "15");
         dataservice.getLocalMeetingList(parameters, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())

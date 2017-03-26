@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
-import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS_REQUEST_READ_CONTACTS;
+import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS;
 
 /**
  * Created by normalteam on 25.03.17.
@@ -60,7 +60,7 @@ public class ImagePickViewModel {
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                        MY_PERMISSIONS);
             }
         }
     }
@@ -72,7 +72,7 @@ public class ImagePickViewModel {
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                        MY_PERMISSIONS);
             }
         }
     }

@@ -86,8 +86,6 @@ public class NavigationService implements INavigationService {
     public void goMeeting(String id, String href) {
         Activity activity = (Activity) GetTopContext();
         Intent meetingIntent = new Intent(activity, MeetingDescriptionActivity.class);
-//        meetingIntent.putExtra("id",marker.getId().toString());
-//        meetingIntent.putExtra("href",marker.getTag().toString());
         meetingIntent.putExtra("id",id);
         meetingIntent.putExtra("href",href);
         if (activity != null) {
