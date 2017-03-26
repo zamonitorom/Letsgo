@@ -78,7 +78,8 @@ public class GpsProvider {
 
     public LatLng getLocation() {
         if (location != null) {
-            return new LatLng(location.getLatitude(), location.getLongitude());
+            return new LatLng(55.76, 37.61);
+//            return new LatLng(location.getLatitude(), location.getLongitude());
         } else {
             return new LatLng(55.76, 37.61);
         }

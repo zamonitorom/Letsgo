@@ -80,12 +80,14 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
 
             <LinearLayout
+                android:id="@+id/nested_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -132,11 +134,28 @@
                     android:text="@{meetingVM.about}"
                     android:padding="@dimen/activity_horizontal_margin"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Space
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:background="@drawable/roundcorner"
+                        android:elevation="5dp"
+                        android:shape="rectangle"
+                        android:text="Confirm"
+                        android:textColor="#FFFFFF"
+                        app:onClick="@{meetingVM::confirm}" />
+                </LinearLayout>
             </LinearLayout>
 
 
         </android.support.v4.widget.NestedScrollView>
-
 
     </android.support.design.widget.CoordinatorLayout>
 

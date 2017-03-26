@@ -11,6 +11,8 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Views.MainActivity;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,7 +27,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class SetMeetingViewModel {
     public MyObservableString title;
     public MyObservableString description;
-    private APIService apiService;
+    private IDataService apiService;
 
     public SetMeetingViewModel() {
         title = new MyObservableString();
@@ -39,7 +41,7 @@ public class SetMeetingViewModel {
 
     public void SendMeeting() {
         Activity activity = (Activity) GetTopContext();
-        if (title.get().length() > 2 & description.get().length() > 10) {
+        if (title.get().length() > 3 & description.get().length() > 10) {
             SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon));
             apiService.postMeeting(sendMeeting, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
                     "application/json", String.valueOf(sendMeeting.toString().length()))
@@ -47,6 +49,8 @@ public class SetMeetingViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(o -> {
                     }, throwable -> {
+                        Dialogs dialogs = new Dialogs();
+                        dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
                     }, () -> {
                         Intent intent = new Intent(activity, MainActivity.class);
                         if (activity != null) {

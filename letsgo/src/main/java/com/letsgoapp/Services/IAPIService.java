@@ -1,6 +1,7 @@
 package com.letsgoapp.Services;
 
 import com.google.gson.JsonObject;
+import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
@@ -68,4 +69,11 @@ public interface IAPIService {
     Observable<ResponseBody> putPhoto(@Part MultipartBody.Part file,
                                       @Path("adress") String adress,
                                       @Header("Authorization") String authorization);
+
+    @POST("meeting-confirm/{id}/")
+    Observable<Object> sendConfirm(@Path("id") String id,@Body Object object,
+                                   @Header("Authorization") String authorization);
+
+    @GET("confirms-list/")
+    Observable<List<Confirm>> getConfirmList(@Header("Authorization") String authorization);
 }

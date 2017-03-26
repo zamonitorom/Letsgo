@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
@@ -35,7 +36,7 @@ import rx.Observable;
  * Created by normalteam on 06.02.17.
  */
 
-public class APIService {
+public class APIService implements IDataService {
 
     private Retrofit retrofit = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -138,4 +139,12 @@ public class APIService {
 
     }
 
+    public Observable<Object> sendConfirm(String id,Object object,String authorization) {
+        return iapiService3.sendConfirm(id,object,authorization);
+    }
+
+    @Override
+    public Observable<List<Confirm>> getConfirms(String authorization) {
+        return iapiService.getConfirmList(authorization);
+    }
 }

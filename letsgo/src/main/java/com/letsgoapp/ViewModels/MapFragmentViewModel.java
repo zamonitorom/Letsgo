@@ -18,9 +18,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
+import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Utils.GpsProvider;
 import com.letsgoapp.Views.MeetingDescriptionActivity;
 import com.squareup.picasso.Picasso;
@@ -44,7 +46,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  */
 
 public class MapFragmentViewModel {
-    private APIService dataservice;
+    private IDataService dataservice;
     private INavigationService navigationService;
 
     public List<Meeting> meetingList = new ArrayList<>();
@@ -74,7 +76,10 @@ public class MapFragmentViewModel {
 
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), initZoom));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, initZoom));
-        mMap.setOnCameraChangeListener(cameraPosition -> Log.d("mapFragment", "CHANDE+\n"));
+        mMap.setOnCameraChangeListener(cameraPosition -> {
+            Log.d("mapFragment", "CHANDE+\n");
+            getMeetings(context);
+        });
         mMap.setOnMarkerClickListener(marker -> {
             navigationService.goMeeting(marker.getId(),marker.getTag().toString());
             Log.d("mapFragment", "onMarkerClick+\n");
@@ -93,16 +98,19 @@ public class MapFragmentViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
                 }, throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 
     public void getMeetings(Context context) {
         Map<String, String> parameters = new HashMap<>();
         if(latLng!=null) {
-            parameters.put("lat", String.valueOf(latLng.latitude));
-            parameters.put("lng", String.valueOf(latLng.longitude));
+            LatLng current = mMap.getCameraPosition().target;
+            parameters.put("lat", String.valueOf(current.latitude));
+            parameters.put("lng", String.valueOf(current.longitude));
         }
-        parameters.put("r", "15");
+        parameters.put("r", "5");
         dataservice.getLocalMeetingList(parameters, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
@@ -111,6 +119,8 @@ public class MapFragmentViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
                 }, throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 

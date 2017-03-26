@@ -28,6 +28,7 @@ import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
+import com.letsgoapp.Views.Fragments.MyConfirmsFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
 import com.vk.sdk.util.VKUtil;
 
@@ -179,6 +180,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Актуальные события");
             item.setChecked(true);
             fab.show();
+        } else if (id == R.id.nav_my_confirms) {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, new MyConfirmsFragment()).commit();
+            toolbar.setTitle("Мои Заявки");
+            fab.hide();
+            item.setChecked(true);
         } else if (id == R.id.nav_my_actions) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new ActionFragment()).commit();
             toolbar.setTitle("Мои события");

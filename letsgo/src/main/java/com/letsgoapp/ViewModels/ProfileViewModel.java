@@ -16,6 +16,8 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Utils.Dialogs;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,7 +43,7 @@ public class ProfileViewModel extends BaseObservable {
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
 
-    private APIService dataService;
+    private IDataService dataService;
 
     public ImagePickViewModel imagePickViewModel;
 
@@ -71,12 +73,6 @@ public class ProfileViewModel extends BaseObservable {
                 isMine = true;
                 setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
-//                EditableUser data = new EditableUser("testusernamename2", "testname2", "tesetabout2");
-//                dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
-//                        "application/json", String.valueOf(data.toString().length()))
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe();
             }
         }
 
@@ -99,7 +95,11 @@ public class ProfileViewModel extends BaseObservable {
 //                        Log.d("ProfileViewModel", photo.getPhoto());
                     }
                 })
-                .subscribe();
+                .subscribe(user->{},throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
+                },()->{
+                });
     }
 
     public void fabClick(){
@@ -121,7 +121,10 @@ public class ProfileViewModel extends BaseObservable {
                     "application/json", String.valueOf(data.toString().length()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+                    .subscribe(data1->{},throwable -> {
+                        Dialogs dialogs = new Dialogs();
+                        dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
+                    });
         }
         isTouchable = false;
         notifyPropertyChanged(BR.isTouchable);

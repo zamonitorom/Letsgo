@@ -11,8 +11,10 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
+import com.letsgoapp.Utils.Dialogs;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -45,7 +47,7 @@ public class ImagePickViewModel {
     Activity activity;
 
     private INavigationService navigationService;
-    private APIService apiService;
+    private IDataService apiService;
 
     public ImagePickViewModel() {
         activity = (Activity) GetTopContext();
@@ -131,7 +133,10 @@ public class ImagePickViewModel {
                         e.printStackTrace();
                     }
                 })
-                .subscribe();
+                .subscribe(responseBody -> {},throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
+                });
 //        }
     }
 

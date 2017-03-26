@@ -12,8 +12,10 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
+import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Views.ProfileActivity;
 import com.mzelzoghbi.zgallery.ZGallery;
 import com.mzelzoghbi.zgallery.entities.ZColor;
@@ -30,7 +32,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  */
 
 public class MeetingViewModel extends BaseObservable {
-    private APIService dataService;
+    private IDataService dataService;
     private String meetingTitle;
     private String meetingDescription;
 
@@ -39,7 +41,7 @@ public class MeetingViewModel extends BaseObservable {
     private String avatar;
     private String username;
     private String uhref;
-
+    private Integer id;
     private ToolbarViewModel toolbarViewModel;
 
     @Bindable
@@ -63,6 +65,7 @@ public class MeetingViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
+                            setId(meeting.getId());
                             setMeetingTitle(meeting.getTitle());
                             setMeetingDescription(meeting.getDescription());
                             setAvatar(meeting.getOwner().getAvatar());
@@ -77,7 +80,12 @@ public class MeetingViewModel extends BaseObservable {
                                 photosFull.add(photo.getPhoto());
                                 Log.d("meetingActivity", photo.getPhoto());
                             }
-                        }, throwable -> Log.d("meetingActivity", throwable.toString())
+                        }, throwable -> {
+                            Log.d("meetingActivity", throwable.toString());
+                            Dialogs dialogs = new Dialogs();
+                            dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                        }
+
                         , () -> {
                             Log.d("meetingActivity", "complete\n");
                             Log.d("meetingActivity", photos.toString());
@@ -95,12 +103,6 @@ public class MeetingViewModel extends BaseObservable {
     }
 
     public void toUser() {
-//        Activity activity = (Activity) GetTopContext();
-//        if (activity != null) {
-//            Intent intent = new Intent(activity, ProfileActivity.class);
-//            intent.putExtra("link", getUhref());
-//            activity.startActivity(intent);
-//        }
         navigationService.goProfile(getUhref());
     }
 
@@ -109,6 +111,20 @@ public class MeetingViewModel extends BaseObservable {
         if (activity != null) {
             activity.finish();
         }
+    }
+
+    public void confirm() {
+        dataService.sendConfirm(getId().toString(),new Object(),"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {},throwable -> {
+                    Log.d("meetingActivity", throwable.toString());
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                },()->{
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("OK", "Запрос отправлен");
+                });
     }
 
     @Bindable
@@ -194,5 +210,13 @@ public class MeetingViewModel extends BaseObservable {
         this.toolbarViewModel = toolbarViewModel;
     }
 
+    @Bindable
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+        notifyPropertyChanged(BR.id);
+    }
 }

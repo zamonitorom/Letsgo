@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_menu_map"
             android:title="Актуальные события" />
         <item
+            android:id="@+id/nav_my_confirms"
+            android:icon="@drawable/ic_audiotrack"
+            android:title="Мои заявки" />
+        <item
             android:id="@+id/nav_my_actions"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Мои события" />
