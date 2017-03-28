@@ -38,10 +38,13 @@ import rx.Observable;
 
 public class APIService implements IDataService {
 
+        private String baseUrl = "http://37.46.128.134/";
+//    private String baseUrl = "http://185.76.147.143/";
+
     private Retrofit retrofit = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://185.76.147.143/")
+            .baseUrl(baseUrl)
             .build();
     private IAPIService iapiService = retrofit.create(IAPIService.class);
 
@@ -49,27 +52,28 @@ public class APIService implements IDataService {
         return iapiService.getMeetingList(authorization);
     }
 
-    public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters, String authorization){
-        return iapiService.getLocalMeetingList(parameters,authorization);
+    public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters, String authorization) {
+        return iapiService.getLocalMeetingList(parameters, authorization);
     }
 
-    public Observable<Meeting> getMeeting(String url,String authorization) {
-        return iapiService.getMeeting(url,authorization);
+    public Observable<Meeting> getMeeting(String url, String authorization) {
+        return iapiService.getMeeting(url, authorization);
     }
 
 
     public static class LoggingInterceptor implements Interceptor {
-        @Override public Response intercept(Chain chain) throws IOException {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             long t1 = System.nanoTime();
             String requestLog = String.format("Sending request %s on %s%n%s%s",
-                    request.url(), chain.connection(), request.headers(),request.body().toString());
+                    request.url(), chain.connection(), request.headers(), request.body().toString());
 
-            if(request.method().compareToIgnoreCase("post")==0){
-                requestLog ="\n"+requestLog+"\n";
+            if (request.method().compareToIgnoreCase("post") == 0) {
+                requestLog = "\n" + requestLog + "\n";
             }
 
-            Log.d("retrofit","request"+"\n"+requestLog+"\n\n"+request.body());
+            Log.d("retrofit", "request" + "\n" + requestLog + "\n\n" + request.body());
 
             Response response = chain.proceed(request);
             long t2 = System.nanoTime();
@@ -79,7 +83,7 @@ public class APIService implements IDataService {
 
             String bodyString = response.body().string();
 
-            Log.d("retrofit","response"+"\n"+responseLog+"\n"+bodyString);
+            Log.d("retrofit", "response" + "\n" + responseLog + "\n" + bodyString);
 
             return response.newBuilder()
                     .body(ResponseBody.create(response.body().contentType(), bodyString))
@@ -87,38 +91,59 @@ public class APIService implements IDataService {
             //return response;
         }
     }
+
     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();
 
 
     private Retrofit postmeeting = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://185.76.147.143/")
+            .baseUrl(baseUrl)
             .client(client)
             .build();
 
     private IAPIService iapiService3 = postmeeting.create(IAPIService.class);
 
     public Observable<Object> postMeeting(Object sendMeeting, String authorization,
-                                          String contentType,String length) {
-        return iapiService3.postMeeting(sendMeeting,authorization,contentType,length);
+                                          String contentType, String length) {
+        return iapiService3.postMeeting(sendMeeting, authorization, contentType, length);
     }
 
-    public Observable<Owner> getUser(String link,String authorization) {
-        return iapiService.getUser(link,authorization);
+    public Observable<Owner> getUser(String link, String authorization) {
+        return iapiService.getUser(link, authorization);
     }
 
     public Observable<Object> setUserData(Object editableUser, String authorization,
-                                                String contentType, String length) {
-        return iapiService3.setUserData(editableUser,authorization,contentType,length);
+                                          String contentType, String length) {
+        return iapiService3.setUserData(editableUser, authorization, contentType, length);
     }
 
-    public Observable<ResponseBody> putPhoto(URI fileUri,String path, String authorization) {
-        // На данный момент объект, реализующий API уже создан, и называется service
+    public Observable<ResponseBody> putPhoto(URI fileUri, String path, String authorization) {
+        /*
+        ublic interface ApiInterface {
+            @Multipart
+            @POST("/api/Accounts/editaccount")
+            Call<User> editUser (@Header("Authorization") String authorization, @Part("file\"; filename=\"pp.png\" ") RequestBody file , @Part("FirstName") RequestBody fname, @Part("Id") RequestBody id);
+        }
 
-        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
-        // Используем FileUtils чтобы получить файл из uri
-        File file = new File(fileUri); // FileUtils.getFile(this, fileUri);
+        File file = new File(imageUri.getPath());
+        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), firstNameField.getText().toString());
+        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), AZUtils.getUserId(this));
+        Call<User> call = client.editUser(AZUtils.getToken(this), fbody, name, id);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit.Response<User> response, Retrofit retrofit) {
+                AZUtils.printObject(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        */
+        File file = new File(fileUri);
 
         // Создаем RequestBody
         RequestBody requestFile =
@@ -135,12 +160,12 @@ public class APIService implements IDataService {
                         MediaType.parse("multipart/form-data"), descriptionString);
 
         // Выполняем запрос
-        return iapiService3.putPhoto(body,path,authorization);
+        return iapiService3.putPhoto(body, path, "image/jpg", authorization);
 
     }
 
-    public Observable<Object> sendConfirm(String id,Object object,String authorization) {
-        return iapiService3.sendConfirm(id,object,authorization);
+    public Observable<Object> sendConfirm(String id, Object object, String authorization) {
+        return iapiService3.sendConfirm(id, object, authorization);
     }
 
     @Override

@@ -20,13 +20,20 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 public class ConfirmItemViewModel extends BaseObservable{
 
+    @Bindable
+    public Boolean isApproved;
     private String link;
-    private Bitmap bitmap;
+    private String meetingName;
+    private String userName;
 
-    public ConfirmItemViewModel(String link) {
+    ConfirmItemViewModel() {    }
+
+    public ConfirmItemViewModel(String link,Boolean approved) {
         if (link != null) {
             this.link = link;
-            //loadBitmap(link);
+            this.isApproved = approved;
+            Log.d("ConfirmItemViewModel",String.valueOf(isApproved));
+            notifyChange();
         }
     }
 
@@ -40,36 +47,23 @@ public class ConfirmItemViewModel extends BaseObservable{
         notifyPropertyChanged(BR.link);
     }
 
-    public void loadBitmap(String link) {
-        Picasso.with((Context) GetTopContext())
-                .load(link)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        Log.d("PhotoItemViewModel", "onBitmapLoaded");
-                        setBitmap(bitmap);
-                    }
+    @Bindable
+    public String getMeetingName() {
+        return meetingName;
+    }
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        Log.d("PhotoItemViewModel", "onBitmapFailed");
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Log.d("PhotoItemViewModel", "onPrepareLoad");
-                    }
-                });
+    public void setMeetingName(String meetingName) {
+        this.meetingName = meetingName;
+        notifyPropertyChanged(BR.meetingName);
     }
 
     @Bindable
-    public Bitmap getBitmap() {
-        return bitmap;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-        notifyPropertyChanged(BR.bitmap);
+    public void setUserName(String userName) {
+        this.userName = userName;
+        notifyPropertyChanged(BR.userName);
     }
-
 }

@@ -7,7 +7,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="KEY">AIzaSyBP5iNz_d4d14nJpcOf_iBlCdFN4niZRQk</string>
-    <string name="SERVER_HOST">http://185.76.147.143</string>
     <string name="map_fragment">map</string>
     <string name="action_fragment">action</string>
 

@@ -69,7 +69,7 @@ public class ProfileViewModel extends BaseObservable {
                 setIcToolbar(R.drawable.ic_message_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             } else {
-                getUser("http://185.76.147.143/user-detail/1/");
+                getUser("http://37.46.128.134/user-detail/1/");
                 isMine = true;
                 setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
@@ -79,17 +79,18 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     private void getUser(String link) {
+        Log.d("ProfileViewModel", "getUser");
         dataService.getUser(link, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
                     firstName.set(user.getFirstName());
                     username.set(user.getUsername());
-//                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
+                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
                     about.set(user.getAbout());
-//                    Log.d("ProfileViewModel", "username = " + username.get());
+                    Log.d("ProfileViewModel", "username = " + username.get());
                     setAvatar(user.getAvatar());
-//                    Log.d("ProfileViewModel", "about = " + about.get());
+                    Log.d("ProfileViewModel", "about = " + about.get());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
 //                        Log.d("ProfileViewModel", photo.getPhoto());

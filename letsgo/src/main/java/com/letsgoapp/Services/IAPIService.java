@@ -68,6 +68,7 @@ public interface IAPIService {
     @PUT("upload-photo/{adress}")
     Observable<ResponseBody> putPhoto(@Part MultipartBody.Part file,
                                       @Path("adress") String adress,
+                                      @Header("Content-Type") String contentType,
                                       @Header("Authorization") String authorization);
 
     @POST("meeting-confirm/{id}/")
