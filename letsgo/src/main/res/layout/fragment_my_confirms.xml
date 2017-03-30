@@ -1,12 +1,35 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.letsgoapp.Views.Fragments.MyConfirmsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.letsgoapp.Utils.Variables" />
+
+        <import type="com.letsgoapp.Utils.LayoutManagers" />
+        <variable
+            name="confirmsVM"
+            type="com.letsgoapp.ViewModels.MyConfirmsViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{confirmsVM.count}"/>
 
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:itemLayout="@{@layout/confirm_item}"
+            app:items="@{confirmsVM.confirms}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:variable="@{Variables.Item}" />
+
+    </LinearLayout>
+</layout>

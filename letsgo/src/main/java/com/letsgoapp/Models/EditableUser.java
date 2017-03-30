@@ -12,7 +12,7 @@ public class EditableUser {
     @SerializedName("username")
     @Expose
     private String username;
-    @SerializedName("firs_name")
+    @SerializedName("first_name")
     @Expose
     private String firsName;
     @SerializedName("about")
