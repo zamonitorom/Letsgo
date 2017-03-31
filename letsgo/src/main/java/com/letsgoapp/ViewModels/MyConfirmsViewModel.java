@@ -49,22 +49,17 @@ public class MyConfirmsViewModel extends BaseObservable {
                 .flatMap(Observable::from)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(confirm -> {
-//                    Log.d("MyConfirmsViewModel",String.valueOf(confirms1.size()));
-//                    setCount(confirms1.size());
-//                    Log.d("MyConfirmsViewModel",confirms.toString());
-//                    for (Confirm confirm:confirms1) {
                     ConfirmItemViewModel confirmItemViewModel = new ConfirmItemViewModel();
                     confirmItemViewModel.setLink(confirm.getUser().getAvatar());
                     confirmItemViewModel.isApproved = confirm.getIsApproved();
+                    confirmItemViewModel.isRejected = confirm.getIsRejected();
+                    notifyChange();
                     confirmItemViewModel.setMeetingName(confirm.getMeeting().getTitle());
                     confirmItemViewModel.setUserName(confirm.getUser().getFirstName());
                     Log.d("MyConfirmsViewModel", String.valueOf(confirmItemViewModel.isApproved));
-                    notifyChange();
+
                     confirms.add(confirmItemViewModel);
-//                        confirms.add(new ConfirmItemViewModel(confirm.getUser().getAvatar(),confirm.getIsApproved()));
-//                        photos.add(new PhotoItemViewModel(confirm.getUser().getAvatar()));
-//                    }
-                    Log.d("MyConfirmsViewModel", confirms.toString());
+                    Log.d("MyConfirmsViewModel", String.valueOf(confirms.size()));
                 })
                 .subscribe(confirm -> {
                 }, throwable -> {

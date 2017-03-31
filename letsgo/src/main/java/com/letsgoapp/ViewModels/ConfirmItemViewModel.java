@@ -22,6 +22,8 @@ public class ConfirmItemViewModel extends BaseObservable{
 
     @Bindable
     public Boolean isApproved;
+    @Bindable
+    public Boolean isRejected;
     private String link;
     private String meetingName;
     private String userName;
