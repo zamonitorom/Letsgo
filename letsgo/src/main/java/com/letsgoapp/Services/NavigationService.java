@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.letsgoapp.Views.MeetingDescriptionActivity;
+import com.letsgoapp.Views.MeetingActivity;
 import com.letsgoapp.Views.ProfileActivity;
 import com.letsgoapp.Views.SetMeetingActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -85,7 +85,7 @@ public class NavigationService implements INavigationService {
     @Override
     public void goMeeting(String id, String href) {
         Activity activity = (Activity) GetTopContext();
-        Intent meetingIntent = new Intent(activity, MeetingDescriptionActivity.class);
+        Intent meetingIntent = new Intent(activity, MeetingActivity.class);
         meetingIntent.putExtra("id",id);
         meetingIntent.putExtra("href",href);
         if (activity != null) {

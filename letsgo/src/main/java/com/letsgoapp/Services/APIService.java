@@ -153,12 +153,6 @@ public class APIService implements IDataService {
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
-        // Добавляем описание
-        String descriptionString = "hello, this is description speaking";
-        RequestBody description =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), descriptionString);
-
         // Выполняем запрос
         return iapiService3.putPhoto(body, path, "image/jpg", authorization);
 

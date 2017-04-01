@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.letsgoapp.BR;
@@ -22,6 +23,9 @@ import com.mzelzoghbi.zgallery.entities.ZColor;
 
 import java.util.ArrayList;
 
+import in.myinnos.imagesliderwithswipeslibrary.SliderLayout;
+import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.BaseSliderView;
+import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.TextSliderView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -35,6 +39,8 @@ public class MeetingViewModel extends BaseObservable {
     private IDataService dataService;
     private String meetingTitle;
     private String meetingDescription;
+
+    private SliderLayout demoSlider;
 
     private String about;
     private String userId;
@@ -74,11 +80,27 @@ public class MeetingViewModel extends BaseObservable {
                             setUhref(meeting.getOwner().getHref());
                             setUserId(meeting.getOwner().getId().toString());
                             toolbarViewModel.setToolbarTitle(meeting.getTitle());
+//                            for (Photo photo : meeting.getOwner().getPhotos()) {
+//                                addAbout(photo.getPhoto() + "\n");
+//                                photos.add(new PhotoItemViewModel(photo.getPhoto()));
+//                                photosFull.add(photo.getPhoto());
+//                                Log.d("meetingActivity", photo.getPhoto());
+//                            }
                             for (Photo photo : meeting.getOwner().getPhotos()) {
-                                addAbout(photo.getPhoto() + "\n");
-                                photos.add(new PhotoItemViewModel(photo.getPhoto()));
-                                photosFull.add(photo.getPhoto());
-                                Log.d("meetingActivity", photo.getPhoto());
+                                TextSliderView textSliderView = new TextSliderView((Activity) GetTopContext());
+                                // initialize a SliderLayout
+                                textSliderView
+                                        .descriptionSize(20)
+                                        .image(photo.getPhoto())
+                                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+//                                        .setOnSliderClickListener((Activity) GetTopContext())
+                                ;
+
+                                //add your extra information
+                                textSliderView.bundle(new Bundle());
+                                textSliderView.getBundle().putString("extra", "name");
+
+                                demoSlider.addSlider(textSliderView);
                             }
                         }, throwable -> {
                             Log.d("meetingActivity", throwable.toString());
@@ -89,16 +111,6 @@ public class MeetingViewModel extends BaseObservable {
                         , () -> {
                             Log.d("meetingActivity", "complete\n");
                             Log.d("meetingActivity", photos.toString());
-//                            Activity activity = (Activity) GetTopContext();
-//                            if (activity != null) {
-//                                ZGallery.with(activity, photosFull)
-//                                        .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
-//                                        .setGalleryBackgroundColor(ZColor.BLACK) // activity background color
-//                                        .setToolbarColorResId(R.color.colorPrimary) // toolbar color
-//                                        .setSelectedImgPosition(5)
-//                                        .setTitle(getUsername()) // toolbar title
-//                                        .show();
-//                            }
                         });
     }
 
@@ -114,14 +126,15 @@ public class MeetingViewModel extends BaseObservable {
     }
 
     public void confirm() {
-        dataService.sendConfirm(getId().toString(),new Object(),"Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataService.sendConfirm(getId().toString(), new Object(), "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> {},throwable -> {
+                .subscribe(o -> {
+                }, throwable -> {
                     Log.d("meetingActivity", throwable.toString());
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
-                },()->{
+                }, () -> {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("OK", "Запрос отправлен");
                 });
@@ -218,5 +231,13 @@ public class MeetingViewModel extends BaseObservable {
     public void setId(Integer id) {
         this.id = id;
         notifyPropertyChanged(BR.id);
+    }
+
+    public SliderLayout getDemoSlider() {
+        return demoSlider;
+    }
+
+    public void setDemoSlider(SliderLayout demoSlider) {
+        this.demoSlider = demoSlider;
     }
 }

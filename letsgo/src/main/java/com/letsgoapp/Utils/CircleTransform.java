@@ -3,7 +3,10 @@ package com.letsgoapp.Utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 
 import com.squareup.picasso.Transformation;
 
@@ -12,31 +15,42 @@ import com.squareup.picasso.Transformation;
  */
 
 public class CircleTransform implements Transformation {
+    private final int BORDER_WIDTH =4;
+    private int color;
+    public CircleTransform(int color) {
+        this.color = color;
+    }
+    public CircleTransform() {
+    }
+
     @Override
-    public Bitmap transform(Bitmap source) {
-        int size = Math.min(source.getWidth(), source.getHeight());
+    public Bitmap transform(Bitmap bitmap) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
 
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
+        int radius = Math.min(h / 2, w / 2);
+        Bitmap output = Bitmap.createBitmap(w + BORDER_WIDTH*2, h + BORDER_WIDTH*2, Bitmap.Config.ARGB_8888);
 
-        Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-        if (squaredBitmap != source) {
-            source.recycle();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-        Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
-        BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
-        paint.setShader(shader);
         paint.setAntiAlias(true);
 
-        float r = size/2f;
-        canvas.drawCircle(r, r, r, paint);
+        Canvas c = new Canvas(output);
+        c.drawARGB(0, 0, 0, 0);
+        paint.setStyle(Paint.Style.FILL);
 
-        squaredBitmap.recycle();
-        return bitmap;
+        c.drawCircle((w / 2) + BORDER_WIDTH, (h / 2) + BORDER_WIDTH, radius, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+        c.drawBitmap(bitmap, 4, 4, paint);
+        paint.setXfermode(null);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(color);
+        paint.setStrokeWidth(3);
+        c.drawCircle((w / 2) + BORDER_WIDTH, (h / 2) + BORDER_WIDTH, radius, paint);
+
+        bitmap.recycle();
+        return output;
     }
 
     @Override

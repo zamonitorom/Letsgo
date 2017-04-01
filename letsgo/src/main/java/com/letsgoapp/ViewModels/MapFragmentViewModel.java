@@ -1,18 +1,13 @@
 package com.letsgoapp.ViewModels;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
+import android.graphics.Color;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.Models.Meeting;
@@ -24,7 +19,6 @@ import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
 import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Utils.GpsProvider;
-import com.letsgoapp.Views.MeetingDescriptionActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -46,18 +40,23 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  */
 
 public class MapFragmentViewModel {
+
+    private static final int AVATAR_SIZE = 100;
+    private static final float initZoom = 10.5f;
+    private final int RADIUS = 15;
+
     private IDataService dataservice;
     private INavigationService navigationService;
 
-    public List<Meeting> meetingList = new ArrayList<>();
+    private List<Meeting> meetingList = new ArrayList<>();
     private LocationManager locationManager;
     private ArrayList<PicassoMarker> targetsList;
     private LatLng latLng;
-    public static final int AVATAR_SIZE = 100;
+    private GpsProvider gpsProvider;
 
     private GoogleMap mMap;
 
-    public MapFragmentViewModel(GoogleMap googleMap/*, Context context*/) {
+    public MapFragmentViewModel(GoogleMap googleMap) {
 
         Context context = (Context) GetTopContext();
         dataservice = new APIService();
@@ -65,28 +64,27 @@ public class MapFragmentViewModel {
         targetsList = new ArrayList<>();
 
         mMap = googleMap;
-        final float initZoom = (float) 10.5;
 
-        GpsProvider gpsProvider = new GpsProvider();
+        gpsProvider = new GpsProvider();
 
         latLng = gpsProvider.getLocation();
 
         mMap.getUiSettings().setZoomControlsEnabled(false);
-//        mMap.getUiSettings().set
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()), initZoom));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, initZoom));
         mMap.setOnCameraChangeListener(cameraPosition -> {
             Log.d("mapFragment", "CHANDE+\n");
-            getMeetings(context);
+            checkAndUpdate(cameraPosition);
+
         });
         mMap.setOnMarkerClickListener(marker -> {
-            navigationService.goMeeting(marker.getId(),marker.getTag().toString());
+            navigationService.goMeeting(marker.getId(), marker.getTag().toString());
             Log.d("mapFragment", "onMarkerClick+\n");
             return false;
         });
 //        getData(context);
-        getMeetings(context);
+        getMeetings(context,String.valueOf(latLng.latitude),String.valueOf(latLng.longitude));
     }
 
     public void getData(Context context) {
@@ -99,18 +97,28 @@ public class MapFragmentViewModel {
                 .subscribe(meeting -> {
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 
-    public void getMeetings(Context context) {
-        Map<String, String> parameters = new HashMap<>();
-        if(latLng!=null) {
-            LatLng current = mMap.getCameraPosition().target;
-            parameters.put("lat", String.valueOf(current.latitude));
-            parameters.put("lng", String.valueOf(current.longitude));
+    private void checkAndUpdate(CameraPosition cameraPosition) {
+        LatLng current = cameraPosition.target;
+        double cal = Math.sqrt((current.latitude-latLng.latitude)*(current.latitude-latLng.latitude)
+                + (current.longitude-latLng.longitude)*(current.longitude-latLng.longitude));
+        Log.d("mapFragment", String.valueOf(cal));
+        if (cal>RADIUS*0.8*0.01){
+            getMeetings((Context) GetTopContext(),String.valueOf(current.latitude),String.valueOf(current.longitude));
+        }else {
+            Log.d("mapFragment", "false");
         }
-        parameters.put("r", "5");
+
+    }
+
+    private void getMeetings(Context context, String lat, String lng) {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("lat", lat);
+        parameters.put("lng", lng);
+        parameters.put("r", String.valueOf(RADIUS));
         dataservice.getLocalMeetingList(parameters, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
@@ -120,7 +128,7 @@ public class MapFragmentViewModel {
                 .subscribe(meeting -> {
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 
@@ -161,7 +169,7 @@ public class MapFragmentViewModel {
                             .load(pm.getUrl())
                             .resize(AVATAR_SIZE, AVATAR_SIZE)
                             .centerCrop()
-                            .transform(new CircleTransform())
+                            .transform(new CircleTransform(Color.BLUE))
                             .into(pm);
                 }
             }

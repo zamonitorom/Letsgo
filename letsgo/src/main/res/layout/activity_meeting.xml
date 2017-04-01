@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
 
     <data>
 
@@ -91,19 +92,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <android.support.v7.widget.RecyclerView
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingBottom="5dp"-->
+                    <!--app:itemLayout="@{@layout/photo_recycler_item}"-->
+                    <!--app:items="@{meetingVM.photos}"-->
+                    <!--app:layoutManager="@{LayoutManagers.grid(1,0,false)}"-->
+                    <!--app:variable="@{Variables.Item}"-->
+                    <!--/>-->
+
+                <in.myinnos.imagesliderwithswipeslibrary.SliderLayout
+                    android:id="@+id/slider"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    app:itemLayout="@{@layout/photo_recycler_item}"
-                    app:items="@{meetingVM.photos}"
-                    app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
-                    app:variable="@{Variables.Item}"
-                    />
+                    android:layout_height="match_parent"
+                    custom:auto_cycle="true"
+                    custom:indicator_visibility="visible"
+                    custom:pager_animation="Stack"
+                    custom:pager_animation_span="1100" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -138,9 +148,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <Space
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"/>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -148,6 +160,7 @@
                         android:background="@drawable/roundcorner"
                         android:elevation="5dp"
                         android:shape="rectangle"
+                        android:layout_weight="1"
                         android:text="Confirm"
                         android:textColor="#FFFFFF"
                         app:onClick="@{meetingVM::confirm}" />

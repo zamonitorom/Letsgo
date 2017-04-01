@@ -43,7 +43,7 @@
             android:value="@string/KEY" />
 
         <activity
-            android:name=".Views.MeetingDescriptionActivity"
+            android:name=".Views.MeetingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.SetMeetingActivity"

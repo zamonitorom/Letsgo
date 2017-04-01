@@ -12,10 +12,9 @@ import com.letsgoapp.databinding.ActivityMeetingBinding;
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 
-public class MeetingDescriptionActivity extends AppCompatActivity {
+public class MeetingActivity extends AppCompatActivity {
     Intent intent;
     MeetingViewModel meetingViewModel;
-    //Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +23,10 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
         ActivityMeetingBinding activityMeetingBinding = DataBindingUtil.setContentView(this, R.layout.activity_meeting);
         intent = getIntent();
         meetingViewModel = new MeetingViewModel(intent.getExtras().getString("href"));
-        //toolbar = activityMeetingBinding.tlbar;
         activityMeetingBinding.setMeetingVM(meetingViewModel);
         activityMeetingBinding.setToolbar(meetingViewModel.getToolbarViewModel());
+        meetingViewModel.setDemoSlider(activityMeetingBinding.slider);
         setSupportActionBar(activityMeetingBinding.tlbar);
-        //setSupportActionBar(toolbar);
-        //toolbar.setNavigationIcon(R.drawable.ic_close_dark);
-        //toolbar.setNavigationOnClickListener(v -> finish());
-//        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationIcon(R.drawable.ic_close_dark);
-//        meetingViewModel.getToolbarViewModel().getToolbar().setNavigationOnClickListener(v -> finish());
 
     }
 

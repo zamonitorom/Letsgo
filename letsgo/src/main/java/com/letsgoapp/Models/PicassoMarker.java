@@ -26,7 +26,6 @@ public class PicassoMarker implements Target {
     private Marker mMarker;
     private Integer id;
     private String url;
-    int loadIndicator = 0;
 
     public PicassoMarker(Marker marker) {
         Log.d("PIC","constructor");
@@ -51,12 +50,10 @@ public class PicassoMarker implements Target {
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         mMarker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
         Log.d("PIC","onBitmapLoaded");
-        loadIndicator = 1;
     }
 
     public void onBitmapFailed(Drawable errorDrawable) {
         Log.d("PIC","onBitmapFailed");
-        loadIndicator = -1;
     }
 
     @Override
