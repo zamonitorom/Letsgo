@@ -13,4 +13,5 @@ public interface INavigationService {
     void goCropper(int width,int height,Uri uri);
     void goProfile(String href);
     void goMeeting(String id,String href);
+    void goMainWithFinish();
 }

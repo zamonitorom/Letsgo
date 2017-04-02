@@ -41,7 +41,7 @@ public class MyConfirmsViewModel extends BaseObservable {
     }
 
     private void loadConfirms() {
-        dataService.getConfirms("Token ee6d9b6dcdb03b6d7666c4cc14be644272e8c150")
+        dataService.getConfirms()
                 .subscribeOn(Schedulers.newThread())
                 .doOnNext(confirms1 -> {
                     setCount(confirms1.size());

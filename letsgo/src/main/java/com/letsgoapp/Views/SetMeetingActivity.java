@@ -34,8 +34,8 @@ public class SetMeetingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
         toolbar.setNavigationOnClickListener(v -> finish());
-        setMeetingViewModel.lat = getIntent().getExtras().getDouble("Lat");
-        setMeetingViewModel.lon = getIntent().getExtras().getDouble("Lon");
+        setMeetingViewModel.setLat(getIntent().getExtras().getDouble("Lat"));
+        setMeetingViewModel.setLon(getIntent().getExtras().getDouble("Lon"));
 
     }
 

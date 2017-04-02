@@ -12,6 +12,8 @@ import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Views.MainActivity;
 
@@ -28,22 +30,24 @@ public class SetMeetingViewModel {
     public MyObservableString title;
     public MyObservableString description;
     private IDataService apiService;
+    private INavigationService navigationService;
+
+    private double lat;
+    private double lon;
 
     public SetMeetingViewModel() {
         title = new MyObservableString();
         description = new MyObservableString();
         apiService = new APIService();
+        navigationService = new NavigationService();
 
     }
-
-    public double lat;
-    public double lon;
 
     public void SendMeeting() {
         Activity activity = (Activity) GetTopContext();
         if (title.get().length() > 3 & description.get().length() > 10) {
             SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon));
-            apiService.postMeeting(sendMeeting, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
+            apiService.postMeeting(sendMeeting,
                     "application/json", String.valueOf(sendMeeting.toString().length()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -52,15 +56,27 @@ public class SetMeetingViewModel {
                         Dialogs dialogs = new Dialogs();
                         dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
                     }, () -> {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        if (activity != null) {
-                            activity.startActivity(intent);
-                            activity.finish();
-                        }
+                        navigationService.goMainWithFinish();
                     });
         } else {
             Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 }

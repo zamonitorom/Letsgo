@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.letsgoapp.Views.MainActivity;
 import com.letsgoapp.Views.MeetingActivity;
 import com.letsgoapp.Views.ProfileActivity;
 import com.letsgoapp.Views.SetMeetingActivity;
@@ -92,5 +93,15 @@ public class NavigationService implements INavigationService {
             activity.startActivity(meetingIntent);
         }
 
+    }
+
+    @Override
+    public void goMainWithFinish() {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, MainActivity.class);
+        if (activity != null) {
+            activity.startActivity(intent);
+            activity.finish();
+        }
     }
 }

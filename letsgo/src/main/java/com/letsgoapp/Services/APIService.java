@@ -1,5 +1,6 @@
 package com.letsgoapp.Services;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
+import com.letsgoapp.Utils.ContextUtill;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +40,18 @@ import rx.Observable;
 
 public class APIService implements IDataService {
 
-        private String baseUrl = "http://37.46.128.134/";
-//    private String baseUrl = "http://185.76.147.143/";
+    private String baseUrl = "http://37.46.128.134/";
+    private String token ;
+
+
+    public APIService() {
+        try {
+            token = ContextUtill.GetContextApplication().getToken();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+    }
 
     private Retrofit retrofit = new Retrofit.Builder()
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -48,20 +60,20 @@ public class APIService implements IDataService {
             .build();
     private IAPIService iapiService = retrofit.create(IAPIService.class);
 
-    public Observable<List<Meeting>> getMeetingList(String authorization) {
-        return iapiService.getMeetingList(authorization);
+    public Observable<List<Meeting>> getMeetingList() {
+        return iapiService.getMeetingList(token);
     }
 
-    public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters, String authorization) {
-        return iapiService.getLocalMeetingList(parameters, authorization);
+    public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters) {
+        return iapiService.getLocalMeetingList(parameters, token);
     }
 
-    public Observable<Meeting> getMeeting(String url, String authorization) {
-        return iapiService.getMeeting(url, authorization);
+    public Observable<Meeting> getMeeting(String url) {
+        return iapiService.getMeeting(url, token);
     }
 
 
-    public static class LoggingInterceptor implements Interceptor {
+    private static class LoggingInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
@@ -78,7 +90,7 @@ public class APIService implements IDataService {
             Response response = chain.proceed(request);
             long t2 = System.nanoTime();
 
-            String responseLog = String.format("Received response for %s in %.1fms%n%s",
+            @SuppressLint("DefaultLocale") String responseLog = String.format("Received response for %s in %.1fms%n%s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers());
 
             String bodyString = response.body().string();
@@ -92,7 +104,7 @@ public class APIService implements IDataService {
         }
     }
 
-    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();
+    private OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();
 
 
     private Retrofit postmeeting = new Retrofit.Builder()
@@ -104,21 +116,21 @@ public class APIService implements IDataService {
 
     private IAPIService iapiService3 = postmeeting.create(IAPIService.class);
 
-    public Observable<Object> postMeeting(Object sendMeeting, String authorization,
+    public Observable<Object> postMeeting(Object sendMeeting,
                                           String contentType, String length) {
-        return iapiService3.postMeeting(sendMeeting, authorization, contentType, length);
+        return iapiService3.postMeeting(sendMeeting, token, contentType, length);
     }
 
-    public Observable<Owner> getUser(String link, String authorization) {
-        return iapiService.getUser(link, authorization);
+    public Observable<Owner> getUser(String link) {
+        return iapiService.getUser(link, token);
     }
 
-    public Observable<Object> setUserData(Object editableUser, String authorization,
+    public Observable<Object> setUserData(Object editableUser,
                                           String contentType, String length) {
-        return iapiService3.setUserData(editableUser, authorization, contentType, length);
+        return iapiService3.setUserData(editableUser, token, contentType, length);
     }
 
-    public Observable<ResponseBody> putPhoto(URI fileUri, String path, String authorization) {
+    public Observable<ResponseBody> putPhoto(URI fileUri, String path) {
         /*
         ublic interface ApiInterface {
             @Multipart
@@ -154,16 +166,16 @@ public class APIService implements IDataService {
                 MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
         // Выполняем запрос
-        return iapiService3.putPhoto(body, path, "image/jpg", authorization);
+        return iapiService3.putPhoto(body, path, "image/jpg", token);
 
     }
 
-    public Observable<Object> sendConfirm(String id, Object object, String authorization) {
-        return iapiService3.sendConfirm(id, object, authorization);
+    public Observable<Object> sendConfirm(String id, Object object) {
+        return iapiService3.sendConfirm(id, object, token);
     }
 
     @Override
-    public Observable<List<Confirm>> getConfirms(String authorization) {
-        return iapiService.getConfirmList(authorization);
+    public Observable<List<Confirm>> getConfirms() {
+        return iapiService.getConfirmList("Token ee6d9b6dcdb03b6d7666c4cc14be644272e8c150");
     }
 }

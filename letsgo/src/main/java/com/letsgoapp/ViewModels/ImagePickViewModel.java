@@ -118,7 +118,7 @@ public class ImagePickViewModel {
             path = path.substring(cut + 1);
         }
 //        if (checkResolution(uri)){
-        apiService.putPhoto(uri2, path, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        apiService.putPhoto(uri2, path)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(responseBody -> {

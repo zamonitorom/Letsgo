@@ -67,7 +67,7 @@ public class MeetingViewModel extends BaseObservable {
     }
 
     private void loadData(String reference) {
-        dataService.getMeeting(reference, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataService.getMeeting(reference)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
@@ -126,7 +126,7 @@ public class MeetingViewModel extends BaseObservable {
     }
 
     public void confirm() {
-        dataService.sendConfirm(getId().toString(), new Object(), "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataService.sendConfirm(getId().toString(), new Object())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(o -> {

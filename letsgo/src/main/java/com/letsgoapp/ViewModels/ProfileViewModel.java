@@ -80,7 +80,7 @@ public class ProfileViewModel extends BaseObservable {
 
     private void getUser(String link) {
         Log.d("ProfileViewModel", "getUser");
-        dataService.getUser(link, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataService.getUser(link)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
@@ -118,7 +118,7 @@ public class ProfileViewModel extends BaseObservable {
             Log.d("ProfileViewModel", isMine.toString()+"  " + isTouchable.toString());
             EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
             Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
-            dataService.setUserData(data, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2",
+            dataService.setUserData(data,
                     "application/json", String.valueOf(data.toString().length()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

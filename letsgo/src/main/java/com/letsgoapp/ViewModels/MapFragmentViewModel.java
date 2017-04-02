@@ -52,7 +52,6 @@ public class MapFragmentViewModel {
     private LocationManager locationManager;
     private ArrayList<PicassoMarker> targetsList;
     private LatLng latLng;
-    private GpsProvider gpsProvider;
 
     private GoogleMap mMap;
 
@@ -65,7 +64,7 @@ public class MapFragmentViewModel {
 
         mMap = googleMap;
 
-        gpsProvider = new GpsProvider();
+        GpsProvider gpsProvider = new GpsProvider();
 
         latLng = gpsProvider.getLocation();
 
@@ -88,7 +87,7 @@ public class MapFragmentViewModel {
     }
 
     public void getData(Context context) {
-        dataservice.getMeetingList("Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataservice.getMeetingList()
                 .subscribeOn(Schedulers.io())
                 .flatMap(meetings -> Observable.from(meetings))
                 .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
@@ -119,7 +118,7 @@ public class MapFragmentViewModel {
         parameters.put("lat", lat);
         parameters.put("lng", lng);
         parameters.put("r", String.valueOf(RADIUS));
-        dataservice.getLocalMeetingList(parameters, "Token 163df7faa712e242f7e6b4d270e29401e604b9b2")
+        dataservice.getLocalMeetingList(parameters)
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
                 .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
@@ -146,7 +145,7 @@ public class MapFragmentViewModel {
 
             for (Meeting m : meetingList) {
                 MarkerOptions markerOne = new MarkerOptions().position(new LatLng(m.getCoordinates().getLat(),
-                        m.getCoordinates().getLng()))/*.title("marker title")*/;
+                        m.getCoordinates().getLng()));
 
                 PicassoMarker picassoMarker = new PicassoMarker(mMap.addMarker(markerOne));
                 picassoMarker.getmMarker().setTag(m.getHref());
