@@ -96,6 +96,7 @@ public class MapFragmentViewModel {
                 .subscribe(meeting -> {
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
+                    Log.d("mapFragment", throwable.toString());
                     dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
@@ -127,7 +128,8 @@ public class MapFragmentViewModel {
                 .subscribe(meeting -> {
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                    Log.d("mapFragment", throwable.toString());
+//                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
     }
 

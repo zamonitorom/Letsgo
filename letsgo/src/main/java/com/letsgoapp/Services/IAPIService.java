@@ -6,6 +6,7 @@ import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
+import com.letsgoapp.Models.UserResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -77,4 +78,9 @@ public interface IAPIService {
 
     @GET("confirms-list/")
     Observable<List<Confirm>> getConfirmList(@Header("Authorization") String authorization);
+
+    @POST("api-token-auth/")
+    Observable<UserResponse> createUser(@Body Object newUser,
+                                        @Header("Content-Type") String contentType);
+//                                   @Header("Content-Length") String length);
 }

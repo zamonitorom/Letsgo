@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.letsgoapp.Views.LoginActivity;
 import com.letsgoapp.Views.MainActivity;
 import com.letsgoapp.Views.MeetingActivity;
 import com.letsgoapp.Views.ProfileActivity;
@@ -12,6 +13,7 @@ import com.letsgoapp.Views.SetMeetingActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import static android.app.Activity.RESULT_OK;
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 /**
@@ -101,6 +103,28 @@ public class NavigationService implements INavigationService {
         Intent intent = new Intent(activity, MainActivity.class);
         if (activity != null) {
             activity.startActivity(intent);
+            activity.finish();
+        }
+    }
+
+    @Override
+    public void goLogin() {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, LoginActivity.class);
+        if (activity != null) {
+            activity.startActivityForResult(intent, 0);
+//            activity.finish();
+        }
+    }
+
+    @Override
+    public void goMainFromLogin(String href) {
+        Activity activity = (Activity) GetTopContext();
+        Intent answerIntent = new Intent();
+        answerIntent.putExtra("auth", true);
+        answerIntent.putExtra("href",href);
+        if (activity != null) {
+            activity.setResult(RESULT_OK, answerIntent);
             activity.finish();
         }
     }

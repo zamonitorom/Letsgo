@@ -3,6 +3,12 @@ package com.letsgoapp.Utils;
 import android.app.Activity;
 import android.util.Log;
 
+import com.letsgoapp.Models.NewUser;
+import com.letsgoapp.Models.UserResponse;
+import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
@@ -13,6 +19,9 @@ import com.vk.sdk.api.VKResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
@@ -29,33 +38,63 @@ public class VKHelper {
             VKScope.DOCS
     };
 
+    private final String TAG= "VKHelper";
+    private IDataService dataService;
+    private INavigationService navigationService;
+    private UserResponse responseUser;
+    private Dialogs dialogs;
+
+    public VKHelper() {
+        dataService = new APIService();
+        navigationService = new NavigationService();
+        dialogs = new Dialogs();
+    }
 
     public void getLogin() {
-        if ((Activity) GetTopContext() != null) {
+        if (GetTopContext() != null) {
             VKSdk.login((Activity) GetTopContext(), sMyScope);
         }
     }
 
-    public void getUserInfo(VKAccessToken res) {
+    public NewUser getUserInfo(VKAccessToken res) {
+        NewUser user = new NewUser();
+        user.setExternalId(Integer.valueOf(res.userId));
+        user.setSocialSlug("vk");
+        user.setToken(res.accessToken);
+        user.setFirstName("  ");
+        responseUser = new UserResponse();
         VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
 
             @Override
             public void onComplete(VKResponse response) {
+
                 try {
                     JSONObject r = response.json.getJSONArray("response").getJSONObject(0);
-//                    answerIntent.putExtra("mail", res.email);
-//                    answerIntent.putExtra("vkId", res.userId);
-//                    answerIntent.putExtra("token", res.accessToken);
-//                    answerIntent.putExtra("firstName", r.getString("first_name"));
+
+                    user.setFirstName(r.getString("first_name")+"1");
                     Log.d("response: ", r.toString());
                     Log.d("first_name", r.getString("first_name"));
                     Log.d("last_name", r.getString("last_name"));
+//                    dataService.createUser(user)
+//                            .subscribeOn(Schedulers.newThread())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(user -> {
+//                                Log.d(TAG, user.getHref());
+//                                responseUser=user;
+//                                Log.d(TAG, user.getToken());
+//                            }, throwable -> {
+//                                Log.d(TAG, throwable.toString());
+//                                dialogs.ShowDialogAgree("Ошибка", "Непредвиденная ошибка на стороне сервера. Повторите процедуру позднее");
+//                            },()->{
+                                ContextUtill.GetContextApplication().setToken("Token 163df7faa712e242f7e6b4d270e29401e604b9b2");
+                                navigationService.goMainFromLogin("http://37.46.128.134/user-detail/1/");
+//                            });
                 } catch (JSONException e) {
                     Log.d("progress", e.getMessage());
                 }
-                if (((Activity) GetTopContext()) != null) {
-                    ((Activity) GetTopContext()).finish();
-                }
+//                if (((Activity) GetTopContext()) != null) {
+//                    ((Activity) GetTopContext()).finish();
+//                }
             }
 
             @Override
@@ -73,6 +112,8 @@ public class VKHelper {
             public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
             }
         });
+
+        return user;
     }
 
 }

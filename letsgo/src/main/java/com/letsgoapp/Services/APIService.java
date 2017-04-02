@@ -11,6 +11,7 @@ import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.SendMeeting;
+import com.letsgoapp.Models.UserResponse;
 import com.letsgoapp.Utils.ContextUtill;
 
 import java.io.File;
@@ -43,11 +44,10 @@ public class APIService implements IDataService {
     private String baseUrl = "http://37.46.128.134/";
     private String token ;
 
-
     public APIService() {
         try {
             token = ContextUtill.GetContextApplication().getToken();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e){
             e.printStackTrace();
         }
 
@@ -177,5 +177,10 @@ public class APIService implements IDataService {
     @Override
     public Observable<List<Confirm>> getConfirms() {
         return iapiService.getConfirmList("Token ee6d9b6dcdb03b6d7666c4cc14be644272e8c150");
+    }
+
+    @Override
+    public Observable<UserResponse> createUser(Object newUser) {
+        return iapiService3.createUser(newUser,"application/json");
     }
 }
