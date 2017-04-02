@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
+import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String APP_PREFERENCES = "mySettings";
     public static final String APP_PREFERENCES_REGISTER = "register";
+    public static final String APP_PREFERENCES_TOKEN = "token";
     public static final int MY_PERMISSIONS = 1;
     private INavigationService navigationService;
 
@@ -97,19 +99,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //            startActivityForResult(intent, 0);
             navigationService.goLogin();
+        }else {
+            ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
+            requestPermissions();
         }
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-//                            Manifest.permission.CAMERA,
-//                            Manifest.permission.ACCESS_COARSE_LOCATION,
-//                            Manifest.permission.ACCESS_FINE_LOCATION},
-//                    MY_PERMISSIONS);
-//        }
 
         fragmentManager = getFragmentManager();
         gMapFragment = new GMapFragment();
@@ -150,6 +144,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void requestPermissions(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -168,12 +176,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         SetTopContext(this);
+        // TODO: 02.04.17 save token to preferences 
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
-//                Toast.makeText(this,data.getStringExtra("token")+"\n"+data.getStringExtra("mail")+
-//                        "\n"+data.getStringExtra("vkId"), Toast.LENGTH_LONG).show();
+
+                requestPermissions();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(APP_PREFERENCES_REGISTER, true);
+                if(data.getStringExtra("token")!=null){
+                    editor.putString(APP_PREFERENCES_TOKEN,"Token "+data.getStringExtra("token"));
+                    editor.putBoolean(APP_PREFERENCES_REGISTER, true);
+                }
                 editor.apply();
                 navigationService.goProfile(data.getExtras().getString("href"));
             }

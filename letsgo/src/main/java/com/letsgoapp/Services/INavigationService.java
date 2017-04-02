@@ -15,5 +15,5 @@ public interface INavigationService {
     void goMeeting(String id,String href);
     void goMainWithFinish();
     void goLogin();
-    void goMainFromLogin(String href);
+    void goMainFromLogin(String href,String token);
 }

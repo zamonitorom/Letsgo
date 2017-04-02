@@ -118,11 +118,12 @@ public class NavigationService implements INavigationService {
     }
 
     @Override
-    public void goMainFromLogin(String href) {
+    public void goMainFromLogin(String href,String token) {
         Activity activity = (Activity) GetTopContext();
         Intent answerIntent = new Intent();
         answerIntent.putExtra("auth", true);
         answerIntent.putExtra("href",href);
+        answerIntent.putExtra("token",token);
         if (activity != null) {
             activity.setResult(RESULT_OK, answerIntent);
             activity.finish();

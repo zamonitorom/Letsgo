@@ -56,7 +56,7 @@ public class VKHelper {
         }
     }
 
-    public NewUser getUserInfo(VKAccessToken res) {
+    public void getUserInfo(VKAccessToken res) {
         NewUser user = new NewUser();
         user.setExternalId(Integer.valueOf(res.userId));
         user.setSocialSlug("vk");
@@ -71,30 +71,28 @@ public class VKHelper {
                 try {
                     JSONObject r = response.json.getJSONArray("response").getJSONObject(0);
 
-                    user.setFirstName(r.getString("first_name")+"1");
+                    user.setFirstName(r.getString("first_name"));
                     Log.d("response: ", r.toString());
                     Log.d("first_name", r.getString("first_name"));
                     Log.d("last_name", r.getString("last_name"));
-//                    dataService.createUser(user)
-//                            .subscribeOn(Schedulers.newThread())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(user -> {
-//                                Log.d(TAG, user.getHref());
-//                                responseUser=user;
-//                                Log.d(TAG, user.getToken());
-//                            }, throwable -> {
-//                                Log.d(TAG, throwable.toString());
-//                                dialogs.ShowDialogAgree("Ошибка", "Непредвиденная ошибка на стороне сервера. Повторите процедуру позднее");
-//                            },()->{
-                                ContextUtill.GetContextApplication().setToken("Token 163df7faa712e242f7e6b4d270e29401e604b9b2");
-                                navigationService.goMainFromLogin("http://37.46.128.134/user-detail/1/");
-//                            });
+                    dataService.createUser(user)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(user -> {
+                                Log.d(TAG, user.getHref());
+                                responseUser=user;
+                                Log.d(TAG, user.getToken());
+                            }, throwable -> {
+                                Log.d(TAG, throwable.toString());
+                                dialogs.ShowDialogAgree("Ошибка", "Непредвиденная ошибка на стороне сервера. Повторите процедуру позднее");
+                            },()->{
+                                ContextUtill.GetContextApplication().setToken("Token "+responseUser.getToken());
+                                navigationService.goMainFromLogin(responseUser.getHref(),responseUser.getToken());
+                            });
                 } catch (JSONException e) {
                     Log.d("progress", e.getMessage());
                 }
-//                if (((Activity) GetTopContext()) != null) {
-//                    ((Activity) GetTopContext()).finish();
-//                }
+
             }
 
             @Override
@@ -113,7 +111,6 @@ public class VKHelper {
             }
         });
 
-        return user;
     }
 
 }

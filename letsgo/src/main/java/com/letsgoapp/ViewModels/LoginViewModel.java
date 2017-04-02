@@ -46,7 +46,6 @@ public class LoginViewModel {
     }
 
     public void setUserVk(VKAccessToken res){
-        NewUser newUser = vkHelper.getUserInfo(res);
-        response = new UserResponse();
+        vkHelper.getUserInfo(res);
     }
 }
