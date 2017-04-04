@@ -43,22 +43,39 @@ public class APIService implements IDataService {
 
     private String baseUrl = "http://37.46.128.134/";
     private String token ;
+    private HttpLoggingInterceptor interceptor;
+    OkHttpClient client;
+    private Retrofit postmeeting;
+    private Retrofit retrofit;
+    private IAPIService iapiService;
+    private IAPIService iapiService3;
 
     public APIService() {
         try {
             token = ContextUtill.GetContextApplication().getToken();
+            interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+            retrofit = new Retrofit.Builder()
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(baseUrl)
+                    .build();
+            postmeeting = new Retrofit.Builder()
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(baseUrl)
+                    .client(client)
+                    .build();
+            iapiService = retrofit.create(IAPIService.class);
+            iapiService3 = postmeeting.create(IAPIService.class);
         } catch (NullPointerException e){
             e.printStackTrace();
         }
 
     }
 
-    private Retrofit retrofit = new Retrofit.Builder()
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(baseUrl)
-            .build();
-    private IAPIService iapiService = retrofit.create(IAPIService.class);
+
 
     public Observable<List<Meeting>> getMeetingList() {
         return iapiService.getMeetingList(token);
@@ -73,48 +90,7 @@ public class APIService implements IDataService {
     }
 
 
-    private static class LoggingInterceptor implements Interceptor {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            long t1 = System.nanoTime();
-            String requestLog = String.format("Sending request %s on %s%n%s%s",
-                    request.url(), chain.connection(), request.headers(), request.body().toString());
 
-            if (request.method().compareToIgnoreCase("post") == 0) {
-                requestLog = "\n" + requestLog + "\n";
-            }
-
-            Log.d("retrofit", "request" + "\n" + requestLog + "\n\n" + request.body());
-
-            Response response = chain.proceed(request);
-            long t2 = System.nanoTime();
-
-            @SuppressLint("DefaultLocale") String responseLog = String.format("Received response for %s in %.1fms%n%s",
-                    response.request().url(), (t2 - t1) / 1e6d, response.headers());
-
-            String bodyString = response.body().string();
-
-            Log.d("retrofit", "response" + "\n" + responseLog + "\n" + bodyString);
-
-            return response.newBuilder()
-                    .body(ResponseBody.create(response.body().contentType(), bodyString))
-                    .build();
-            //return response;
-        }
-    }
-
-    private OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor()).build();
-
-
-    private Retrofit postmeeting = new Retrofit.Builder()
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(baseUrl)
-            .client(client)
-            .build();
-
-    private IAPIService iapiService3 = postmeeting.create(IAPIService.class);
 
     public Observable<Object> postMeeting(Object sendMeeting,
                                           String contentType, String length) {
@@ -131,42 +107,13 @@ public class APIService implements IDataService {
     }
 
     public Observable<ResponseBody> putPhoto(URI fileUri, String path) {
-        /*
-        ublic interface ApiInterface {
-            @Multipart
-            @POST("/api/Accounts/editaccount")
-            Call<User> editUser (@Header("Authorization") String authorization, @Part("file\"; filename=\"pp.png\" ") RequestBody file , @Part("FirstName") RequestBody fname, @Part("Id") RequestBody id);
-        }
 
-        File file = new File(imageUri.getPath());
-        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), firstNameField.getText().toString());
-        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), AZUtils.getUserId(this));
-        Call<User> call = client.editUser(AZUtils.getToken(this), fbody, name, id);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(retrofit.Response<User> response, Retrofit retrofit) {
-                AZUtils.printObject(response.body());
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });
-        */
         File file = new File(fileUri);
 
-        // Создаем RequestBody
         RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                RequestBody.create(MediaType.parse("image/*"), file);
 
-        // MultipartBody.Part используется, чтобы передать имя файла
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-
-        // Выполняем запрос
-        return iapiService3.putPhoto(body, path, "image/jpg", token);
+        return iapiService3.putPhoto(requestFile, path, token);
 
     }
 

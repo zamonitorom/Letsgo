@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //            startActivityForResult(intent, 0);
             navigationService.goLogin();
-        }else {
+        } else {
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
             requestPermissions();
         }
