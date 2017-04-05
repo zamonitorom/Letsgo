@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationService.goLogin();
         } else {
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
-            requestPermissions();
-        }
 
+        }
+        requestPermissions();
 
         fragmentManager = getFragmentManager();
         gMapFragment = new GMapFragment();

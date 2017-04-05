@@ -41,10 +41,15 @@ public class BindingViewAdapters {
         Log.d("imageURL", "start");
         Log.d("imageURL", "url = " + url);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Picasso.with(view.getContext())
-                .load(url)
-                .placeholder(R.drawable.cast_mini_controller_progress_drawable)
-                .into(view);
+        try {
+            Picasso.with(view.getContext())
+                    .load(url)
+                    .placeholder(R.drawable.cast_mini_controller_progress_drawable)
+                    .into(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -53,11 +58,15 @@ public class BindingViewAdapters {
         Log.d("imageURL2", "start");
         Log.d("imageURL2", "url = " + url);
         view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        Picasso.with(view.getContext())
-                .load(url)
-                .placeholder(R.drawable.cast_mini_controller_progress_drawable)
-                .transform(new CircleTransform())
-                .into(view);
+        try {
+            Picasso.with(view.getContext())
+                    .load(url)
+                    .placeholder(R.drawable.cast_mini_controller_progress_drawable)
+                    .transform(new CircleTransform())
+                    .into(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -66,10 +75,14 @@ public class BindingViewAdapters {
         Log.d("imageURL3", "start");
         Log.d("imageURL3", "url = " + url);
         view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        Picasso.with(view.getContext())
-                .load(url)
-                .transform(new CropTransformation(0,0,240,320))
-                .into(view);
+        try {
+            Picasso.with(view.getContext())
+                    .load(url)
+                    .transform(new CropTransformation(0, 0, 240, 320))
+                    .into(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -118,12 +131,12 @@ public class BindingViewAdapters {
     }
 
     @BindingAdapter("imageResource")
-    public static void setImageResource(ImageView imageView, int resource){
+    public static void setImageResource(ImageView imageView, int resource) {
         imageView.setImageResource(resource);
     }
 
     @BindingAdapter("imageBitmap")
-    public static void setImageResource(ImageView imageView, Bitmap bitmap){
+    public static void setImageResource(ImageView imageView, Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
     }
 

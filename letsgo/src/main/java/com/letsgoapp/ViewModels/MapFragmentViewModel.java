@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -153,8 +154,7 @@ public class MapFragmentViewModel {
                 picassoMarker.getmMarker().setTag(m.getHref());
                 if (m.getOwner().getAvatar() != null) {
                     try {
-                        String avatar = "";
-                        avatar = URLDecoder.decode(m.getOwner().getAvatar(), "UTF-8");
+                        String avatar = URLDecoder.decode(m.getOwner().getAvatar(), "UTF-8");
                         picassoMarker.setUrl(avatar);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -164,15 +164,19 @@ public class MapFragmentViewModel {
                 targetsList.add(picassoMarker);
 
             }
-            for (PicassoMarker pm : targetsList) {
-                if (pm.getUrl() != null) {
-                    Picasso.with(context)
-                            .load(pm.getUrl())
-                            .resize(AVATAR_SIZE, AVATAR_SIZE)
-                            .centerCrop()
-                            .transform(new CircleTransform(Color.BLUE))
-                            .into(pm);
+            try {
+                for (PicassoMarker pm : targetsList) {
+                    if (pm.getUrl() != null) {
+                        Picasso.with(context)
+                                .load(pm.getUrl())
+                                .resize(AVATAR_SIZE, AVATAR_SIZE)
+                                .centerCrop()
+                                .transform(new CircleTransform(Color.BLUE))
+                                .into(pm);
+                    }
                 }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
