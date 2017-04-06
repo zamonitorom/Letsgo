@@ -2,6 +2,7 @@ package com.letsgoapp.Views.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,7 +12,10 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapFragment;
 
 import com.letsgoapp.R;
+import com.letsgoapp.ViewModels.AddMeetingViewModel;
 import com.letsgoapp.ViewModels.MapFragmentViewModel;
+import com.letsgoapp.databinding.FragmentAddMeetingBinding;
+import com.letsgoapp.databinding.FragmentMapBinding;
 
 
 public class GMapFragment extends Fragment {
@@ -31,26 +35,19 @@ public class GMapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        mapFragmentViewModel = new MapFragmentViewModel();
+        FragmentMapBinding fragmentmapBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_map, container, false);
+        View view = fragmentmapBinding.getRoot();
+        fragmentmapBinding.setMapVM(mapFragmentViewModel);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-
-        mapFragment.getMapAsync(googleMap -> {
-                    mapFragmentViewModel = new MapFragmentViewModel(googleMap/*, getActivity().getBaseContext()*/);
-//                    mapFragmentViewModel.getmMap().setOnMarkerClickListener(marker -> {
-//                        Intent meetingIntent = new Intent(getActivity(), MeetingActivity.class);
-//                        meetingIntent.putExtra("id", marker.getId().toString());
-//                        meetingIntent.putExtra("href", marker.getTag().toString());
-//                        startActivity(meetingIntent);
-//                        Log.d("mapFragment", "onMarkerClick+\n");
-//                        return false;
-//                    });
-                }
-        );
+        mapFragment.getMapAsync(googleMap -> {mapFragmentViewModel.setMap(googleMap);});
 
     }
 

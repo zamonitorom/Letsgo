@@ -1,6 +1,8 @@
 package com.letsgoapp.ViewModels;
 
 import android.content.Context;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.util.Log;
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.letsgoapp.BR;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
@@ -40,7 +43,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  * Created by normalteam on 06.02.17.
  */
 
-public class MapFragmentViewModel {
+public class MapFragmentViewModel  extends BaseObservable{
 
     private static final int AVATAR_SIZE = 100;
     private static final float initZoom = 10.5f;
@@ -50,13 +53,18 @@ public class MapFragmentViewModel {
     private INavigationService navigationService;
 
     private List<Meeting> meetingList = new ArrayList<>();
-    private LocationManager locationManager;
     private ArrayList<PicassoMarker> targetsList;
     private LatLng latLng;
 
     private GoogleMap mMap;
+    @Bindable
+    public Boolean isPreviewed;
 
-    public MapFragmentViewModel(GoogleMap googleMap) {
+    public MapFragmentViewModel() {
+
+    }
+
+    public void setMap(GoogleMap googleMap){
 
         Context context = (Context) GetTopContext();
         dataservice = new APIService();
@@ -79,12 +87,23 @@ public class MapFragmentViewModel {
 
         });
         mMap.setOnMarkerClickListener(marker -> {
-            navigationService.goMeeting(marker.getId(), marker.getTag().toString());
+//            navigationService.goMeeting(marker.getId(), marker.getTag().toString());
+            showPreview();
             Log.d("mapFragment", "onMarkerClick+\n");
             return false;
         });
-//        getData(context);
         getMeetings(context,String.valueOf(latLng.latitude),String.valueOf(latLng.longitude));
+    }
+
+    private void showPreview(){
+        isPreviewed = true;
+        notifyPropertyChanged(BR.isPreviewed);
+
+    }
+
+    public void closePreview(){
+        isPreviewed = false;
+        notifyPropertyChanged(BR.isPreviewed);
     }
 
     public void getData(Context context) {
@@ -99,7 +118,7 @@ public class MapFragmentViewModel {
                     Dialogs dialogs = new Dialogs();
                     Log.d("mapFragment", throwable.toString());
                     dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
-                }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
+                }, () -> setMarkers(context));
     }
 
     private void checkAndUpdate(CameraPosition cameraPosition) {
@@ -130,17 +149,8 @@ public class MapFragmentViewModel {
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
                     Log.d("mapFragment", throwable.toString());
-//                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
-    }
-
-
-    public GoogleMap getmMap() {
-        return mMap;
-    }
-
-    public void setmMap(GoogleMap mMap) {
-        this.mMap = mMap;
     }
 
     public void setMarkers(Context context) {
@@ -164,9 +174,8 @@ public class MapFragmentViewModel {
                 targetsList.add(picassoMarker);
 
             }
-            try {
                 for (PicassoMarker pm : targetsList) {
-                    if (pm.getUrl() != null) {
+                    if (pm.getUrl() != null && !pm.getUrl().isEmpty()) {
                         Picasso.with(context)
                                 .load(pm.getUrl())
                                 .resize(AVATAR_SIZE, AVATAR_SIZE)
@@ -175,9 +184,6 @@ public class MapFragmentViewModel {
                                 .into(pm);
                     }
                 }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
         }
     }
 }

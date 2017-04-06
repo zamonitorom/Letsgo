@@ -14,6 +14,7 @@ import com.squareup.picasso.Target;
  */
 
 public class PicassoMarker implements Target {
+    final String TAG = "PicassoMarker";
 
     public Marker getmMarker() {
         return mMarker;
@@ -28,7 +29,7 @@ public class PicassoMarker implements Target {
     private String url;
 
     public PicassoMarker(Marker marker) {
-        Log.d("PIC","constructor");
+        Log.d(TAG,"constructor");
         mMarker = marker;
     }
 
@@ -49,16 +50,16 @@ public class PicassoMarker implements Target {
 
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         mMarker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-        Log.d("PIC","onBitmapLoaded");
+        Log.d(TAG,"onBitmapLoaded");
     }
 
     public void onBitmapFailed(Drawable errorDrawable) {
-        Log.d("PIC","onBitmapFailed");
+        Log.d(TAG,"onBitmapFailed");
     }
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
-        Log.d("PIC","onPrepareLoad");
+        Log.d(TAG,"onPrepareLoad");
     }
 
     public Integer getId() {

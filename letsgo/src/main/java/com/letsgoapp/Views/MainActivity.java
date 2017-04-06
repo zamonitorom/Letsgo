@@ -101,14 +101,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationService.goLogin();
         } else {
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
-
         }
         requestPermissions();
 
         fragmentManager = getFragmentManager();
         gMapFragment = new GMapFragment();
-        //fragmentManager.beginTransaction().add(gMapFragment,"123");
-        //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
 
 
