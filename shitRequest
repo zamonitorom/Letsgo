@@ -36,3 +36,64 @@
         Log.d("ViewModel", String.valueOf(integer));
         notifyPropertyChanged(BR.isTouchable);
     }
+
+        <RadioGroup
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:id="@+id/radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 1 "
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(1,viewModel.subscriber)}"/>
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 2"
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(2,viewModel.subscriber)}"/>
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 3"
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(3,viewModel.subscriber)}"/>
+        </RadioGroup>
+
+    public void click2(Integer integer,Subscriber <Integer> subscriber) {
+        isTouchable = true;
+        Log.d("ViewModel", String.valueOf(integer));
+        notifyPropertyChanged(BR.isTouchable);
+        subscriber.onNext(integer);
+        subscriber.onCompleted();
+    }
+
+
+
+    public Subscriber<Integer> subscriber = new Subscriber<Integer>() {
+            @Override
+            public void onError(Throwable e) {
+                Log.d("ViewModel", "onError");
+            }
+
+            @Override
+            public void onNext(Integer o) {
+                Log.d("ViewModel", "onNext"+String.valueOf(o));
+            }
+
+            @Override
+            public void onCompleted() {
+                Log.d("ViewModel", "onCompleted");
+            }
+        };
+
+    }
