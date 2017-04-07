@@ -1,88 +1,38 @@
-public class MainActivity extends AppCompatActivity {
+        <RadioGroup
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:id="@+id/radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    public static final int PICK_IMAGE = 100;
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 1 "
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(1)}"/>
 
-    Service service;
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 2"
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(2)}"/>
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
-
-        Button btn = (Button) findViewById(R.id.btn_upload);
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-
-        // Change base URL to your upload server URL.
-        service = new Retrofit.Builder().baseUrl("http://37.46.128.134/").client(client).build().create(Service.class);
-
-        if (btn != null) {
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
-                }
-            });
-        }
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Radio Button 3"
+                android:textSize="18sp"
+                app:onClick="@{()->viewModel.click2(3)}"/>
+        </RadioGroup>
+        
+        
+            public void click2(Integer integer){
+        isTouchable = true;
+        Log.d("ViewModel", String.valueOf(integer));
+        notifyPropertyChanged(BR.isTouchable);
     }
-    
-    /*
-    
-    interface Service {
-    @Multipart
-    @POST("upload-photo/228.jpg")
-    Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
-}
-     */
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-
-            android.net.Uri selectedImage = data.getData();
-//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//            android.database.Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-//            if (cursor == null)
-//                return;
-
-//            cursor.moveToFirst();
-
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-//            cursor.close();
-            String filePath = selectedImage.getPath();
-            File file = new File(filePath);
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-
-//            Log.d("THIS", data.getData().getPath());
-
-            retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
-            req.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.d("onActivityResult","onResponse"+response.message());
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.d("onActivityResult","onFailure"+toString());
-                    t.printStackTrace();
-                }
-            });
-        }
-    }
-}
