@@ -3,9 +3,12 @@ package com.letsgoapp.ViewModels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.letsgoapp.BR;
 import com.letsgoapp.Models.Coordinates;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.SendMeeting;
@@ -26,7 +29,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  * Created by normalteam on 28.02.17.
  */
 
-public class SetMeetingViewModel {
+public class SetMeetingViewModel extends BaseObservable{
     public MyObservableString title;
     public MyObservableString description;
     private IDataService apiService;
@@ -34,6 +37,8 @@ public class SetMeetingViewModel {
 
     private double lat;
     private double lon;
+    @Bindable
+    public Boolean isFragment;
 
     public SetMeetingViewModel() {
         title = new MyObservableString();
@@ -45,8 +50,10 @@ public class SetMeetingViewModel {
 
     public void SendMeeting() {
         Activity activity = (Activity) GetTopContext();
+        isFragment = true;
+        notifyPropertyChanged(BR.isFragment);
         if (title.get().length() > 3 & description.get().length() > 10) {
-            SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon));
+            SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon),0);
             apiService.postMeeting(sendMeeting,
                     "application/json", String.valueOf(sendMeeting.toString().length()))
                     .subscribeOn(Schedulers.io())

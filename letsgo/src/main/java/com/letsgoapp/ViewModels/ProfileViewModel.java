@@ -17,6 +17,7 @@ import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,7 +70,7 @@ public class ProfileViewModel extends BaseObservable {
                 setIcToolbar(R.drawable.ic_message_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             } else {
-                getUser("http://37.46.128.134/user-detail/1/");
+                getUser(ContextUtill.GetContextApplication().getHref());
                 isMine = true;
                 setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
@@ -119,7 +120,7 @@ public class ProfileViewModel extends BaseObservable {
             EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
             Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
             dataService.setUserData(data,
-                    "application/json", String.valueOf(data.toString().length()))
+                    "application/json")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(data1->{},throwable -> {

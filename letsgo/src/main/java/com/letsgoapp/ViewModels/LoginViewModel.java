@@ -28,11 +28,8 @@ public class LoginViewModel {
 
     private Dialogs dialogs;
 
-    private UserResponse response;
-
     public LoginViewModel() {
         vkHelper = new VKHelper();
-
         dialogs = new Dialogs();
     }
 
@@ -42,7 +39,7 @@ public class LoginViewModel {
 
     public void retry(){
         dialogs.ShowDialogAgree("Необходимо авторизоваться","Пожалуйста, авторизуйтесь, используя социальную сеть");
-        vkHelper.getLogin();
+//        vkHelper.getLogin();
     }
 
     public void setUserVk(VKAccessToken res){

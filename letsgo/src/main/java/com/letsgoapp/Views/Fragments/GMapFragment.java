@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.letsgoapp.ViewModels.AddMeetingViewModel;
 import com.letsgoapp.ViewModels.MapFragmentViewModel;
 import com.letsgoapp.databinding.FragmentAddMeetingBinding;
 import com.letsgoapp.databinding.FragmentMapBinding;
+
 
 
 public class GMapFragment extends Fragment {
@@ -48,6 +50,7 @@ public class GMapFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(googleMap -> {mapFragmentViewModel.setMap(googleMap);});
+        Log.d("onViewCreated",getActivity().getClass().toString());
 
     }
 

@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbar2"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -29,11 +29,18 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_main" />
-
         <include
-            android:id="@+id/fab"
-            layout="@layout/layout_fab" />
+            layout="@layout/content_main" />
+
+        <ImageButton
+            android:id="@+id/ibutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/roundcorner"
+            android:elevation="1dp"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_add_circle_outline_white_48dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

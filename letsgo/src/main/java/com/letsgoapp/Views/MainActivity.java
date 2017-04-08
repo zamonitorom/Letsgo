@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,17 +50,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String APP_PREFERENCES = "mySettings";
     public static final String APP_PREFERENCES_REGISTER = "register";
     public static final String APP_PREFERENCES_TOKEN = "token";
-    public static final int MY_PERMISSIONS = 1;
+    public static final String APP_PREFERENCES_REF = "ref";
     private INavigationService navigationService;
 
     public FragmentManager fragmentManager;
     DrawerLayout drawer;
     Toolbar toolbar;
     public GMapFragment gMapFragment;
-    FloatingActionButton fab;
     MainActivityViewModel mainActivityViewModel;
     SharedPreferences sharedPreferences;
     TextView messages,confirms;
+    ImageButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +73,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         activityMainBinding.setMainVM(mainActivityViewModel);
 
-        toolbar = activityMainBinding.toolbar.toolbar;
+        toolbar = activityMainBinding.toolbar.toolbar2;
         toolbar.setTitle("Актуальные события");
-        fab = activityMainBinding.toolbar.fab.fab;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
-                toolbar.setTitle("Создание события");
-                fab.hide();
-            }
+        button = activityMainBinding.toolbar.ibutton;
+        button.setOnClickListener(v -> {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
+            toolbar.setTitle("Создание события");
         });
-
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -94,27 +90,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        fragmentManager = getFragmentManager();
+
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivityForResult(intent, 0);
             navigationService.goLogin();
         } else {
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
+            ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF,null));
+            gMapFragment = new GMapFragment();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
-        requestPermissions();
-
-        fragmentManager = getFragmentManager();
-        gMapFragment = new GMapFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
-
-
+//        requestPermissions();
 
 
         //
         //Create these objects above OnCreate()of your main activity
-
-
 //These lines should be added in the OnCreate() of your main activity
         confirms=(TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_my_confirms));
@@ -141,19 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void requestPermissions(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS);
-        }
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -177,14 +156,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
 
-                requestPermissions();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if(data.getStringExtra("token")!=null){
-                    editor.putString(APP_PREFERENCES_TOKEN,"Token "+data.getStringExtra("token"));
+                    editor.putString(APP_PREFERENCES_TOKEN,data.getStringExtra("token"));
                     editor.putBoolean(APP_PREFERENCES_REGISTER, true);
                 }
+                if(data.getExtras().getString("href")!=null){
+                    editor.putString(APP_PREFERENCES_REF,data.getExtras().getString("href"));
+                }
                 editor.apply();
-                navigationService.goProfile(data.getExtras().getString("href"));
+                gMapFragment = new GMapFragment();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
+                navigationService.goProfile(null);
             }
         }
 
@@ -224,24 +207,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
             toolbar.setTitle("Актуальные события");
+            button.setVisibility(View.VISIBLE);
             item.setChecked(true);
-            fab.show();
         } else if (id == R.id.nav_my_confirms) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new MyConfirmsFragment()).commit();
             toolbar.setTitle("Мои Заявки");
-            fab.hide();
+            button.setVisibility(View.GONE);
             item.setChecked(true);
         } else if (id == R.id.nav_my_actions) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new ActionFragment()).commit();
             toolbar.setTitle("Мои события");
-            fab.hide();
+            button.setVisibility(View.GONE);
             item.setChecked(true);
         } else if (id == R.id.nav_messages) {
-
+            button.setVisibility(View.GONE);
+            item.setChecked(true);
         } else if (id == R.id.nav_create_action) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
             toolbar.setTitle("Создание события");
-            fab.hide();
+            button.setVisibility(View.GONE);
             item.setChecked(true);
         } else if (id == R.id.nav_share) {
 

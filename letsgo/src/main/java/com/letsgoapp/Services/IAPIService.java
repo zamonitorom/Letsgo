@@ -59,11 +59,10 @@ public interface IAPIService {
     Observable<Owner> getUser(@Url String url,
                               @Header("Authorization") String authorization);
 
-    @PUT("user-detail/1/")
+    @PUT("user-detail/9/")
     Observable<Object> setUserData(@Body Object EditableUser,
                                    @Header("Authorization") String authorization,
-                                   @Header("Content-Type") String contentType,
-                                   @Header("Content-Length") String length);
+                                   @Header("Content-Type") String contentType);
 
     @PUT("upload-photo/{adress}")
     Observable<ResponseBody> putPhoto(@Body RequestBody file,

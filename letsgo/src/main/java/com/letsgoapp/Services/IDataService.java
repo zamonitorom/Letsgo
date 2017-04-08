@@ -24,7 +24,7 @@ public interface IDataService {
                                    String contentType,String length);
     Observable<Owner> getUser(String link);
     Observable<Object> setUserData(Object editableUser,
-                                   String contentType, String length);
+                                   String contentType);
     Observable<ResponseBody> putPhoto(URI fileUri, String path);
     Observable<Object> sendConfirm(String id,Object body);
     Observable<List<Confirm>> getConfirms();

@@ -6,28 +6,25 @@ import android.graphics.Bitmap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class Photo {
 
+    @SerializedName("delete_photo")
+    @Expose
+    private String deletePhoto;
     @SerializedName("photo")
     @Expose
     private String photo;
+    @SerializedName("set_avatar")
+    @Expose
+    private String setAvatar;
 
-    private Bitmap bitmap;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Photo() {
+    public String getDeletePhoto() {
+        return deletePhoto;
     }
 
-    /**
-     * 
-     * @param photo
-     */
-    public Photo(String photo) {
-        super();
-        this.photo = photo;
+    public void setDeletePhoto(String deletePhoto) {
+        this.deletePhoto = deletePhoto;
     }
 
     public String getPhoto() {
@@ -36,6 +33,14 @@ public class Photo {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getSetAvatar() {
+        return setAvatar;
+    }
+
+    public void setSetAvatar(String setAvatar) {
+        this.setAvatar = setAvatar;
     }
 
 }

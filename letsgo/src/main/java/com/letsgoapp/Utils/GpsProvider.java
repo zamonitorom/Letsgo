@@ -17,7 +17,7 @@ import java.util.Date;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
-import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS;
+import static com.letsgoapp.Views.LoginActivity.MY_PERMISSIONS;
 
 /**
  * Created by normalteam on 26.03.17.

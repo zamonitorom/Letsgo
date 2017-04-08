@@ -27,6 +27,7 @@ public class PicassoMarker implements Target {
     private Marker mMarker;
     private Integer id;
     private String url;
+    private String colour;
 
     public PicassoMarker(Marker marker) {
         Log.d(TAG,"constructor");

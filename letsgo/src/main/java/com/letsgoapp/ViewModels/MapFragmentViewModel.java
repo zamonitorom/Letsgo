@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  * Created by normalteam on 06.02.17.
  */
 
-public class MapFragmentViewModel  extends BaseObservable{
+public class MapFragmentViewModel extends BaseObservable {
 
     private static final int AVATAR_SIZE = 100;
     private static final float initZoom = 10.5f;
@@ -64,7 +65,7 @@ public class MapFragmentViewModel  extends BaseObservable{
 
     }
 
-    public void setMap(GoogleMap googleMap){
+    public void setMap(GoogleMap googleMap) {
 
         Context context = (Context) GetTopContext();
         dataservice = new APIService();
@@ -92,16 +93,16 @@ public class MapFragmentViewModel  extends BaseObservable{
             Log.d("mapFragment", "onMarkerClick+\n");
             return false;
         });
-        getMeetings(context,String.valueOf(latLng.latitude),String.valueOf(latLng.longitude));
+        getMeetings(context, String.valueOf(latLng.latitude), String.valueOf(latLng.longitude));
     }
 
-    private void showPreview(){
+    private void showPreview() {
         isPreviewed = true;
         notifyPropertyChanged(BR.isPreviewed);
 
     }
 
-    public void closePreview(){
+    public void closePreview() {
         isPreviewed = false;
         notifyPropertyChanged(BR.isPreviewed);
     }
@@ -109,7 +110,7 @@ public class MapFragmentViewModel  extends BaseObservable{
     public void getData(Context context) {
         dataservice.getMeetingList()
                 .subscribeOn(Schedulers.io())
-                .flatMap(meetings -> Observable.from(meetings))
+                .flatMap(Observable::from)
                 .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
                 .doOnNext(meeting -> meetingList.add(meeting))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,12 +124,12 @@ public class MapFragmentViewModel  extends BaseObservable{
 
     private void checkAndUpdate(CameraPosition cameraPosition) {
         LatLng current = cameraPosition.target;
-        double cal = Math.sqrt((current.latitude-latLng.latitude)*(current.latitude-latLng.latitude)
-                + (current.longitude-latLng.longitude)*(current.longitude-latLng.longitude));
+        double cal = Math.sqrt((current.latitude - latLng.latitude) * (current.latitude - latLng.latitude)
+                + (current.longitude - latLng.longitude) * (current.longitude - latLng.longitude));
         Log.d("mapFragment", String.valueOf(cal));
-        if (cal>RADIUS*0.8*0.01){
-            getMeetings((Context) GetTopContext(),String.valueOf(current.latitude),String.valueOf(current.longitude));
-        }else {
+        if (cal > RADIUS * 0.8 * 0.01) {
+            getMeetings((Context) GetTopContext(), String.valueOf(current.latitude), String.valueOf(current.longitude));
+        } else {
             Log.d("mapFragment", "false");
         }
 
@@ -147,15 +148,20 @@ public class MapFragmentViewModel  extends BaseObservable{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
                 }, throwable -> {
-                    Dialogs dialogs = new Dialogs();
-                    Log.d("mapFragment", throwable.toString());
-                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
-                }/*,()->callback.onResponse(new Object())*/, () -> setMarkers(context));
+                    try {
+                        Dialogs dialogs = new Dialogs();
+                        Log.d("mapFragment", throwable.toString());
+                        dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }, () -> setMarkers(context));
     }
 
     public void setMarkers(Context context) {
         if (meetingList != null) {
-
+            try {
             for (Meeting m : meetingList) {
                 MarkerOptions markerOne = new MarkerOptions().position(new LatLng(m.getCoordinates().getLat(),
                         m.getCoordinates().getLng()));
@@ -169,21 +175,23 @@ public class MapFragmentViewModel  extends BaseObservable{
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-
                 }
                 targetsList.add(picassoMarker);
 
             }
-                for (PicassoMarker pm : targetsList) {
-                    if (pm.getUrl() != null && !pm.getUrl().isEmpty()) {
-                        Picasso.with(context)
-                                .load(pm.getUrl())
-                                .resize(AVATAR_SIZE, AVATAR_SIZE)
-                                .centerCrop()
-                                .transform(new CircleTransform(Color.BLUE))
-                                .into(pm);
-                    }
+            for (PicassoMarker pm : targetsList) {
+                if (pm.getUrl() != null && !pm.getUrl().isEmpty()) {
+                    Picasso.with(context)
+                            .load(pm.getUrl())
+                            .resize(AVATAR_SIZE, AVATAR_SIZE)
+                            .centerCrop()
+                            .transform(new CircleTransform(Color.BLUE))
+                            .into(pm);
                 }
+            }
+            } catch (ConcurrentModificationException e){
+                e.printStackTrace();
+            }
         }
     }
 }

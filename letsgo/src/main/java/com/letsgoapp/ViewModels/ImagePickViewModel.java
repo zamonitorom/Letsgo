@@ -32,7 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
-import static com.letsgoapp.Views.MainActivity.MY_PERMISSIONS;
+import static com.letsgoapp.Views.LoginActivity.MY_PERMISSIONS;
 
 /**
  * Created by normalteam on 25.03.17.

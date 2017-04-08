@@ -13,4 +13,5 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="crop_image_menu_crop">Send</string>
     <integer name="com_vk_sdk_AppId">5945764</integer>
+    <string name="title_activity_add_meeting">AddMeetingActivity</string>
 </resources>

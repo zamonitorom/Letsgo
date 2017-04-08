@@ -87,7 +87,8 @@ public class VKHelper {
                                 dialogs.ShowDialogAgree("Ошибка", "Непредвиденная ошибка на стороне сервера. Повторите процедуру позднее");
                             },()->{
                                 ContextUtill.GetContextApplication().setToken("Token "+responseUser.getToken());
-                                navigationService.goMainFromLogin(responseUser.getHref(),responseUser.getToken());
+                                ContextUtill.GetContextApplication().setHref(responseUser.getHref());
+                                navigationService.goMainFromLogin(responseUser.getHref(),"Token "+responseUser.getToken());
                             });
                 } catch (JSONException e) {
                     Log.d("progress", e.getMessage());

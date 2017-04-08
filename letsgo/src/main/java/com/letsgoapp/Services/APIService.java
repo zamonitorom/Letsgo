@@ -82,6 +82,7 @@ public class APIService implements IDataService {
     }
 
     public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters) {
+        //7e4e5321b798715b30cf3e76f06dc588b7fd4bb6
         return iapiService.getLocalMeetingList(parameters, token);
     }
 
@@ -102,8 +103,8 @@ public class APIService implements IDataService {
     }
 
     public Observable<Object> setUserData(Object editableUser,
-                                          String contentType, String length) {
-        return iapiService3.setUserData(editableUser, token, contentType, length);
+                                          String contentType) {
+        return iapiService3.setUserData(editableUser, token, contentType);
     }
 
     public Observable<ResponseBody> putPhoto(URI fileUri, String path) {
