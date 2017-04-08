@@ -44,9 +44,15 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:elevation="10dp"
                     app:onClick="@{mapVM::closePreview}"/>
+                <ImageView
+                    android:id="@+id/ava"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:imageURL2="@{mapVM.preAva}"
+                    app:onClick="@{mapVM::onAvaClick}"/>
 
             </LinearLayout>
         </LinearLayout>

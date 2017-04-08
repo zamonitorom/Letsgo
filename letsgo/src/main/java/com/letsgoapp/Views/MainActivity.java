@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MainActivityViewModel mainActivityViewModel;
     SharedPreferences sharedPreferences;
     TextView messages,confirms;
-    ImageButton button;
+    FloatingActionButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = activityMainBinding.toolbar.toolbar2;
         toolbar.setTitle("Актуальные события");
-        button = activityMainBinding.toolbar.ibutton;
+        button = activityMainBinding.toolbar.fab;
         button.setOnClickListener(v -> {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
             toolbar.setTitle("Создание события");
@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         SetTopContext(this);
-        // TODO: 02.04.17 save token to preferences 
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
 
@@ -207,25 +206,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
             toolbar.setTitle("Актуальные события");
-            button.setVisibility(View.VISIBLE);
+            button.show();
             item.setChecked(true);
         } else if (id == R.id.nav_my_confirms) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new MyConfirmsFragment()).commit();
             toolbar.setTitle("Мои Заявки");
-            button.setVisibility(View.GONE);
+            button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_my_actions) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new ActionFragment()).commit();
             toolbar.setTitle("Мои события");
-            button.setVisibility(View.GONE);
+            button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_messages) {
-            button.setVisibility(View.GONE);
+            button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_create_action) {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
             toolbar.setTitle("Создание события");
-            button.setVisibility(View.GONE);
+            button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_share) {
 

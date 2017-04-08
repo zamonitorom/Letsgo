@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,8 @@ public class GMapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mapFragmentViewModel = new MapFragmentViewModel();
+        FloatingActionButton button = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        mapFragmentViewModel = new MapFragmentViewModel(button);
         FragmentMapBinding fragmentmapBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_map, container, false);
         View view = fragmentmapBinding.getRoot();

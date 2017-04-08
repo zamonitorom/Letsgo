@@ -1,18 +1,23 @@
 package com.letsgoapp.ViewModels;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Models.PicassoMarker;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
@@ -21,6 +26,7 @@ import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
 import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Utils.CoordinateService;
+import com.letsgoapp.Views.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -31,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.BaseSliderView;
+import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.TextSliderView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -59,8 +67,15 @@ public class MapFragmentViewModel extends BaseObservable {
     @Bindable
     public Boolean isPreviewed;
 
-    public MapFragmentViewModel() {
+    //preview
+    FloatingActionButton button;
 
+    private String preAva;
+
+    private String currentRef;
+
+    public MapFragmentViewModel(FloatingActionButton button) {
+        this.button = button;
     }
 
     public void setMap(GoogleMap googleMap) {
@@ -87,21 +102,39 @@ public class MapFragmentViewModel extends BaseObservable {
         });
         mMap.setOnMarkerClickListener(marker -> {
 //            navigationService.goMeeting(marker.getId(), marker.getTag().toString());
-            showPreview();
+            showPreview(marker);
+            button.hide();
             Log.d("mapFragment", "onMarkerClick+\n");
             return false;
         });
         getMeetings(context, String.valueOf(latLng.latitude), String.valueOf(latLng.longitude));
     }
 
-    private void showPreview() {
+    private void showPreview(Marker marker) {
+        String href = marker.getTag().toString();
         isPreviewed = true;
+        dataservice.getMeeting(href)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meeting -> {
+                            setPreAva(meeting.getOwner().getAvatar());
+                            setCurrentRef(meeting.getOwner().getHref());
+                        },
+                        throwable -> {
+                        },
+                        () -> {
+                        });
         notifyPropertyChanged(BR.isPreviewed);
 
     }
 
+    public void onAvaClick() {
+        navigationService.goProfile(getCurrentRef());
+    }
+
     public void closePreview() {
         isPreviewed = false;
+        button.show();
         notifyPropertyChanged(BR.isPreviewed);
     }
 
@@ -150,7 +183,7 @@ public class MapFragmentViewModel extends BaseObservable {
                         Dialogs dialogs = new Dialogs();
                         Log.d("mapFragment", throwable.toString());
                         dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -160,36 +193,54 @@ public class MapFragmentViewModel extends BaseObservable {
     public void setMarkers(Context context) {
         if (meetingList != null) {
             try {
-            for (Meeting m : meetingList) {
-                MarkerOptions markerOne = new MarkerOptions().position(new LatLng(m.getCoordinates().getLat(),
-                        m.getCoordinates().getLng()));
+                for (Meeting m : meetingList) {
+                    MarkerOptions markerOne = new MarkerOptions().position(new LatLng(m.getCoordinates().getLat(),
+                            m.getCoordinates().getLng()));
 
-                PicassoMarker picassoMarker = new PicassoMarker(mMap.addMarker(markerOne));
-                picassoMarker.getmMarker().setTag(m.getHref());
-                if (m.getOwner().getAvatar() != null) {
-                    try {
-                        String avatar = URLDecoder.decode(m.getOwner().getAvatar(), "UTF-8");
-                        picassoMarker.setUrl(avatar);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
+                    PicassoMarker picassoMarker = new PicassoMarker(mMap.addMarker(markerOne));
+                    picassoMarker.getmMarker().setTag(m.getHref());
+                    if (m.getOwner().getAvatar() != null) {
+                        try {
+                            String avatar = URLDecoder.decode(m.getOwner().getAvatar(), "UTF-8");
+                            picassoMarker.setUrl(avatar);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    targetsList.add(picassoMarker);
+
+                }
+                for (PicassoMarker pm : targetsList) {
+                    if (pm.getUrl() != null && !pm.getUrl().isEmpty()) {
+                        Picasso.with(context)
+                                .load(pm.getUrl())
+                                .resize(AVATAR_SIZE, AVATAR_SIZE)
+                                .centerCrop()
+                                .transform(new CircleTransform(Color.BLUE))
+                                .into(pm);
                     }
                 }
-                targetsList.add(picassoMarker);
-
-            }
-            for (PicassoMarker pm : targetsList) {
-                if (pm.getUrl() != null && !pm.getUrl().isEmpty()) {
-                    Picasso.with(context)
-                            .load(pm.getUrl())
-                            .resize(AVATAR_SIZE, AVATAR_SIZE)
-                            .centerCrop()
-                            .transform(new CircleTransform(Color.BLUE))
-                            .into(pm);
-                }
-            }
-            } catch (ConcurrentModificationException e){
+            } catch (ConcurrentModificationException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Bindable
+    public String getPreAva() {
+        return preAva;
+    }
+
+    public void setPreAva(String preAva) {
+        this.preAva = preAva;
+        notifyPropertyChanged(BR.preAva);
+    }
+
+    public String getCurrentRef() {
+        return currentRef;
+    }
+
+    public void setCurrentRef(String currentRef) {
+        this.currentRef = currentRef;
     }
 }
