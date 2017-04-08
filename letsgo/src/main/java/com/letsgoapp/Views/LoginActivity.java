@@ -9,14 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.letsgoapp.R;
-import com.letsgoapp.Services.IDataService;
-import com.letsgoapp.Utils.VKHelper;
 import com.letsgoapp.ViewModels.LoginViewModel;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
-import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKError;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;

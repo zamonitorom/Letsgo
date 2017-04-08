@@ -8,13 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.letsgoapp.R;
-import com.letsgoapp.ViewModels.ImagePickViewModel;
 import com.letsgoapp.ViewModels.ProfileViewModel;
 import com.letsgoapp.databinding.ActivityProfileBinding;
-import com.r0adkll.slidr.Slidr;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import java.io.IOException;
 
 import static com.letsgoapp.Services.NavigationService.GALLERY_REQUEST;
 import static com.letsgoapp.Services.NavigationService.REQUEST_IMAGE_CAPTURE;

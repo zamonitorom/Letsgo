@@ -4,7 +4,6 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Color;
-import android.location.LocationManager;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,7 +20,7 @@ import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.CircleTransform;
 import com.letsgoapp.Utils.Dialogs;
-import com.letsgoapp.Utils.GpsProvider;
+import com.letsgoapp.Utils.CoordinateService;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -31,7 +30,6 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -74,7 +72,7 @@ public class MapFragmentViewModel extends BaseObservable {
 
         mMap = googleMap;
 
-        GpsProvider gpsProvider = new GpsProvider();
+        CoordinateService gpsProvider = new CoordinateService();
 
         latLng = gpsProvider.getLocation();
 

@@ -1,21 +1,8 @@
 package com.letsgoapp.ViewModels;
 
-import android.content.Intent;
-import android.util.Log;
-
-import com.letsgoapp.Models.NewUser;
-import com.letsgoapp.Models.UserResponse;
-import com.letsgoapp.Services.APIService;
-import com.letsgoapp.Services.IDataService;
-import com.letsgoapp.Services.INavigationService;
-import com.letsgoapp.Services.NavigationService;
-import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
-import com.letsgoapp.Utils.VKHelper;
+import com.letsgoapp.Utils.VkService;
 import com.vk.sdk.VKAccessToken;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by normalteam on 02.04.17.
@@ -24,12 +11,12 @@ import rx.schedulers.Schedulers;
 public class LoginViewModel {
 
     private final String TAG= "LoginViewModel";
-    private VKHelper vkHelper;
+    private VkService vkHelper;
 
     private Dialogs dialogs;
 
     public LoginViewModel() {
-        vkHelper = new VKHelper();
+        vkHelper = new VkService();
         dialogs = new Dialogs();
     }
 

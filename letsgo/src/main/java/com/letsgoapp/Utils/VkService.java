@@ -29,7 +29,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  * Created by normalteam on 01.04.17.
  */
 
-public class VKHelper {
+public class VkService {
     private static final String[] sMyScope = new String[]{
             VKScope.FRIENDS,
             VKScope.WALL,
@@ -38,13 +38,13 @@ public class VKHelper {
             VKScope.DOCS
     };
 
-    private final String TAG= "VKHelper";
+    private final String TAG= "VkService";
     private IDataService dataService;
     private INavigationService navigationService;
     private UserResponse responseUser;
     private Dialogs dialogs;
 
-    public VKHelper() {
+    public VkService() {
         dataService = new APIService();
         navigationService = new NavigationService();
         dialogs = new Dialogs();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -29,7 +30,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  * Created by normalteam on 28.02.17.
  */
 
-public class SetMeetingViewModel extends BaseObservable{
+public class SetMeetingViewModel extends BaseObservable {
     public MyObservableString title;
     public MyObservableString description;
     private IDataService apiService;
@@ -38,37 +39,47 @@ public class SetMeetingViewModel extends BaseObservable{
     private double lat;
     private double lon;
     @Bindable
-    public Boolean isFragment;
+    public Boolean isChecked = false;
+
+    private Integer type;
 
     public SetMeetingViewModel() {
         title = new MyObservableString();
         description = new MyObservableString();
         apiService = new APIService();
         navigationService = new NavigationService();
-
     }
 
     public void SendMeeting() {
         Activity activity = (Activity) GetTopContext();
-        isFragment = true;
-        notifyPropertyChanged(BR.isFragment);
-        if (title.get().length() > 3 & description.get().length() > 10) {
-            SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon),0);
-            apiService.postMeeting(sendMeeting,
-                    "application/json", String.valueOf(sendMeeting.toString().length()))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(o -> {
-                    }, throwable -> {
-                        Dialogs dialogs = new Dialogs();
-                        dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
-                    }, () -> {
-                        navigationService.goMainWithFinish();
-                    });
+        if (isChecked) {
+            if (title.get().length() > 3 & description.get().length() > 10) {
+                SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon), getType());
+                apiService.postMeeting(sendMeeting,
+                        "application/json", String.valueOf(sendMeeting.toString().length()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(o -> {
+                        }, throwable -> {
+                            Dialogs dialogs = new Dialogs();
+                            dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                        }, () -> {
+                            navigationService.goMainWithFinish();
+                        });
+            } else {
+                Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
+            }
         } else {
-            Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Выберите тип события", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public void click2(Integer integer) {
+        Log.d("ViewModel", String.valueOf(integer));
+        isChecked = true;
+        setType(integer);
+        notifyPropertyChanged(BR.isChecked);
     }
 
     public double getLat() {
@@ -85,5 +96,13 @@ public class SetMeetingViewModel extends BaseObservable{
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

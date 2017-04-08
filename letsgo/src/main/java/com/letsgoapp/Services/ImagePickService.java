@@ -1,8 +1,7 @@
-package com.letsgoapp.ViewModels;
+package com.letsgoapp.Services;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,27 +10,17 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.letsgoapp.Models.Photo;
-import com.letsgoapp.Models.PhotoAnswer;
-import com.letsgoapp.Services.APIService;
-import com.letsgoapp.Services.IDataService;
-import com.letsgoapp.Services.INavigationService;
-import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.Dialogs;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
@@ -41,7 +30,7 @@ import static com.letsgoapp.Views.LoginActivity.MY_PERMISSIONS;
  * Created by normalteam on 25.03.17.
  */
 
-public class ImagePickViewModel {
+public class ImagePickService {
 
 
     private static int IMG_HEIGHT = 1200;
@@ -52,7 +41,7 @@ public class ImagePickViewModel {
     private INavigationService navigationService;
     private IDataService apiService;
 
-    public ImagePickViewModel() {
+    public ImagePickService() {
         activity = (Activity) GetTopContext();
         navigationService = new NavigationService();
         apiService = new APIService();
@@ -83,7 +72,7 @@ public class ImagePickViewModel {
     }
 
     public void startCropper(Uri uri) {
-//        Log.d("ImagePickViewModel",uri.toString());
+//        Log.d("ImagePickService",uri.toString());
         navigationService.goCropper(IMG_WIDTH,IMG_HEIGHT,uri);
     }
 
@@ -94,7 +83,7 @@ public class ImagePickViewModel {
         try {
             outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG,85,outputStream);
-            Log.d("ImagePickViewModel",file.getAbsolutePath());
+            Log.d("ImagePickService",file.getAbsolutePath());
             outputStream.flush();
             outputStream.close();
             Uri uri = Uri.fromFile(file);

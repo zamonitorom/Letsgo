@@ -23,7 +23,7 @@ import static com.letsgoapp.Views.LoginActivity.MY_PERMISSIONS;
  * Created by normalteam on 26.03.17.
  */
 
-public class GpsProvider {
+public class CoordinateService {
     private LocationManager locationManager;
 
     private Location location;
@@ -47,7 +47,7 @@ public class GpsProvider {
             Activity activity = (Activity) GetTopContext();
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                showLocation(locationManager.getLastKnownLocation(provider));
+//                showLocation(locationManager.getLastKnownLocation(provider));
             }
 
         }
@@ -58,7 +58,7 @@ public class GpsProvider {
         }
     };
 
-    public GpsProvider() {
+    public CoordinateService() {
         Activity activity = (Activity) GetTopContext();
         locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -67,18 +67,17 @@ public class GpsProvider {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     MY_PERMISSIONS);
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                     1000 * 10, 10, locationListener);
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, 1000 * 10, 10,
                     locationListener);
-            setLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+            setLocation(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
         }
     }
 
     public LatLng getLocation() {
         if (location != null) {
-//            return new LatLng(55.76, 37.61);
             return new LatLng(location.getLatitude(), location.getLongitude());
         } else {
             return new LatLng(55.76, 37.61);
@@ -89,14 +88,4 @@ public class GpsProvider {
     public void setLocation(Location location) {
         this.location = location;
     }
-
-    private void showLocation(Location location) {
-//        if (location == null) {
-//            setTvLocationGPS("null");
-//        }else if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-//            setTvLocationGPS(formatLocation(location));
-//        }
-    }
-
-
 }

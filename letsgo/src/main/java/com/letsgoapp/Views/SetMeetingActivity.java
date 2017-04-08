@@ -38,8 +38,8 @@ public class SetMeetingActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container_2, new AddMeetingFragment()).commit();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container_2, new AddMeetingFragment()).commit();
 
         setMeetingViewModel.setLat(getIntent().getExtras().getDouble("Lat"));
         setMeetingViewModel.setLon(getIntent().getExtras().getDouble("Lon"));

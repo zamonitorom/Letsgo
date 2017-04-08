@@ -1,7 +1,5 @@
 package com.letsgoapp.ViewModels;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -17,16 +15,14 @@ import com.letsgoapp.Models.Photo;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.ImagePickService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
-import java.io.File;
 import java.net.URI;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 /**
  * Created by normalteam on 02.03.17.
@@ -51,7 +47,7 @@ public class ProfileViewModel extends BaseObservable {
 
     private IDataService dataService;
 
-    public ImagePickViewModel imagePickViewModel;
+    public ImagePickService imagePickViewModel;
 
     public ProfileViewModel(String link) {
         photos = new ObservableArrayList<>();
@@ -64,7 +60,7 @@ public class ProfileViewModel extends BaseObservable {
         loadData(link);
         notifyPropertyChanged(BR.isMine);
         notifyPropertyChanged(BR.isTouchable);
-        imagePickViewModel = new ImagePickViewModel();
+        imagePickViewModel = new ImagePickService();
     }
 
     private void loadData(String link) {
