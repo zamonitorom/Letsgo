@@ -5,6 +5,7 @@ import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
+import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.Models.UserResponse;
 
@@ -65,9 +66,9 @@ public interface IAPIService {
                                    @Header("Content-Type") String contentType);
 
     @PUT("upload-photo/{adress}")
-    Observable<ResponseBody> putPhoto(@Body RequestBody file,
-                                      @Path("adress") String adress,
-                                      @Header("Authorization") String authorization);
+    Observable<PhotoAnswer> putPhoto(@Body RequestBody file,
+                                     @Path("adress") String adress,
+                                     @Header("Authorization") String authorization);
 
     @POST("meeting-confirm/{id}/")
     Observable<Object> sendConfirm(@Path("id") String id,@Body Object object,

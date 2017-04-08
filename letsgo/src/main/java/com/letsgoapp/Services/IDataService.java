@@ -3,6 +3,7 @@ package com.letsgoapp.Services;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
+import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.UserResponse;
 
 import java.net.URI;
@@ -25,7 +26,7 @@ public interface IDataService {
     Observable<Owner> getUser(String link);
     Observable<Object> setUserData(Object editableUser,
                                    String contentType);
-    Observable<ResponseBody> putPhoto(URI fileUri, String path);
+    Observable<PhotoAnswer> putPhoto(URI fileUri, String path);
     Observable<Object> sendConfirm(String id,Object body);
     Observable<List<Confirm>> getConfirms();
     Observable<UserResponse>createUser(Object newUser);

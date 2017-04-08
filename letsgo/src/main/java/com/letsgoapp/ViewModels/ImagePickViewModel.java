@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.letsgoapp.Models.Photo;
+import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
@@ -29,6 +31,7 @@ import java.io.OutputStream;
 import java.net.URI;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
@@ -110,34 +113,23 @@ public class ImagePickViewModel {
         return outputFileUri;
     }
 
-    public void sendPicture(Uri uri) {
+    public Photo sendPicture(Uri uri) {
         URI uri2 = URI.create(uri.toString());
         String path = uri2.getPath();
         int cut = path.lastIndexOf('/');
         if (cut != -1) {
             path = path.substring(cut + 1);
         }
-//        if (checkResolution(uri)){
+        Photo answer = new Photo();
         apiService.putPhoto(uri2, path)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(responseBody -> {
-                    try {
-                        Log.d("ImagePickViewModel","responseBody"+ responseBody.string());
-                        JSONObject jsonObject = new JSONObject(responseBody.string());
-                        Integer status = jsonObject.getInt("status");
-                        if (status != 204) {
-                            Log.d("ImagePickViewModel","Successful");
-                        }
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                })
+                .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
                 .subscribe(responseBody -> {},throwable -> {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
                 });
-//        }
+        return answer;
     }
 
     public boolean checkResolution(Uri uri) {

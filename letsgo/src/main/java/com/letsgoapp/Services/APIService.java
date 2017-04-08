@@ -10,6 +10,7 @@ import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
+import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.Models.UserResponse;
 import com.letsgoapp.Utils.ContextUtill;
@@ -91,8 +92,6 @@ public class APIService implements IDataService {
     }
 
 
-
-
     public Observable<Object> postMeeting(Object sendMeeting,
                                           String contentType, String length) {
         return iapiService3.postMeeting(sendMeeting, token, contentType, length);
@@ -107,7 +106,7 @@ public class APIService implements IDataService {
         return iapiService3.setUserData(editableUser, token, contentType);
     }
 
-    public Observable<ResponseBody> putPhoto(URI fileUri, String path) {
+    public Observable<PhotoAnswer> putPhoto(URI fileUri, String path) {
 
         File file = new File(fileUri);
 

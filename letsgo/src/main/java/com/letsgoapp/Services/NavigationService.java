@@ -66,6 +66,9 @@ public class NavigationService implements INavigationService {
                     .setMaxCropResultSize(width, height)
                     .setCropShape(CropImageView.CropShape.RECTANGLE)
                     .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAutoZoomEnabled(false)
+                    .setMultiTouchEnabled(true)
+                    .setScaleType(CropImageView.ScaleType.FIT_CENTER)
                     .start(activity);
         }
 

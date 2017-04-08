@@ -20,6 +20,9 @@ import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
+import java.io.File;
+import java.net.URI;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -30,6 +33,8 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
  */
 
 public class ProfileViewModel extends BaseObservable {
+
+    private final String TAG = "ProfileViewModel";
     private String avatar;
     private Integer icToolbar;
     public MyObservableString username;
@@ -87,11 +92,11 @@ public class ProfileViewModel extends BaseObservable {
                 .doOnNext(user -> {
                     firstName.set(user.getFirstName());
                     username.set(user.getUsername());
-                    Log.d("ProfileViewModel", "firstName = " + firstName.get());
+                    Log.d(TAG, "firstName = " + firstName.get());
                     about.set(user.getAbout());
-                    Log.d("ProfileViewModel", "username = " + username.get());
+                    Log.d(TAG, "username = " + username.get());
                     setAvatar(user.getAvatar());
-                    Log.d("ProfileViewModel", "about = " + about.get());
+                    Log.d(TAG, "about = " + about.get());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
 //                        Log.d("ProfileViewModel", photo.getPhoto());
@@ -149,7 +154,26 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void sendPicture(Uri uri){
-        imagePickViewModel.sendPicture(uri);
+        URI uri2 = URI.create(uri.toString());
+        String path = uri2.getPath();
+        int cut = path.lastIndexOf('/');
+        if (cut != -1) {
+            path = path.substring(cut + 1);
+        }
+        Photo answer = new Photo();
+        dataService.putPhoto(uri2, path)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
+                .subscribe(responseBody -> {},
+                        throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
+                },()->{
+                            Log.d(TAG,answer.getPhoto());
+                            photos.add(new PhotoItemViewModel(answer.getPhoto()));
+                });
+
     }
 
     @Bindable
