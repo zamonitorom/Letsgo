@@ -54,13 +54,14 @@ public class ProfileViewModel extends BaseObservable {
 
     public ImagePickService imagePickService;
 
-    public String[] images;
+    public ArrayList<String> images;
 
 
     //костыль
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
     public ProfileViewModel(String link) {
+        images = new ArrayList<>();
         photos = new ObservableArrayList<>();
         dataService = new APIService();
         username = new MyObservableString();
@@ -105,13 +106,12 @@ public class ProfileViewModel extends BaseObservable {
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
                     collapsingToolbarLayout.setTitle(user.getFirstName());
-                    images = new String[user.getPhotos().size()];
                     int i =0;
                     for (Photo photo : user.getPhotos()) {
                         PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto());
                         model.setPosition(i);
                         photos.add(model);
-                        images[i] = photo.getPhoto();
+                        images.add(photo.getPhoto());
                         i++;
                     }
                 })
@@ -119,11 +119,7 @@ public class ProfileViewModel extends BaseObservable {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
                 },()->{
-                    Bundle b=new Bundle();
-                    b.putStringArray("key", images);
-                    Intent i=new Intent((Activity)ContextUtill.GetTopContext(), FullScreenViewActivity.class);
-                    i.putExtras(b);
-                    ((Activity)ContextUtill.GetTopContext()).startActivity(i);
+                    ContextUtill.GetContextApplication().setCurrentPhotos(images);
                 });
     }
 

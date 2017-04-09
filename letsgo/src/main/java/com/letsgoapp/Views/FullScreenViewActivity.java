@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 
 import com.letsgoapp.Adapters.FullScreenImageAdapter;
 import com.letsgoapp.R;
+import com.letsgoapp.Utils.ContextUtill;
 
 import java.util.ArrayList;
 
@@ -30,16 +31,11 @@ public class FullScreenViewActivity extends Activity {
         Bundle b=this.getIntent().getExtras();
         String[] array=b.getStringArray("key");
 
-        ArrayList<String> images = new ArrayList<>();
-        for (String s:array) {
-            images.add(s);
-        }
-
-        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this,images);
+        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, ContextUtill.GetContextApplication().getCurrentPhotos());
 
         viewPager.setAdapter(adapter);
 
         // displaying selected image first
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(getIntent().getIntExtra("position",0));
     }
 }

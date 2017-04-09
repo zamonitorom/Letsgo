@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.letsgoapp.Views.FullScreenViewActivity;
 import com.letsgoapp.Views.LoginActivity;
 import com.letsgoapp.Views.MainActivity;
 import com.letsgoapp.Views.MeetingActivity;
@@ -130,6 +131,16 @@ public class NavigationService implements INavigationService {
         if (activity != null) {
             activity.setResult(RESULT_OK, answerIntent);
             activity.finish();
+        }
+    }
+
+    @Override
+    public void goFullscreen(int position) {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, FullScreenViewActivity.class);
+        intent.putExtra("position",position);
+        if (activity != null) {
+            activity.startActivity(intent);
         }
     }
 }

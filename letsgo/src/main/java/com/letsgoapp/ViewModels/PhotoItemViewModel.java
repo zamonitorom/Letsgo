@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.R;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -69,6 +71,11 @@ public class PhotoItemViewModel extends BaseObservable {
                         Log.d("PhotoItemViewModel", "onPrepareLoad");
                     }
                 });
+    }
+
+    public void click(){
+        INavigationService navigationService = new NavigationService();
+        navigationService.goFullscreen(position);
     }
 
     @Bindable
