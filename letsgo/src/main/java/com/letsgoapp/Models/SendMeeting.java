@@ -19,6 +19,9 @@ public class SendMeeting {
     @SerializedName("group_type")
     @Expose
     private Integer type;
+    @SerializedName("meeting_date")
+    @Expose
+    private String date;
 
     /**
      * No args constructor for use in serialization
@@ -33,12 +36,13 @@ public class SendMeeting {
      * @param description
      * @param coordinates
      */
-    public SendMeeting(String title, String description, Coordinates coordinates,Integer type) {
+    public SendMeeting(String title, String description, Coordinates coordinates,Integer type,String date) {
         super();
         this.title = title;
         this.description = description;
         this.coordinates = coordinates;
         this.type = type;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -71,5 +75,13 @@ public class SendMeeting {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

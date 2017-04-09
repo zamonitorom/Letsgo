@@ -61,8 +61,10 @@ public class SetMeetingViewModel extends BaseObservable {
         Activity activity = (Activity) GetTopContext();
         if (isChecked) {
             if (title.get().length() > 3 & description.get().length() > 10) {
-
-                SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon), getType());
+                String date = String.valueOf(getDate().year.get())+"-"
+                        +String.valueOf(getDate().month.get()+1)+"-"
+                        +String.valueOf(getDate().day.get());
+                SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon), getType(),date);
                 apiService.postMeeting(sendMeeting,
                         "application/json", String.valueOf(sendMeeting.toString().length()))
                         .subscribeOn(Schedulers.io())
