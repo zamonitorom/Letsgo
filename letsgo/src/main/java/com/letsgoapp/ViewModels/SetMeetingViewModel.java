@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.Coordinates;
 import com.letsgoapp.Models.MyObservableString;
+import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
@@ -41,19 +42,26 @@ public class SetMeetingViewModel extends BaseObservable {
     @Bindable
     public Boolean isChecked = false;
 
+    @Bindable
+    public Boolean isDateChecking = false;
+
+    private PickedDate date;
+
     private Integer type;
 
     public SetMeetingViewModel() {
+        date = new PickedDate();
         title = new MyObservableString();
         description = new MyObservableString();
         apiService = new APIService();
         navigationService = new NavigationService();
     }
 
-    public void SendMeeting() {
+    public void sendMeeting() {
         Activity activity = (Activity) GetTopContext();
         if (isChecked) {
             if (title.get().length() > 3 & description.get().length() > 10) {
+
                 SendMeeting sendMeeting = new SendMeeting(title.get(), description.get(), new Coordinates(lat, lon), getType());
                 apiService.postMeeting(sendMeeting,
                         "application/json", String.valueOf(sendMeeting.toString().length()))
@@ -82,6 +90,15 @@ public class SetMeetingViewModel extends BaseObservable {
         notifyPropertyChanged(BR.isChecked);
     }
 
+    public void openPicker(){
+        isDateChecking = true;
+        notifyPropertyChanged(BR.isDateChecking);
+    }
+
+    public void closePicker(){
+
+    }
+
     public double getLat() {
         return lat;
     }
@@ -104,5 +121,13 @@ public class SetMeetingViewModel extends BaseObservable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public PickedDate getDate() {
+        return date;
+    }
+
+    public void setDate(PickedDate date) {
+        this.date = date;
     }
 }

@@ -11,6 +11,10 @@
         <variable
             name="setViewModel"
             type="com.letsgoapp.ViewModels.SetMeetingViewModel" />
+
+        <variable
+            name="date"
+            type="com.letsgoapp.Models.PickedDate" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -35,7 +39,7 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -103,10 +107,26 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Выбрать дату"
+                    app:onClick="@{setViewModel::openPicker}"/>
+
+                <DatePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{setViewModel.isDateChecking ? View.VISIBLE : View.GONE}"
+                    android:layout_weight="1"
+                    android:day="@{date.day}"
+                    android:month="@{date.month}"
+                    android:onDateChanged="@{date.dateChanged}"
+                    android:year="@{date.year}" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Cоздать событие!"
-                    app:onClick="@{setViewModel::SendMeeting}"/>
+                    app:onClick="@{setViewModel::sendMeeting}"/>
             </LinearLayout>
-        </FrameLayout>
+        </ScrollView>
 
 
 

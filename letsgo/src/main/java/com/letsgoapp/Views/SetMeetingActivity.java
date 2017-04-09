@@ -30,6 +30,7 @@ public class SetMeetingActivity extends AppCompatActivity {
         gestureDetector = new GestureDetectorCompat(this, new LearnGesture());
         setMeetingViewModel = new SetMeetingViewModel();
         binding.setSetViewModel(setMeetingViewModel);
+        binding.setDate(setMeetingViewModel.getDate());
         toolbar= binding.toolbar;
         SetTopContext(this);
 

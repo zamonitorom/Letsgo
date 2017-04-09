@@ -17,6 +17,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:padding="2dp"
             app:imageURL3="@{item.link}"
             app:onClick="@{item::click}"/>
     </LinearLayout>

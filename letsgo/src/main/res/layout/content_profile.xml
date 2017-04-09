@@ -34,15 +34,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="2dp"
                     app:itemLayout="@{@layout/photo_recycler_item}"
                     app:items="@{profileVM.photos}"
                     app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
                     app:variable="@{Variables.Item}" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{!profileVM.isTouchable ? View.VISIBLE : View.GONE}"
+                    android:text="@{profileVM.about.get()}"/>
+
                 <com.letsgoapp.Utils.ExtendedEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
                     android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
                     app:binding="@{profileVM.firstName}" />
 
@@ -50,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
+                    android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
                     android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
                     app:binding="@{profileVM.about}" />
 
