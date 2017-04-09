@@ -6,6 +6,7 @@ import android.databinding.ObservableArrayList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.Log;
 
 import com.letsgoapp.BR;
@@ -48,6 +49,9 @@ public class ProfileViewModel extends BaseObservable {
     private IDataService dataService;
 
     public ImagePickService imagePickViewModel;
+
+    //костыль
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     public ProfileViewModel(String link) {
         photos = new ObservableArrayList<>();
@@ -93,6 +97,7 @@ public class ProfileViewModel extends BaseObservable {
                     Log.d(TAG, "username = " + username.get());
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
+                    collapsingToolbarLayout.setTitle(user.getFirstName());
                     for (Photo photo : user.getPhotos()) {
                         photos.add(new PhotoItemViewModel(photo.getPhoto()));
 //                        Log.d("ProfileViewModel", photo.getPhoto());
@@ -102,6 +107,7 @@ public class ProfileViewModel extends BaseObservable {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
                 },()->{
+
                 });
     }
 
@@ -199,5 +205,13 @@ public class ProfileViewModel extends BaseObservable {
     public void setIcToolbar(Integer icToolbar) {
         this.icToolbar = icToolbar;
         notifyPropertyChanged(BR.icToolbar);
+    }
+
+    public CollapsingToolbarLayout getCollapsingToolbarLayout() {
+        return collapsingToolbarLayout;
+    }
+
+    public void setCollapsingToolbarLayout(CollapsingToolbarLayout collapsingToolbarLayout) {
+        this.collapsingToolbarLayout = collapsingToolbarLayout;
     }
 }

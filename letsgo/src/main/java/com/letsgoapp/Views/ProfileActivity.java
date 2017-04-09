@@ -2,10 +2,13 @@ package com.letsgoapp.Views;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
@@ -22,26 +25,22 @@ public class ProfileActivity extends AppCompatActivity {
     private ProfileViewModel profileViewModel;
 
     Toolbar toolbar;
+    CollapsingToolbarLayout collapsingToolbarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile);
         toolbar = activityProfile2Binding.toolbar;
-        setSupportActionBar(toolbar);
-
+        collapsingToolbarLayout = activityProfile2Binding.toolbarLayout;
         SetTopContext(this);
         profileViewModel = new ProfileViewModel(getIntent().getExtras().getString("link"));
+        profileViewModel.setCollapsingToolbarLayout(collapsingToolbarLayout);
         activityProfile2Binding.setProfileVM(profileViewModel);
         activityProfile2Binding.content.setProfileVM(profileViewModel);
-        toolbar.setTitle(profileViewModel.username.get());
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
         toolbar.setNavigationOnClickListener(v -> finish());
-
-
-//        Slidr.attach(this);
-
-        //Сажин Ю.Б самохин кто то там методические рекомендации.
     }
 
     @Override
