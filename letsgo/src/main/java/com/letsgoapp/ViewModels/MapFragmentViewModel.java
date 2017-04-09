@@ -103,7 +103,7 @@ public class MapFragmentViewModel extends BaseObservable {
         mMap.setOnMarkerClickListener(marker -> {
 //            navigationService.goMeeting(marker.getId(), marker.getTag().toString());
             showPreview(marker);
-            button.hide();
+
             Log.d("mapFragment", "onMarkerClick+\n");
             return false;
         });
@@ -111,6 +111,7 @@ public class MapFragmentViewModel extends BaseObservable {
     }
 
     private void showPreview(Marker marker) {
+        button.hide();
         String href = marker.getTag().toString();
         isPreviewed = true;
         dataservice.getMeeting(href)
@@ -207,6 +208,7 @@ public class MapFragmentViewModel extends BaseObservable {
                             e.printStackTrace();
                         }
                     }
+                    picassoMarker.setColour(Color.RED);
                     targetsList.add(picassoMarker);
 
                 }
@@ -216,7 +218,7 @@ public class MapFragmentViewModel extends BaseObservable {
                                 .load(pm.getUrl())
                                 .resize(AVATAR_SIZE, AVATAR_SIZE)
                                 .centerCrop()
-                                .transform(new CircleTransform(Color.BLUE))
+                                .transform(new CircleTransform(pm.getColour()))
                                 .into(pm);
                     }
                 }

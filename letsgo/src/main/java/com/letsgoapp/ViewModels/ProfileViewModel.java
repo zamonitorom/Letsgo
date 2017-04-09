@@ -1,5 +1,7 @@
 package com.letsgoapp.ViewModels;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -19,8 +21,10 @@ import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.ImagePickService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
+import com.letsgoapp.Views.FullScreenViewActivity;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -48,7 +52,10 @@ public class ProfileViewModel extends BaseObservable {
 
     private IDataService dataService;
 
-    public ImagePickService imagePickViewModel;
+    public ImagePickService imagePickService;
+
+    public String[] images;
+
 
     //костыль
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -64,7 +71,7 @@ public class ProfileViewModel extends BaseObservable {
         loadData(link);
         notifyPropertyChanged(BR.isMine);
         notifyPropertyChanged(BR.isTouchable);
-        imagePickViewModel = new ImagePickService();
+        imagePickService = new ImagePickService();
     }
 
     private void loadData(String link) {
@@ -98,16 +105,25 @@ public class ProfileViewModel extends BaseObservable {
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
                     collapsingToolbarLayout.setTitle(user.getFirstName());
+                    images = new String[user.getPhotos().size()];
+                    int i =0;
                     for (Photo photo : user.getPhotos()) {
-                        photos.add(new PhotoItemViewModel(photo.getPhoto()));
-//                        Log.d("ProfileViewModel", photo.getPhoto());
+                        PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto());
+                        model.setPosition(i);
+                        photos.add(model);
+                        images[i] = photo.getPhoto();
+                        i++;
                     }
                 })
                 .subscribe(user->{},throwable -> {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
                 },()->{
-
+                    Bundle b=new Bundle();
+                    b.putStringArray("key", images);
+                    Intent i=new Intent((Activity)ContextUtill.GetTopContext(), FullScreenViewActivity.class);
+                    i.putExtras(b);
+                    ((Activity)ContextUtill.GetTopContext()).startActivity(i);
                 });
     }
 
@@ -140,19 +156,19 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void addPhotoGallery(){
-        imagePickViewModel.getPictureGallery();
+        imagePickService.getPictureGallery();
     }
 
     public void addPhotoCamera(){
-        imagePickViewModel.getPictureCamera();
+        imagePickService.getPictureCamera();
     }
 
     public void startCropper(Uri uri){
-        imagePickViewModel.startCropper(uri);
+        imagePickService.startCropper(uri);
     }
     public void startCropper(Bundle bundle){
         Bitmap imageBitmap = (Bitmap) bundle.get("data");
-        imagePickViewModel.startCropper(imageBitmap);
+        imagePickService.startCropper(imageBitmap);
     }
 
     public void sendPicture(Uri uri){

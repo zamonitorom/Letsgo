@@ -81,4 +81,13 @@ public class PhotoItemViewModel extends BaseObservable {
         notifyPropertyChanged(BR.bitmap);
     }
 
+    @Bindable
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+        notifyPropertyChanged(BR.position);
+    }
 }
