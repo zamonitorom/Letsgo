@@ -97,3 +97,89 @@
         };
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    @BindingAdapter({"bindProgress"})
+    public static void bindProgress(SeekBar seekBar, final ObservableInt value){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                value.set(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                value.set(seekBar.getProgress());
+            }
+        });
+
+    }
+    
+    
+    
+    
+            <SeekBar
+            android:id="@+id/seek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="@{viewModel.integer}"
+            app:bindProgress="@{viewModel.progress}"/>
+            
+            
+            
+                public ObservableInt progress = new ObservableInt(){
+        @Override
+        public int get() {
+            return super.get();
+        }
+
+        @Override
+        public void set(int value) {
+            super.set(value);
+            setVal(String.valueOf(value));
+        }
+    };
+    
+    
+    
+        private String val;
+
+    private Integer integer;
+
+    @Bindable
+    public String getVal() {
+        return val;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
+        notifyPropertyChanged(BR.val);
+    }
+
+    @Bindable
+    public Integer getInteger() {
+        return integer;
+    }
+
+    public void setInteger(Integer integer) {
+        this.integer = integer;
+        notifyPropertyChanged(BR.integer);
+        Log.d("ViewModel",String.valueOf(integer));
+        setVal(String.valueOf(integer));
+    }
