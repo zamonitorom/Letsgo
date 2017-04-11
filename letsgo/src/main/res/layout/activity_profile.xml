@@ -65,7 +65,7 @@
             android:id="@+id/fab228"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin_gallery"
+            android:layout_marginRight="@dimen/fab_margin_gallery"
             android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
             app:onClick="@{profileVM::addPhotoGallery}"
             app:layout_anchor="@+id/recyclerView"
@@ -75,7 +75,7 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin_photo"
+            android:layout_marginRight="90dp"
             android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
             app:onClick="@{profileVM::addPhotoCamera}"
             app:layout_anchor="@+id/recyclerView"

@@ -72,7 +72,6 @@ public class NavigationService implements INavigationService {
                     .setScaleType(CropImageView.ScaleType.FIT_CENTER)
                     .start(activity);
         }
-
     }
 
     @Override

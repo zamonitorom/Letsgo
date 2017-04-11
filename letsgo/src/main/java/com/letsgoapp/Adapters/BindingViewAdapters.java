@@ -79,7 +79,7 @@ public class BindingViewAdapters {
         try {
             Picasso.with(view.getContext())
                     .load(url)
-                    .transform(new CropTransformation(0, 0, 240, 320))
+                    .transform(new CropTransformation(0, 0, 300, 400))
                     .into(view);
         } catch (Exception e) {
             e.printStackTrace();
