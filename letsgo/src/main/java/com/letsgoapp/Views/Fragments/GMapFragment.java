@@ -19,6 +19,7 @@ import com.letsgoapp.ViewModels.MapFragmentViewModel;
 import com.letsgoapp.databinding.FragmentAddMeetingBinding;
 import com.letsgoapp.databinding.FragmentMapBinding;
 
+import rx.Subscriber;
 
 
 public class GMapFragment extends Fragment {
@@ -26,6 +27,8 @@ public class GMapFragment extends Fragment {
     private MapFragment mapFragment;
 
     private MapFragmentViewModel mapFragmentViewModel;
+
+    private Subscriber<Boolean> subscriber;
 
     public GMapFragment() {
     }
@@ -39,7 +42,7 @@ public class GMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FloatingActionButton button = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        mapFragmentViewModel = new MapFragmentViewModel(button);
+        mapFragmentViewModel = new MapFragmentViewModel(subscriber);
         FragmentMapBinding fragmentmapBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_map, container, false);
         View view = fragmentmapBinding.getRoot();
@@ -64,5 +67,13 @@ public class GMapFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public Subscriber<Boolean> getSubscriber() {
+        return subscriber;
+    }
+
+    public void setSubscriber(Subscriber<Boolean> subscriber) {
+        this.subscriber = subscriber;
     }
 }

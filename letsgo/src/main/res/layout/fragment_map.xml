@@ -56,5 +56,19 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="40dp"
+            android:layout_gravity="center|end"/>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginTop="40dp"
+            app:onClick="@{mapVM::toMyLocation}"
+            android:layout_gravity="center|end"/>
     </FrameLayout>
 </layout>

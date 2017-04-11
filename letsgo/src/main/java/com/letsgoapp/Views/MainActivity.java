@@ -40,6 +40,8 @@ import com.letsgoapp.Views.Fragments.MyConfirmsFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
 import com.vk.sdk.util.VKUtil;
 
+import rx.Subscriber;
+
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 //import android.support.v4.app.FragmentManager;
@@ -61,6 +63,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferences sharedPreferences;
     TextView messages,confirms;
     FloatingActionButton button;
+
+    private Subscriber subscriber = new Subscriber<Boolean>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(Boolean b) {
+            if(b){
+                button.show();
+            }else {
+                button.hide();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
             ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF,null));
             gMapFragment = new GMapFragment();
+            gMapFragment.setSubscriber(subscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
 //        requestPermissions();
@@ -203,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            //fragmentManager.beginTransaction().replace(R.id.fragment_container, new GMapFragment()).commit();
+            gMapFragment.setSubscriber(subscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
             toolbar.setTitle("Актуальные события");
             button.show();

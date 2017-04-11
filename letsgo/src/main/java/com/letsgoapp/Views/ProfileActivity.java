@@ -15,6 +15,8 @@ import com.letsgoapp.ViewModels.ProfileViewModel;
 import com.letsgoapp.databinding.ActivityProfileBinding;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import rx.Subscriber;
+
 import static com.letsgoapp.Services.NavigationService.GALLERY_REQUEST;
 import static com.letsgoapp.Services.NavigationService.REQUEST_IMAGE_CAPTURE;
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
@@ -26,6 +28,24 @@ public class ProfileActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
+
+    private Subscriber subscriber = new Subscriber<String>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(String s) {
+            collapsingToolbarLayout.setTitle(s);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar = activityProfile2Binding.toolbar;
         collapsingToolbarLayout = activityProfile2Binding.toolbarLayout;
         SetTopContext(this);
-        profileViewModel = new ProfileViewModel(getIntent().getExtras().getString("link"));
-        profileViewModel.setCollapsingToolbarLayout(collapsingToolbarLayout);
+        profileViewModel = new ProfileViewModel(getIntent().getExtras().getString("link"),subscriber);
         activityProfile2Binding.setProfileVM(profileViewModel);
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         setSupportActionBar(toolbar);
@@ -78,5 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
 
 }

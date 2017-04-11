@@ -25,7 +25,9 @@ import com.letsgoapp.Views.FullScreenViewActivity;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -56,11 +58,10 @@ public class ProfileViewModel extends BaseObservable {
 
     public ArrayList<String> images;
 
+    private Subscriber<String> subscriber;
 
-    //костыль
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-
-    public ProfileViewModel(String link) {
+    public ProfileViewModel(String link,Subscriber<String> subscriber) {
+        this.subscriber = subscriber;
         images = new ArrayList<>();
         photos = new ObservableArrayList<>();
         dataService = new APIService();
@@ -105,7 +106,7 @@ public class ProfileViewModel extends BaseObservable {
                     Log.d(TAG, "username = " + username.get());
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
-                    collapsingToolbarLayout.setTitle(user.getFirstName());
+                    subscriber.onNext(user.getFirstName());
                     int i =0;
                     for (Photo photo : user.getPhotos()) {
                         PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto());
@@ -217,13 +218,5 @@ public class ProfileViewModel extends BaseObservable {
     public void setIcToolbar(Integer icToolbar) {
         this.icToolbar = icToolbar;
         notifyPropertyChanged(BR.icToolbar);
-    }
-
-    public CollapsingToolbarLayout getCollapsingToolbarLayout() {
-        return collapsingToolbarLayout;
-    }
-
-    public void setCollapsingToolbarLayout(CollapsingToolbarLayout collapsingToolbarLayout) {
-        this.collapsingToolbarLayout = collapsingToolbarLayout;
     }
 }

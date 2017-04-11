@@ -40,6 +40,7 @@ import java.util.Map;
 import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.BaseSliderView;
 import in.myinnos.imagesliderwithswipeslibrary.SliderTypes.TextSliderView;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -67,15 +68,16 @@ public class MapFragmentViewModel extends BaseObservable {
     @Bindable
     public Boolean isPreviewed;
 
-    //preview
-    FloatingActionButton button;
+    private Subscriber<Boolean> subscriber;
 
+    private CoordinateService gpsProvider;
     private String preAva;
 
     private String currentRef;
 
-    public MapFragmentViewModel(FloatingActionButton button) {
-        this.button = button;
+    public MapFragmentViewModel(Subscriber<Boolean> subscriber) {
+        this.subscriber = subscriber;
+        gpsProvider = new CoordinateService();
     }
 
     public void setMap(GoogleMap googleMap) {
@@ -86,8 +88,6 @@ public class MapFragmentViewModel extends BaseObservable {
         targetsList = new ArrayList<>();
 
         mMap = googleMap;
-
-        CoordinateService gpsProvider = new CoordinateService();
 
         latLng = gpsProvider.getLocation();
 
@@ -111,7 +111,7 @@ public class MapFragmentViewModel extends BaseObservable {
     }
 
     private void showPreview(Marker marker) {
-        button.hide();
+        subscriber.onNext(false);
         String href = marker.getTag().toString();
         isPreviewed = true;
         dataservice.getMeeting(href)
@@ -120,11 +120,9 @@ public class MapFragmentViewModel extends BaseObservable {
                 .subscribe(meeting -> {
                             setPreAva(meeting.getOwner().getAvatar());
                             setCurrentRef(meeting.getOwner().getHref());
-                        },
-                        throwable -> {
-                        },
-                        () -> {
-                        });
+                },
+                        throwable -> {},
+                        () -> {});
         notifyPropertyChanged(BR.isPreviewed);
 
     }
@@ -135,8 +133,12 @@ public class MapFragmentViewModel extends BaseObservable {
 
     public void closePreview() {
         isPreviewed = false;
-        button.show();
+        subscriber.onNext(true);
         notifyPropertyChanged(BR.isPreviewed);
+    }
+
+    public void toMyLocation(){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gpsProvider.getLocation(), initZoom));
     }
 
     public void getData(Context context) {
@@ -159,7 +161,8 @@ public class MapFragmentViewModel extends BaseObservable {
         double cal = Math.sqrt((current.latitude - latLng.latitude) * (current.latitude - latLng.latitude)
                 + (current.longitude - latLng.longitude) * (current.longitude - latLng.longitude));
         Log.d("mapFragment", String.valueOf(cal));
-        if (cal > RADIUS * 0.8 * 0.01) {
+        if (cal > RADIUS * 0.01) {
+            latLng = cameraPosition.target;
             getMeetings((Context) GetTopContext(), String.valueOf(current.latitude), String.valueOf(current.longitude));
         } else {
             Log.d("mapFragment", "false");
