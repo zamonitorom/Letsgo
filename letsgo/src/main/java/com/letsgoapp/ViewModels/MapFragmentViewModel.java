@@ -72,8 +72,8 @@ public class MapFragmentViewModel extends BaseObservable {
 
     private CoordinateService gpsProvider;
     private String preAva;
-
     private String currentRef;
+    private Meeting currentMeeting;
 
     public MapFragmentViewModel(Subscriber<Boolean> subscriber) {
         this.subscriber = subscriber;
@@ -118,6 +118,7 @@ public class MapFragmentViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
+                    setCurrentMeeting(meeting);
                             setPreAva(meeting.getOwner().getAvatar());
                             setCurrentRef(meeting.getOwner().getHref());
                 },
@@ -125,6 +126,21 @@ public class MapFragmentViewModel extends BaseObservable {
                         () -> {});
         notifyPropertyChanged(BR.isPreviewed);
 
+    }
+
+    public void confirm() {
+        dataservice.sendConfirm(getCurrentMeeting().getId().toString(), new Object())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {
+                }, throwable -> {
+                    Log.d("meetingActivity", throwable.toString());
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                }, () -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("OK", "Запрос отправлен");
+                });
     }
 
     public void onAvaClick() {
@@ -247,5 +263,13 @@ public class MapFragmentViewModel extends BaseObservable {
 
     public void setCurrentRef(String currentRef) {
         this.currentRef = currentRef;
+    }
+
+    public Meeting getCurrentMeeting() {
+        return currentMeeting;
+    }
+
+    public void setCurrentMeeting(Meeting currentMeeting) {
+        this.currentMeeting = currentMeeting;
     }
 }

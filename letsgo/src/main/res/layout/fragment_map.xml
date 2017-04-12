@@ -45,14 +45,23 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="спрятать страшную телку"
                     android:elevation="10dp"
                     app:onClick="@{mapVM::closePreview}"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:text="go ебаться"
+                    app:onClick="@{mapVM::confirm}"/>
                 <ImageView
                     android:id="@+id/ava"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:imageURL2="@{mapVM.preAva}"
                     app:onClick="@{mapVM::onAvaClick}"/>
+
 
             </LinearLayout>
         </LinearLayout>
@@ -61,13 +70,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fab_margin"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="70dp"
             android:layout_gravity="center|end"/>
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fab_margin"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             app:onClick="@{mapVM::toMyLocation}"
             android:layout_gravity="center|end"/>
     </FrameLayout>
