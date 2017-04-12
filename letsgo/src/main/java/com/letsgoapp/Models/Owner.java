@@ -28,6 +28,12 @@ public class Owner {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("birth_date")
+    @Expose
+    private String date;
+    @SerializedName("gender")
+    @Expose
+    private Integer gender;
 
     /**
      * No args constructor for use in serialization
@@ -46,7 +52,7 @@ public class Owner {
      * @param avatar
      * @param href
      */
-    public Owner(String about, String avatar, String firstName, String href, Integer id, List<Photo> photos, String username) {
+    public Owner(String about, String avatar, String firstName, String href, Integer id, List<Photo> photos, String username,String date) {
         super();
         this.about = about;
         this.avatar = avatar;
@@ -55,6 +61,7 @@ public class Owner {
         this.id = id;
         this.photos = photos;
         this.username = username;
+        this.date = date;
     }
 
     public String getAbout() {
@@ -113,4 +120,19 @@ public class Owner {
         this.username = username;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
 }

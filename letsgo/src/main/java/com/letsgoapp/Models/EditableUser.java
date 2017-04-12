@@ -18,6 +18,13 @@ public class EditableUser {
     @SerializedName("about")
     @Expose
     private String about;
+    @SerializedName("birth_date")
+    @Expose
+    private String date;
+    @SerializedName("gender")
+    @Expose
+    private Integer gender;
+
 
     /**
      * No args constructor for use in serialization
@@ -63,4 +70,19 @@ public class EditableUser {
         this.about = about;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
 }

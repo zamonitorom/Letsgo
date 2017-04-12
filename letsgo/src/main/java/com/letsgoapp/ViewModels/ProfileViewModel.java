@@ -15,6 +15,7 @@ import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
+import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
@@ -24,7 +25,11 @@ import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Views.FullScreenViewActivity;
 
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.function.Supplier;
 
 import rx.Subscriber;
@@ -40,17 +45,20 @@ public class ProfileViewModel extends BaseObservable {
     private final String TAG = "ProfileViewModel";
     private String avatar;
     private Integer icToolbar;
-    public MyObservableString username;
-    public MyObservableString about;
     private String uhref;
+    public MyObservableString about;
     public MyObservableString firstName;
     @Bindable
     public Boolean isMine;
     @Bindable
     public Boolean isTouchable;
+    @Bindable
+    public Boolean isDateChecking = false;
 
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
+
+    private PickedDate date;
 
     private IDataService dataService;
 
@@ -60,12 +68,12 @@ public class ProfileViewModel extends BaseObservable {
 
     private Subscriber<String> subscriber;
 
-    public ProfileViewModel(String link,Subscriber<String> subscriber) {
+    public ProfileViewModel(String link, Subscriber<String> subscriber) {
         this.subscriber = subscriber;
+        date = new PickedDate();
         images = new ArrayList<>();
         photos = new ObservableArrayList<>();
         dataService = new APIService();
-        username = new MyObservableString();
         about = new MyObservableString();
         firstName = new MyObservableString();
         isMine = false;
@@ -101,14 +109,13 @@ public class ProfileViewModel extends BaseObservable {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(user -> {
                     firstName.set(user.getFirstName());
-                    username.set(user.getUsername());
                     Log.d(TAG, "firstName = " + firstName.get());
                     about.set(user.getAbout());
-                    Log.d(TAG, "username = " + username.get());
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
+                    String str_date=user.getDate();
                     subscriber.onNext(user.getFirstName());
-                    int i =0;
+                    int i = 0;
                     for (Photo photo : user.getPhotos()) {
                         PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto());
                         model.setPosition(i);
@@ -117,59 +124,74 @@ public class ProfileViewModel extends BaseObservable {
                         i++;
                     }
                 })
-                .subscribe(user->{},throwable -> {
+                .subscribe(user -> {
+                }, throwable -> {
                     Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка","Не удалось загрузить данные");
-                },()->{
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                }, () -> {
                     ContextUtill.GetContextApplication().setCurrentPhotos(images);
                 });
     }
 
-    public void fabClick(){
-        Log.d("fabClick", "username = " + username.get()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
-        if(isMine) {
+    public void fabClick() {
+        Log.d("fabClick",  " isMine = " + isMine.toString() + " isTouchable = " + isTouchable.toString());
+        if (isMine) {
             isTouchable = true;
+            subscriber.onNext("Редактирование страницы");
             notifyPropertyChanged(BR.isTouchable);
         }
-        Log.d("fabClick2", "username = " + username.get()+" isMine = "+isMine.toString()+" isTouchable = "+isTouchable.toString());
+        Log.d("fabClick2", " isMine = " + isMine.toString() + " isTouchable = " + isTouchable.toString());
     }
 
-    public void sendChanges(){
+    public void sendChanges() {
         Log.d("ProfileViewModel", "sendChanges");
-        if(isTouchable && isMine) {
-            Log.d("ProfileViewModel", isMine.toString()+"  " + isTouchable.toString());
+        if (isTouchable && isMine) {
+            subscriber.onNext(firstName.get());
+            String date = String.valueOf(getDate().year.get())+"-"
+                    +String.valueOf(getDate().month.get()+1)+"-"
+                    +String.valueOf(getDate().day.get());
+            Log.d("ProfileViewModel", isMine.toString() + "  " + isTouchable.toString());
             EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
-            Log.d("ProfileViewModel",username.get()+"  "+ firstName.get()+"  "+ about.get() );
+            data.setDate(date);
+            data.setGender(0);
+            Log.d("ProfileViewModel", firstName.get() + "  " + about.get());
             dataService.setUserData(data,
                     "application/json")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(data1->{},throwable -> {
+                    .subscribe(data1 -> {
+                    }, throwable -> {
                         Dialogs dialogs = new Dialogs();
-                        dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
+                        dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
                     });
         }
         isTouchable = false;
         notifyPropertyChanged(BR.isTouchable);
     }
 
-    public void addPhotoGallery(){
+    public void openPicker() {
+        isDateChecking = !isDateChecking;
+        notifyPropertyChanged(BR.isDateChecking);
+    }
+
+    public void addPhotoGallery() {
         imagePickService.getPictureGallery();
     }
 
-    public void addPhotoCamera(){
+    public void addPhotoCamera() {
         imagePickService.getPictureCamera();
     }
 
-    public void startCropper(Uri uri){
+    public void startCropper(Uri uri) {
         imagePickService.startCropper(uri);
     }
-    public void startCropper(Bundle bundle){
+
+    public void startCropper(Bundle bundle) {
         Bitmap imageBitmap = (Bitmap) bundle.get("data");
         imagePickService.startCropper(imageBitmap);
     }
 
-    public void sendPicture(Uri uri){
+    public void sendPicture(Uri uri) {
         URI uri2 = URI.create(uri.toString());
         String path = uri2.getPath();
         int cut = path.lastIndexOf('/');
@@ -181,14 +203,15 @@ public class ProfileViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
-                .subscribe(responseBody -> {},
+                .subscribe(responseBody -> {
+                        },
                         throwable -> {
-                    Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
-                },()->{
-                            Log.d(TAG,answer.getPhoto());
+                            Dialogs dialogs = new Dialogs();
+                            dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                        }, () -> {
+                            Log.d(TAG, answer.getPhoto());
                             photos.add(new PhotoItemViewModel(answer.getPhoto()));
-                });
+                        });
 
     }
 
@@ -219,5 +242,13 @@ public class ProfileViewModel extends BaseObservable {
     public void setIcToolbar(Integer icToolbar) {
         this.icToolbar = icToolbar;
         notifyPropertyChanged(BR.icToolbar);
+    }
+
+    public PickedDate getDate() {
+        return date;
+    }
+
+    public void setDate(PickedDate date) {
+        this.date = date;
     }
 }
