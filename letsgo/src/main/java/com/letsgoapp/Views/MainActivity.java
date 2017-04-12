@@ -91,10 +91,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        navigationService = new NavigationService();
-        mainActivityViewModel = new MainActivityViewModel("https://pp.userapi.com/c837426/v837426417/28dee/s-Rks5_j60I.jpg");
+
         SetTopContext(this);
-        activityMainBinding.setMainVM(mainActivityViewModel);
+
 
         toolbar = activityMainBinding.toolbar.toolbar2;
         toolbar.setTitle("Актуальные события");
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getFragmentManager();
+        navigationService = new NavigationService();
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             gMapFragment.setSubscriber(subscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
+
+        mainActivityViewModel = new MainActivityViewModel();
+        activityMainBinding.setMainVM(mainActivityViewModel);
 //        requestPermissions();
 
 

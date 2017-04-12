@@ -2,6 +2,7 @@ package com.letsgoapp.Utils;
 
 import android.app.Application;
 
+import com.letsgoapp.Models.Owner;
 import com.vk.sdk.VKSdk;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class ContextApplication extends Application {
     private String token;
     private String href;
     private ArrayList<String> currentPhotos;
+    private Owner user;
 
     @Override
     public void onCreate() {
@@ -50,5 +52,13 @@ public class ContextApplication extends Application {
 
     public void setCurrentPhotos(ArrayList<String> currentPhotos) {
         this.currentPhotos = currentPhotos;
+    }
+
+    public Owner getUser() {
+        return user;
+    }
+
+    public void setUser(Owner user) {
+        this.user = user;
     }
 }

@@ -85,6 +85,7 @@ public class ProfileViewModel extends BaseObservable {
                 notifyPropertyChanged(BR.isMine);
             } else {
                 getUser(ContextUtill.GetContextApplication().getHref());
+//                getUser("http://37.46.128.134/user-detail/");
                 isMine = true;
                 setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
