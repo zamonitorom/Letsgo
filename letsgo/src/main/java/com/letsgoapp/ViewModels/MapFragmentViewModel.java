@@ -196,7 +196,7 @@ public class MapFragmentViewModel extends BaseObservable {
         dataservice.getLocalMeetingList(parameters)
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
-                .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
+                .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getColorStatus())))
                 .doOnNext(meeting -> meetingList.add(meeting))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {

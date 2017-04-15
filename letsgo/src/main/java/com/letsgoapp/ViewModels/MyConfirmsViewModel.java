@@ -58,6 +58,8 @@ public class MyConfirmsViewModel extends BaseObservable {
                     notifyChange();
                     confirmItemViewModel.setMeetingName(confirm.getMeeting().getTitle());
                     confirmItemViewModel.setUserName(confirm.getUser().getFirstName());
+                    confirmItemViewModel.setMeetingDescription(confirm.getMeeting().getDescription());
+                    confirmItemViewModel.setId(String.valueOf(confirm.getId()));
                     Log.d("MyConfirmsViewModel", String.valueOf(confirmItemViewModel.isApproved));
 
                     confirms.add(confirmItemViewModel);

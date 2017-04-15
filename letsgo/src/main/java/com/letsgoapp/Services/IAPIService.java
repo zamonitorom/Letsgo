@@ -20,6 +20,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -60,7 +62,7 @@ public interface IAPIService {
     Observable<Owner> getUser(@Url String url,
                               @Header("Authorization") String authorization);
 
-    @PUT("user-detail/9/")
+    @PUT("user-detail/")
     Observable<Object> setUserData(@Body Object EditableUser,
                                    @Header("Authorization") String authorization,
                                    @Header("Content-Type") String contentType);
@@ -81,4 +83,9 @@ public interface IAPIService {
     Observable<UserResponse> createUser(@Body Object newUser,
                                         @Header("Content-Type") String contentType);
 //                                   @Header("Content-Length") String length);
+    @FormUrlEncoded
+    @PUT("confirm-action/{id}/")
+    Observable<Object> sendConfirm(@Path("id") String id,
+                                        @Field("is_approved") String status,
+                                        @Header("Authorization") String authorization);
 }

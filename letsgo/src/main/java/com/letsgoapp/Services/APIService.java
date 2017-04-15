@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.google.gson.internal.Streams;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
@@ -123,11 +124,16 @@ public class APIService implements IDataService {
 
     @Override
     public Observable<List<Confirm>> getConfirms() {
-        return iapiService.getConfirmList("Token ee6d9b6dcdb03b6d7666c4cc14be644272e8c150");
+        return iapiService.getConfirmList(token);
     }
 
     @Override
     public Observable<UserResponse> createUser(Object newUser) {
         return iapiService3.createUser(newUser,"application/json");
+    }
+
+    @Override
+    public Observable<Object> sendApprove(String id,String status) {
+        return iapiService3.sendConfirm(id,status,token);
     }
 }

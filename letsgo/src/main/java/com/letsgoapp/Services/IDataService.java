@@ -1,5 +1,7 @@
 package com.letsgoapp.Services;
 
+import android.databinding.ObservableArrayList;
+
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
@@ -10,6 +12,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -30,4 +33,6 @@ public interface IDataService {
     Observable<Object> sendConfirm(String id,Object body);
     Observable<List<Confirm>> getConfirms();
     Observable<UserResponse>createUser(Object newUser);
+    Observable<Object> sendApprove(String id,String status);
+//    Observable<RequestBody> sendReject();
 }

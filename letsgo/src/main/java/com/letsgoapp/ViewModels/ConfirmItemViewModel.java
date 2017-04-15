@@ -9,8 +9,15 @@ import android.util.Log;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.Confirm;
+import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import rx.schedulers.Schedulers;
 
 import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
@@ -26,17 +33,35 @@ public class ConfirmItemViewModel extends BaseObservable{
     public Boolean isRejected;
     private String link;
     private String meetingName;
+    private String meetingDescription;
     private String userName;
+    private String id;
 
-    ConfirmItemViewModel() {    }
+    private IDataService dataService;
+
+    ConfirmItemViewModel() {
+        dataService = new APIService();
+    }
 
     public ConfirmItemViewModel(String link,Boolean approved) {
+        dataService = new APIService();
         if (link != null) {
             this.link = link;
             this.isApproved = approved;
             Log.d("ConfirmItemViewModel",String.valueOf(isApproved));
             notifyChange();
         }
+    }
+
+    public void approve(){
+
+        dataService.sendApprove(getId(),"True")
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+    }
+
+    public void reject(){
+
     }
 
     @Bindable
@@ -67,5 +92,23 @@ public class ConfirmItemViewModel extends BaseObservable{
     public void setUserName(String userName) {
         this.userName = userName;
         notifyPropertyChanged(BR.userName);
+    }
+
+    @Bindable
+    public String getMeetingDescription() {
+        return meetingDescription;
+    }
+
+    public void setMeetingDescription(String meetingDescription) {
+        this.meetingDescription = meetingDescription;
+        notifyPropertyChanged(BR.meetingDescription);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
