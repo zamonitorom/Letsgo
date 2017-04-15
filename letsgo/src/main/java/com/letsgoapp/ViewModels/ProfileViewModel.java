@@ -1,6 +1,7 @@
 package com.letsgoapp.ViewModels;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.Log;
+import android.widget.DatePicker;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
@@ -29,6 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Supplier;
 
@@ -89,13 +92,13 @@ public class ProfileViewModel extends BaseObservable {
             if (!link.isEmpty()) {
                 getUser(link);
                 isMine = false;
-                setIcToolbar(R.drawable.ic_message_white_36dp);
+//                setIcToolbar(R.drawable.ic_message_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             } else {
                 getUser(ContextUtill.GetContextApplication().getHref());
 //                getUser("http://37.46.128.134/user-detail/");
                 isMine = true;
-                setIcToolbar(R.drawable.ic_edit_white_36dp);
+//                setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             }
         }
@@ -170,8 +173,23 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void openPicker() {
-        isDateChecking = !isDateChecking;
-        notifyPropertyChanged(BR.isDateChecking);
+//        isDateChecking = !isDateChecking;
+//        notifyPropertyChanged(BR.isDateChecking);
+
+        int mYear, mMonth, mDay;
+
+        final Calendar cal = Calendar.getInstance();
+        mYear = cal.get(Calendar.YEAR);
+        mMonth = cal.get(Calendar.MONTH);
+        mDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog((Activity)ContextUtill.GetTopContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    getDate().year.set(year);
+                    getDate().month.set(monthOfYear);
+                    getDate().day.set(dayOfMonth);
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 
     public void addPhotoGallery() {

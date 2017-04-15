@@ -27,6 +27,15 @@ public class Meeting {
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("color_status")
+    @Expose
+    private String colorStatus;
+    @SerializedName("meeting_type")
+    @Expose
+    private Integer meetingType;
+    @SerializedName("meeting_date")
+    @Expose
+    private Integer meetingDate;
 
     /**
      * No args constructor for use in serialization
@@ -112,4 +121,27 @@ public class Meeting {
         this.title = title;
     }
 
+    public String getColorStatus() {
+        return colorStatus;
+    }
+
+    public void setColorStatus(String colorStatus) {
+        this.colorStatus = colorStatus;
+    }
+
+    public Integer getMeetingType() {
+        return meetingType;
+    }
+
+    public void setMeetingType(Integer meetingType) {
+        this.meetingType = meetingType;
+    }
+
+    public Integer getMeetingDate() {
+        return meetingDate;
+    }
+
+    public void setMeetingDate(Integer meetingDate) {
+        this.meetingDate = meetingDate;
+    }
 }
