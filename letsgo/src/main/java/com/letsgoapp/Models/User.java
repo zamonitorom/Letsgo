@@ -23,6 +23,12 @@ public class User {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("birth_date")
+    @Expose
+    private String date;
+    @SerializedName("gender")
+    @Expose
+    private Integer gender;
 
     public String getAbout() {
         return about;
@@ -72,4 +78,19 @@ public class User {
         this.username = username;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
 }

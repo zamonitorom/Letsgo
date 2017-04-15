@@ -1,4 +1,3 @@
-
 package com.letsgoapp.Models;
 
 import com.google.gson.annotations.Expose;
@@ -6,18 +5,30 @@ import com.google.gson.annotations.SerializedName;
 
 public class Meeting {
 
+    @SerializedName("color_status")
+    @Expose
+    private String colorStatus;
     @SerializedName("coordinates")
     @Expose
     private Coordinates coordinates;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("group_type")
+    @Expose
+    private Integer groupType;
     @SerializedName("href")
     @Expose
     private String href;
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("meeting_date")
+    @Expose
+    private String meetingDate;
+    @SerializedName("meeting_type")
+    @Expose
+    private Integer meetingType;
     @SerializedName("owner")
     @Expose
     private Owner owner;
@@ -27,15 +38,6 @@ public class Meeting {
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("color_status")
-    @Expose
-    private String colorStatus;
-    @SerializedName("meeting_type")
-    @Expose
-    private Integer meetingType;
-    @SerializedName("meeting_date")
-    @Expose
-    private Integer meetingDate;
 
     /**
      * No args constructor for use in serialization
@@ -47,22 +49,38 @@ public class Meeting {
     /**
      *
      * @param id
+     * @param groupType
      * @param title
      * @param subway
+     * @param colorStatus
      * @param description
      * @param owner
+     * @param meetingType
+     * @param meetingDate
      * @param href
      * @param coordinates
      */
-    public Meeting(Coordinates coordinates, String description, String href, Integer id, Owner owner, Object subway, String title) {
+    public Meeting(String colorStatus, Coordinates coordinates, String description, Integer groupType, String href, Integer id, String meetingDate, Integer meetingType, Owner owner, Object subway, String title) {
         super();
+        this.colorStatus = colorStatus;
         this.coordinates = coordinates;
         this.description = description;
+        this.groupType = groupType;
         this.href = href;
         this.id = id;
+        this.meetingDate = meetingDate;
+        this.meetingType = meetingType;
         this.owner = owner;
         this.subway = subway;
         this.title = title;
+    }
+
+    public String getColorStatus() {
+        return colorStatus;
+    }
+
+    public void setColorStatus(String colorStatus) {
+        this.colorStatus = colorStatus;
     }
 
     public Coordinates getCoordinates() {
@@ -81,6 +99,14 @@ public class Meeting {
         this.description = description;
     }
 
+    public Integer getGroupType() {
+        return groupType;
+    }
+
+    public void setGroupType(Integer groupType) {
+        this.groupType = groupType;
+    }
+
     public String getHref() {
         return href;
     }
@@ -95,6 +121,22 @@ public class Meeting {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getMeetingDate() {
+        return meetingDate;
+    }
+
+    public void setMeetingDate(String meetingDate) {
+        this.meetingDate = meetingDate;
+    }
+
+    public Integer getMeetingType() {
+        return meetingType;
+    }
+
+    public void setMeetingType(Integer meetingType) {
+        this.meetingType = meetingType;
     }
 
     public Owner getOwner() {
@@ -121,27 +163,4 @@ public class Meeting {
         this.title = title;
     }
 
-    public String getColorStatus() {
-        return colorStatus;
-    }
-
-    public void setColorStatus(String colorStatus) {
-        this.colorStatus = colorStatus;
-    }
-
-    public Integer getMeetingType() {
-        return meetingType;
-    }
-
-    public void setMeetingType(Integer meetingType) {
-        this.meetingType = meetingType;
-    }
-
-    public Integer getMeetingDate() {
-        return meetingDate;
-    }
-
-    public void setMeetingDate(Integer meetingDate) {
-        this.meetingDate = meetingDate;
-    }
 }

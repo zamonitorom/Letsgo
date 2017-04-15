@@ -76,16 +76,10 @@ public class MeetingViewModel extends BaseObservable {
                             setMeetingDescription(meeting.getDescription());
                             setAvatar(meeting.getOwner().getAvatar());
                             setAbout(meeting.getOwner().getAbout());
-                            setUsername(meeting.getOwner().getUsername());
+                            setUsername(meeting.getOwner().getFirstName());
                             setUhref(meeting.getOwner().getHref());
                             setUserId(meeting.getOwner().getId().toString());
                             toolbarViewModel.setToolbarTitle(meeting.getTitle());
-//                            for (Photo photo : meeting.getOwner().getPhotos()) {
-//                                addAbout(photo.getPhoto() + "\n");
-//                                photos.add(new PhotoItemViewModel(photo.getPhoto()));
-//                                photosFull.add(photo.getPhoto());
-//                                Log.d("meetingActivity", photo.getPhoto());
-//                            }
                             for (Photo photo : meeting.getOwner().getPhotos()) {
                                 TextSliderView textSliderView = new TextSliderView((Activity) GetTopContext());
                                 // initialize a SliderLayout

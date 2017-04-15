@@ -116,7 +116,7 @@ public class ProfileViewModel extends BaseObservable {
                     about.set(user.getAbout());
                     setAvatar(user.getAvatar());
                     Log.d(TAG, "about = " + about.get());
-                    String str_date=user.getDate();
+                    String str_date=(String) user.getBirthDate();
                     subscriber.onNext(user.getFirstName());
                     int i = 0;
                     for (Photo photo : user.getPhotos()) {

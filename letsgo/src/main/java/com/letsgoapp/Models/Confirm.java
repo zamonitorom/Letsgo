@@ -1,10 +1,7 @@
 package com.letsgoapp.Models;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-/**
- * Created by normalteam on 26.03.17.
- */
 
 public class Confirm {
 
@@ -26,6 +23,32 @@ public class Confirm {
     @SerializedName("user")
     @Expose
     private User user;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Confirm() {
+    }
+
+    /**
+     *
+     * @param id
+     * @param meeting
+     * @param isRejected
+     * @param isApproved
+     * @param dateCreate
+     * @param user
+     */
+    public Confirm(String dateCreate, Integer id, Boolean isApproved, Boolean isRejected, Meeting meeting, User user) {
+        super();
+        this.dateCreate = dateCreate;
+        this.id = id;
+        this.isApproved = isApproved;
+        this.isRejected = isRejected;
+        this.meeting = meeting;
+        this.user = user;
+    }
 
     public String getDateCreate() {
         return dateCreate;

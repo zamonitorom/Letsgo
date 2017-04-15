@@ -118,12 +118,14 @@ public class MapFragmentViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meeting -> {
-                    setCurrentMeeting(meeting);
+                            setCurrentMeeting(meeting);
                             setPreAva(meeting.getOwner().getAvatar());
                             setCurrentRef(meeting.getOwner().getHref());
-                },
-                        throwable -> {},
-                        () -> {});
+                        },
+                        throwable -> {
+                        },
+                        () -> {
+                        });
         notifyPropertyChanged(BR.isPreviewed);
 
     }
@@ -153,7 +155,7 @@ public class MapFragmentViewModel extends BaseObservable {
         notifyPropertyChanged(BR.isPreviewed);
     }
 
-    public void toMyLocation(){
+    public void toMyLocation() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gpsProvider.getLocation(), initZoom));
     }
 
@@ -227,7 +229,14 @@ public class MapFragmentViewModel extends BaseObservable {
                             e.printStackTrace();
                         }
                     }
-                    picassoMarker.setColour(Color.RED);
+                    if (m.getColorStatus().equals("disapproved")) {
+                        picassoMarker.setColour(Color.YELLOW);
+                    } else if (m.getColorStatus().equals("mine")) {
+                        picassoMarker.setColour(Color.RED);
+                    } else if (m.getColorStatus().equals("approved")) {
+                        picassoMarker.setColour(Color.GREEN);
+                    }
+
                     targetsList.add(picassoMarker);
 
                 }

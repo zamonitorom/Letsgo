@@ -1,4 +1,3 @@
-
 package com.letsgoapp.Models;
 
 import java.util.List;
@@ -13,9 +12,15 @@ public class Owner {
     @SerializedName("avatar")
     @Expose
     private String avatar;
+    @SerializedName("birth_date")
+    @Expose
+    private String birthDate;
     @SerializedName("first_name")
     @Expose
     private String firstName;
+    @SerializedName("gender")
+    @Expose
+    private Object gender;
     @SerializedName("href")
     @Expose
     private String href;
@@ -25,43 +30,33 @@ public class Owner {
     @SerializedName("photos")
     @Expose
     private List<Photo> photos = null;
-    @SerializedName("username")
-    @Expose
-    private String username;
-    @SerializedName("birth_date")
-    @Expose
-    private String date;
-    @SerializedName("gender")
-    @Expose
-    private Integer gender;
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     public Owner() {
     }
 
     /**
-     * 
      * @param photos
      * @param id
-     * @param username
      * @param about
+     * @param gender
+     * @param birthDate
      * @param firstName
      * @param avatar
      * @param href
      */
-    public Owner(String about, String avatar, String firstName, String href, Integer id, List<Photo> photos, String username,String date) {
+    public Owner(String about, String avatar, String birthDate, String firstName, Object gender, String href, Integer id, List<Photo> photos) {
         super();
         this.about = about;
         this.avatar = avatar;
+        this.birthDate = birthDate;
         this.firstName = firstName;
+        this.gender = gender;
         this.href = href;
         this.id = id;
         this.photos = photos;
-        this.username = username;
-        this.date = date;
     }
 
     public String getAbout() {
@@ -80,12 +75,28 @@ public class Owner {
         this.avatar = avatar;
     }
 
+    public Object getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public Object getGender() {
+        return gender;
+    }
+
+    public void setGender(Object gender) {
+        this.gender = gender;
     }
 
     public String getHref() {
@@ -112,27 +123,4 @@ public class Owner {
         this.photos = photos;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
 }

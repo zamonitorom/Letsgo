@@ -31,11 +31,11 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 
 public class VkService {
     private static final String[] sMyScope = new String[]{
-            VKScope.FRIENDS,
-            VKScope.WALL,
-            VKScope.PHOTOS,
+//            VKScope.FRIENDS,
+//            VKScope.WALL,
+//            VKScope.PHOTOS,
             VKScope.NOHTTPS,
-            VKScope.DOCS
+//            VKScope.DOCS
     };
 
     private final String TAG= "VkService";
