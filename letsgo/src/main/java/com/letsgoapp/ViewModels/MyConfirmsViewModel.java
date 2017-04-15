@@ -43,32 +43,32 @@ public class MyConfirmsViewModel extends BaseObservable {
     }
 
     private void loadConfirms() {
-//        dataService.getConfirms()
-//                .subscribeOn(Schedulers.newThread())
-//                .doOnNext(confirms1 -> {
-//                    setCount(confirms1.size());
-//                })
-//                .flatMap(Observable::from)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnNext(confirm -> {
-//                    ConfirmItemViewModel confirmItemViewModel = new ConfirmItemViewModel();
-//                    confirmItemViewModel.setLink(confirm.getUser().getAvatar());
-//                    confirmItemViewModel.isApproved = confirm.getIsApproved();
-//                    confirmItemViewModel.isRejected = confirm.getIsRejected();
-//                    notifyChange();
-//                    confirmItemViewModel.setMeetingName(confirm.getMeeting().getTitle());
-//                    confirmItemViewModel.setUserName(confirm.getUser().getFirstName());
-//                    Log.d("MyConfirmsViewModel", String.valueOf(confirmItemViewModel.isApproved));
-//
-//                    confirms.add(confirmItemViewModel);
-//                    Log.d("MyConfirmsViewModel", String.valueOf(confirms.size()));
-//                })
-//                .subscribe(confirm -> {
-//                }, throwable -> {
-//                    Log.d("MyConfirmsViewModel", throwable.toString());
-//                    Dialogs dialogs = new Dialogs();
-//                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
-//                });
+        dataService.getConfirms()
+                .subscribeOn(Schedulers.newThread())
+                .doOnNext(confirms1 -> {
+                    setCount(confirms1.size());
+                })
+                .flatMap(Observable::from)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(confirm -> {
+                    ConfirmItemViewModel confirmItemViewModel = new ConfirmItemViewModel();
+                    confirmItemViewModel.setLink(confirm.getUser().getAvatar());
+                    confirmItemViewModel.isApproved = confirm.getIsApproved();
+                    confirmItemViewModel.isRejected = confirm.getIsRejected();
+                    notifyChange();
+                    confirmItemViewModel.setMeetingName(confirm.getMeeting().getTitle());
+                    confirmItemViewModel.setUserName(confirm.getUser().getFirstName());
+                    Log.d("MyConfirmsViewModel", String.valueOf(confirmItemViewModel.isApproved));
+
+                    confirms.add(confirmItemViewModel);
+                    Log.d("MyConfirmsViewModel", String.valueOf(confirms.size()));
+                })
+                .subscribe(confirm -> {
+                }, throwable -> {
+                    Log.d("MyConfirmsViewModel", throwable.toString());
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                });
     }
 
     @Bindable

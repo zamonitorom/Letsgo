@@ -41,12 +41,12 @@ public class GMapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FloatingActionButton button = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         mapFragmentViewModel = new MapFragmentViewModel(subscriber);
         FragmentMapBinding fragmentmapBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_map, container, false);
         View view = fragmentmapBinding.getRoot();
         fragmentmapBinding.setMapVM(mapFragmentViewModel);
+        fragmentmapBinding.preview.setPreVM(mapFragmentViewModel);
         return view;
     }
 
@@ -54,7 +54,8 @@ public class GMapFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(googleMap -> {mapFragmentViewModel.setMap(googleMap);});
+        mapFragment.getMapAsync(googleMap -> {
+            mapFragmentViewModel.setMap(googleMap);});
         Log.d("onViewCreated",getActivity().getClass().toString());
 
     }

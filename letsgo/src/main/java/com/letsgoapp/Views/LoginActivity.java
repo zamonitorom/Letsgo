@@ -43,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
-                loginViewModel.setUserVk(res);
                 requestPermissions();
+                loginViewModel.setUserVk(res);
             }
 
             @Override

@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferences sharedPreferences;
     TextView messages,confirms;
     FloatingActionButton button;
+    public ActivityMainBinding activityMainBinding;
 
     private Subscriber subscriber = new Subscriber<Boolean>() {
         @Override
@@ -89,11 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         SetTopContext(this);
-
 
         toolbar = activityMainBinding.toolbar.toolbar2;
         toolbar.setTitle("Актуальные события");
@@ -121,16 +120,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
             ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF,null));
+            mainActivityViewModel = new MainActivityViewModel();
+            activityMainBinding.setMainVM(mainActivityViewModel);
             gMapFragment = new GMapFragment();
             gMapFragment.setSubscriber(subscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
 
-        mainActivityViewModel = new MainActivityViewModel();
-        activityMainBinding.setMainVM(mainActivityViewModel);
+
 //        requestPermissions();
-
-
         //
         //Create these objects above OnCreate()of your main activity
 //These lines should be added in the OnCreate() of your main activity
@@ -145,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initializeCountDrawer(){
-
         //Gravity property aligns the text
         confirms.setGravity(Gravity.CENTER_VERTICAL);
         confirms.setTypeface(null, Typeface.BOLD);
@@ -185,17 +182,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
-
+                mainActivityViewModel = new MainActivityViewModel();
+                activityMainBinding.setMainVM(mainActivityViewModel);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if(data.getStringExtra("token")!=null){
                     editor.putString(APP_PREFERENCES_TOKEN,data.getStringExtra("token"));
                     editor.putBoolean(APP_PREFERENCES_REGISTER, true);
+
                 }
                 if(data.getExtras().getString("href")!=null){
                     editor.putString(APP_PREFERENCES_REF,data.getExtras().getString("href"));
                 }
                 editor.apply();
                 gMapFragment = new GMapFragment();
+                gMapFragment.setSubscriber(subscriber);
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
                 navigationService.goProfile(null);
             }
