@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 public class ContextUtill {
 
-
+    private static Boolean dataChanged = false;
     @Nullable
     public static Object GetTopContext() {
         Object topActivity = null;
@@ -65,4 +65,11 @@ public class ContextUtill {
         ((ContextApplication) activity.getApplication()).setGlobalVarValue(activity);
     }
 
+    public static Boolean isDataChanged() {
+        return dataChanged;
+    }
+
+    public static void setDataChanged(Boolean data) {
+        dataChanged = data;
+    }
 }

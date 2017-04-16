@@ -36,7 +36,7 @@ public class SetMeetingActivity extends AppCompatActivity {
 
         toolbar.setTitle("Создание события");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> finish());
 
 //        FragmentManager fragmentManager = getFragmentManager();

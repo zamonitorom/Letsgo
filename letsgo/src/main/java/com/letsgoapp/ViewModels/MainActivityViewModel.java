@@ -35,6 +35,13 @@ public class MainActivityViewModel extends BaseObservable {
         getUser(ContextUtill.GetContextApplication().getHref());
     }
 
+    public void updateData(){
+        if(ContextUtill.isDataChanged()) {
+            getUser(ContextUtill.GetContextApplication().getHref());
+            ContextUtill.setDataChanged(false);
+        }
+    }
+
     private void getUser(String link) {
         Log.d("ProfileViewModel", "getUser");
         dataService.getUser(link)

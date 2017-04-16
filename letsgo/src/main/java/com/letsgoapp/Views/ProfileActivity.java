@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         activityProfile2Binding.setProfileVM(profileViewModel);
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_36dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 

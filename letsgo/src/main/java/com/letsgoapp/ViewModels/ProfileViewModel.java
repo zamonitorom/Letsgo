@@ -140,6 +140,7 @@ public class ProfileViewModel extends BaseObservable {
         Log.d("fabClick",  " isMine = " + isMine.toString() + " isTouchable = " + isTouchable.toString());
         if (isMine) {
             isTouchable = true;
+//            ContextUtill.setDataChanged(true);
             subscriber.onNext("Редактирование страницы");
             notifyPropertyChanged(BR.isTouchable);
         }
@@ -169,6 +170,7 @@ public class ProfileViewModel extends BaseObservable {
                     });
         }
         isTouchable = false;
+        ContextUtill.setDataChanged(true);
         notifyPropertyChanged(BR.isTouchable);
     }
 

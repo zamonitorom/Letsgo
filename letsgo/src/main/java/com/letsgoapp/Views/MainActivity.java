@@ -1,32 +1,24 @@
 package com.letsgoapp.Views;
 
-import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.letsgoapp.R;
 import com.letsgoapp.Services.INavigationService;
@@ -38,7 +30,6 @@ import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.Views.Fragments.MyConfirmsFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
-import com.vk.sdk.util.VKUtil;
 
 import rx.Subscriber;
 
@@ -61,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public GMapFragment gMapFragment;
     MainActivityViewModel mainActivityViewModel;
     SharedPreferences sharedPreferences;
-    TextView messages,confirms;
+    TextView messages, confirms;
     FloatingActionButton button;
     public ActivityMainBinding activityMainBinding;
 
@@ -78,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onNext(Boolean b) {
-            if(b){
+            if (b) {
                 button.show();
-            }else {
+            } else {
                 button.hide();
             }
         }
@@ -93,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         SetTopContext(this);
-
         toolbar = activityMainBinding.toolbar.toolbar2;
         toolbar.setTitle("Актуальные события");
         button = activityMainBinding.toolbar.fab;
@@ -118,38 +108,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
             navigationService.goLogin();
         } else {
-            ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN,null));
-            ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF,null));
-            mainActivityViewModel = new MainActivityViewModel();
-            activityMainBinding.setMainVM(mainActivityViewModel);
+            ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN, null));
+            ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF, null));
             gMapFragment = new GMapFragment();
             gMapFragment.setSubscriber(subscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
-
+        mainActivityViewModel = new MainActivityViewModel();
+        activityMainBinding.setMainVM(mainActivityViewModel);
 
 //        requestPermissions();
         //
         //Create these objects above OnCreate()of your main activity
 //These lines should be added in the OnCreate() of your main activity
-        confirms=(TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+        confirms = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_my_confirms));
 
-        messages=(TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+        messages = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_messages));
 
 //This method will initialize the count value
         initializeCountDrawer();
     }
 
-    private void initializeCountDrawer(){
+    private void initializeCountDrawer() {
         //Gravity property aligns the text
         confirms.setGravity(Gravity.CENTER_VERTICAL);
         confirms.setTypeface(null, Typeface.BOLD);
         confirms.setTextColor(getResources().getColor(R.color.colorAccent));
         confirms.setText("99+");
         messages.setGravity(Gravity.CENTER_VERTICAL);
-        messages.setTypeface(null,Typeface.BOLD);
+        messages.setTypeface(null, Typeface.BOLD);
         messages.setTextColor(getResources().getColor(R.color.colorAccent));
 //count is added
         messages.setText("7");
@@ -159,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         SetTopContext(this);
+        mainActivityViewModel.updateData();
         super.onResume();
     }
 
@@ -182,16 +172,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
-                mainActivityViewModel = new MainActivityViewModel();
-                activityMainBinding.setMainVM(mainActivityViewModel);
+                mainActivityViewModel.updateData();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if(data.getStringExtra("token")!=null){
-                    editor.putString(APP_PREFERENCES_TOKEN,data.getStringExtra("token"));
+                if (data.getStringExtra("token") != null) {
+                    editor.putString(APP_PREFERENCES_TOKEN, data.getStringExtra("token"));
                     editor.putBoolean(APP_PREFERENCES_REGISTER, true);
 
                 }
-                if(data.getExtras().getString("href")!=null){
-                    editor.putString(APP_PREFERENCES_REF,data.getExtras().getString("href"));
+                if (data.getExtras().getString("href") != null) {
+                    editor.putString(APP_PREFERENCES_REF, data.getExtras().getString("href"));
                 }
                 editor.apply();
                 gMapFragment = new GMapFragment();

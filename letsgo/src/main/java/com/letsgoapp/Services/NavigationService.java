@@ -2,6 +2,7 @@ package com.letsgoapp.Services;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.MediaStore;
 

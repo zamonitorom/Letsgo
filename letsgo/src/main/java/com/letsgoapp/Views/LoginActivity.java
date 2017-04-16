@@ -3,6 +3,7 @@ package com.letsgoapp.Views;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.util.Log;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.LoginViewModel;
+import com.letsgoapp.databinding.ActivityLoginBinding;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
@@ -27,8 +29,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SetTopContext(this);
+        ActivityLoginBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         loginViewModel = new LoginViewModel();
-        loginViewModel.goVk();
+        binding.setLoginVM(loginViewModel);
+
+//        loginViewModel.goVk();
     }
 
     @Override
