@@ -1,5 +1,6 @@
 package com.letsgoapp.Adapters;
 
+import android.app.Activity;
 import android.databinding.BindingAdapter;
 import android.databinding.BindingConversion;
 import android.databinding.ObservableList;
@@ -13,7 +14,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -22,10 +25,12 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.R;
 
 import com.letsgoapp.Utils.CircleTransform;
+import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.ExtendedEditText;
 import com.letsgoapp.Utils.LayoutManagers;
 
 import com.letsgoapp.Utils.CropTransformation;
+import com.letsgoapp.Utils.OnSwipeTouchListener;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.databinding.NavHeaderMainBinding;
 import com.squareup.picasso.Picasso;
@@ -193,6 +198,36 @@ public class BindingViewAdapters {
     public static void setMonthDay(DatePicker view, int month, int day,
                                    DatePicker.OnDateChangedListener listener) {
         setDate(view, view.getYear(), month, day, listener);
+    }
+
+    @BindingAdapter({"swipe"})
+    public static void bindSwipe(View view, final Runnable runnable) {
+
+        view.setOnTouchListener(new OnSwipeTouchListener((Activity)ContextUtill.GetTopContext()){
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                runnable.run();
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                runnable.run();
+            }
+
+            @Override
+            public void onSwipeTop() {
+                super.onSwipeTop();
+            }
+
+            @Override
+            public void onSwipeBottom() {
+                super.onSwipeBottom();
+                runnable.run();
+            }
+        });
+
     }
 
 }

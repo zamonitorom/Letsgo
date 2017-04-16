@@ -37,7 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fab_margin"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center|end"
             app:onClick="@{mapVM::toMyLocation}"
-            android:layout_gravity="center|end"/>
+            app:srcCompat="@drawable/ic_my_location_white_36dp"
+            />
     </FrameLayout>
 </layout>

@@ -156,7 +156,7 @@ public class MapFragmentViewModel extends BaseObservable {
     }
 
     public void toMyLocation() {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gpsProvider.getLocation(), initZoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gpsProvider.getLocation(), mMap.getCameraPosition().zoom));
     }
 
     public void getData(Context context) {
@@ -266,19 +266,23 @@ public class MapFragmentViewModel extends BaseObservable {
         notifyPropertyChanged(BR.preAva);
     }
 
+    @Bindable
     public String getCurrentRef() {
         return currentRef;
     }
 
     public void setCurrentRef(String currentRef) {
         this.currentRef = currentRef;
+        notifyPropertyChanged(BR.currentRef);
     }
 
+    @Bindable
     public Meeting getCurrentMeeting() {
         return currentMeeting;
     }
 
     public void setCurrentMeeting(Meeting currentMeeting) {
         this.currentMeeting = currentMeeting;
+        notifyPropertyChanged(BR.currentMeeting);
     }
 }
