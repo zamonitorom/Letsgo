@@ -13,6 +13,7 @@ import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.SendMeeting;
+import com.letsgoapp.Models.UnreadConfirm;
 import com.letsgoapp.Models.UserResponse;
 import com.letsgoapp.Utils.ContextUtill;
 
@@ -135,5 +136,10 @@ public class APIService implements IDataService {
     @Override
     public Observable<Object> sendApprove(String id,String status) {
         return iapiService3.sendConfirm(id,status,token);
+    }
+
+    @Override
+    public Observable<UnreadConfirm> getUnreadConfirms() {
+        return iapiService.getUnreadConfirms(token);
     }
 }

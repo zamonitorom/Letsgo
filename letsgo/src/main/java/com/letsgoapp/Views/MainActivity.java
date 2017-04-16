@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.letsgoapp.R;
@@ -94,7 +95,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                mainActivityViewModel.getUnreadConfirm();
+                confirms.setText(mainActivityViewModel.getUnreadConfirms());
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -136,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         confirms.setGravity(Gravity.CENTER_VERTICAL);
         confirms.setTypeface(null, Typeface.BOLD);
         confirms.setTextColor(getResources().getColor(R.color.colorAccent));
-        confirms.setText("99+");
         messages.setGravity(Gravity.CENTER_VERTICAL);
         messages.setTypeface(null, Typeface.BOLD);
         messages.setTextColor(getResources().getColor(R.color.colorAccent));

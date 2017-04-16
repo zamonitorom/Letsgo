@@ -7,6 +7,7 @@ import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.SendMeeting;
+import com.letsgoapp.Models.UnreadConfirm;
 import com.letsgoapp.Models.UserResponse;
 
 import java.util.List;
@@ -88,4 +89,7 @@ public interface IAPIService {
     Observable<Object> sendConfirm(@Path("id") String id,
                                         @Field("is_approved") String status,
                                         @Header("Authorization") String authorization);
+
+    @GET("unread-confirms/")
+    Observable<UnreadConfirm> getUnreadConfirms(@Header("Authorization") String authorization);
 }

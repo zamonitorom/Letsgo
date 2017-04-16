@@ -24,6 +24,7 @@ public class MainActivityViewModel extends BaseObservable {
 
     private String ava;
     private String name;
+    private String unreadConfirms;
 
     private INavigationService navigationService;
     private IDataService dataService;
@@ -42,6 +43,14 @@ public class MainActivityViewModel extends BaseObservable {
         }
     }
 
+    public void getUnreadConfirm(){
+        dataService.getUnreadConfirms()
+                .subscribeOn(Schedulers.io())
+                .subscribe(unreadConfirm -> {
+                    setUnreadConfirms(unreadConfirm.getData());
+                });
+//        setUnreadConfirms("4");
+    }
     private void getUser(String link) {
         Log.d("ProfileViewModel", "getUser");
         dataService.getUser(link)
@@ -54,8 +63,8 @@ public class MainActivityViewModel extends BaseObservable {
                 })
                 .subscribe(user -> {
                 }, throwable -> {
-                    Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+//                    Dialogs dialogs = new Dialogs();
+//                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
                 }, () -> {});
     }
 
@@ -81,6 +90,16 @@ public class MainActivityViewModel extends BaseObservable {
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
+    }
+
+    @Bindable
+    public String getUnreadConfirms() {
+        return unreadConfirms;
+    }
+
+    public void setUnreadConfirms(String unreadConfirms) {
+        this.unreadConfirms = unreadConfirms;
         notifyPropertyChanged(BR.name);
     }
 }
