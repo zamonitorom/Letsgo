@@ -32,13 +32,16 @@ public class MainActivityViewModel extends BaseObservable {
     public MainActivityViewModel() {
         dataService = new APIService();
         navigationService = new NavigationService();
-//        this.ava = "http://37.46.128.134/uploads/user-photos/66.jpg";
-        getUser(ContextUtill.GetContextApplication().getHref());
+        if(ContextUtill.GetContextApplication()!=null) {
+            getUser(ContextUtill.GetContextApplication().getHref());
+        }
     }
 
     public void updateData(){
         if(ContextUtill.isDataChanged()) {
-            getUser(ContextUtill.GetContextApplication().getHref());
+            if(ContextUtill.GetContextApplication()!=null) {
+                getUser(ContextUtill.GetContextApplication().getHref());
+            }
             ContextUtill.setDataChanged(false);
         }
     }
@@ -49,7 +52,6 @@ public class MainActivityViewModel extends BaseObservable {
                 .subscribe(unreadConfirm -> {
                     setUnreadConfirms(unreadConfirm.getData());
                 });
-//        setUnreadConfirms("4");
     }
     private void getUser(String link) {
         Log.d("ProfileViewModel", "getUser");
@@ -98,7 +100,7 @@ public class MainActivityViewModel extends BaseObservable {
         return unreadConfirms;
     }
 
-    public void setUnreadConfirms(String unreadConfirms) {
+    private void setUnreadConfirms(String unreadConfirms) {
         this.unreadConfirms = unreadConfirms;
         notifyPropertyChanged(BR.name);
     }

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:itemLayout="@{@layout/confirm_item}"
+            app:itemLayout="@{@layout/item_confirm}"
             app:items="@{confirmsVM.confirms}"
             app:layoutManager="@{LayoutManagers.linear()}"
             app:variable="@{Variables.Item}" />

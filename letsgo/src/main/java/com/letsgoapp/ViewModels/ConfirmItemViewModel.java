@@ -61,7 +61,9 @@ public class ConfirmItemViewModel extends BaseObservable{
     }
 
     public void reject(){
-
+        dataService.sendReject(getId(),"True")
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
     @Bindable

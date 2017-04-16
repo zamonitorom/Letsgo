@@ -35,6 +35,7 @@ public interface IDataService {
     Observable<List<Confirm>> getConfirms();
     Observable<UserResponse>createUser(Object newUser);
     Observable<Object> sendApprove(String id,String status);
+    Observable<Object> sendReject(String id,String status);
     Observable<UnreadConfirm> getUnreadConfirms();
 //    Observable<RequestBody> sendReject();
 }

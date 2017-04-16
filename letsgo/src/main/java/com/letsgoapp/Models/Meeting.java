@@ -26,7 +26,7 @@ public class Meeting {
     @SerializedName("meeting_date")
     @Expose
     private String meetingDate;
-    @SerializedName("meeting_type")
+    @SerializedName("category")
     @Expose
     private Integer meetingType;
     @SerializedName("owner")

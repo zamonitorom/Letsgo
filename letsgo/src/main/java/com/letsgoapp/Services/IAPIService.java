@@ -90,6 +90,12 @@ public interface IAPIService {
                                         @Field("is_approved") String status,
                                         @Header("Authorization") String authorization);
 
+    @FormUrlEncoded
+    @PUT("confirm-action/{id}/")
+    Observable<Object> sendReject(@Path("id") String id,
+                                   @Field("is_rejected") String status,
+                                   @Header("Authorization") String authorization);
+
     @GET("unread-confirms/")
     Observable<UnreadConfirm> getUnreadConfirms(@Header("Authorization") String authorization);
 }

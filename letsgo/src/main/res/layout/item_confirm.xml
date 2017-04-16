@@ -89,6 +89,7 @@
                 android:elevation="0dp"
                 android:layout_weight="1"
                 android:text="Отклонить"
+                app:onClick="@{item::reject}"
                  />
 
         </LinearLayout>

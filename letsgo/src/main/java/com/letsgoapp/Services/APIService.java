@@ -139,6 +139,11 @@ public class APIService implements IDataService {
     }
 
     @Override
+    public Observable<Object> sendReject(String id,String status) {
+        return iapiService3.sendReject(id,status,token);
+    }
+
+    @Override
     public Observable<UnreadConfirm> getUnreadConfirms() {
         return iapiService.getUnreadConfirms(token);
     }
