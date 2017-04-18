@@ -1,6 +1,7 @@
 package com.letsgoapp.ViewModels;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
@@ -19,8 +20,11 @@ import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
+import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 import com.letsgoapp.Views.MainActivity;
+
+import java.util.Calendar;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -93,8 +97,23 @@ public class SetMeetingViewModel extends BaseObservable {
     }
 
     public void openPicker(){
-        isDateChecking = true;
-        notifyPropertyChanged(BR.isDateChecking);
+//        isDateChecking = true;
+//        notifyPropertyChanged(BR.isDateChecking);
+
+        int mYear, mMonth, mDay;
+
+        final Calendar cal = Calendar.getInstance();
+        mYear = cal.get(Calendar.YEAR);
+        mMonth = cal.get(Calendar.MONTH);
+        mDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog((Activity) ContextUtill.GetTopContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    getDate().year.set(year);
+                    getDate().month.set(monthOfYear);
+                    getDate().day.set(dayOfMonth);
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 
     public void closePicker(){

@@ -5,13 +5,11 @@ import android.databinding.Bindable;
 import android.util.Log;
 
 import com.letsgoapp.BR;
-import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.ContextUtill;
-import com.letsgoapp.Utils.Dialogs;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -71,8 +69,7 @@ public class MainActivityViewModel extends BaseObservable {
                 })
                 .subscribe(user -> {
                 }, throwable -> {
-//                    Dialogs dialogs = new Dialogs();
-//                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
+                    Log.d("ProfileViewModel",throwable.toString());
                 }, () -> {});
     }
 
