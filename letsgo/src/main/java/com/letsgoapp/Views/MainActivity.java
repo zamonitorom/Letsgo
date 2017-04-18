@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton button;
     public ActivityMainBinding activityMainBinding;
 
-    private Subscriber subscriber = new Subscriber<Boolean>() {
+    private Subscriber buttonSubscriber = new Subscriber<Boolean>() {
         @Override
         public void onCompleted() {
 
@@ -75,6 +75,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 button.hide();
             }
+        }
+    };
+
+    private Subscriber confirmSubscriber = new Subscriber<String>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(String string) {
+            confirms.setText(mainActivityViewModel.getUnreadConfirms());
         }
     };
 
@@ -100,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 mainActivityViewModel.getUnreadConfirm();
-                confirms.setText(mainActivityViewModel.getUnreadConfirms());
             }
 
             @Override
@@ -124,10 +140,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN, null));
             ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF, null));
             gMapFragment = new GMapFragment();
-            gMapFragment.setSubscriber(subscriber);
+            gMapFragment.setSubscriber(buttonSubscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
         }
-        mainActivityViewModel = new MainActivityViewModel();
+        mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
         activityMainBinding.setMainVM(mainActivityViewModel);
 
 //        requestPermissions();
@@ -196,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 editor.apply();
                 gMapFragment = new GMapFragment();
-                gMapFragment.setSubscriber(subscriber);
+                gMapFragment.setSubscriber(buttonSubscriber);
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
                 navigationService.goProfile(null);
             }
@@ -235,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            gMapFragment.setSubscriber(subscriber);
+            gMapFragment.setSubscriber(buttonSubscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
             toolbar.setTitle("Актуальные события");
             button.show();

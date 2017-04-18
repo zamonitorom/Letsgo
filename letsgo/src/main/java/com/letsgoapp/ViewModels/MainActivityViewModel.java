@@ -13,6 +13,7 @@ import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -29,9 +30,12 @@ public class MainActivityViewModel extends BaseObservable {
     private INavigationService navigationService;
     private IDataService dataService;
 
-    public MainActivityViewModel() {
+    private Subscriber<String> subscriber;
+
+    public MainActivityViewModel(Subscriber<String> subscriber) {
         dataService = new APIService();
         navigationService = new NavigationService();
+        this.subscriber = subscriber;
         if(ContextUtill.GetContextApplication()!=null) {
             getUser(ContextUtill.GetContextApplication().getHref());
         }
@@ -49,8 +53,10 @@ public class MainActivityViewModel extends BaseObservable {
     public void getUnreadConfirm(){
         dataService.getUnreadConfirms()
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(unreadConfirm -> {
                     setUnreadConfirms(unreadConfirm.getData());
+                    subscriber.onNext(getUnreadConfirms());
                 });
     }
     private void getUser(String link) {

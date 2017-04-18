@@ -14,9 +14,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffff"
+        android:background="#ffffef"
         android:orientation="vertical"
-        android:padding="18dp">
+        android:padding="18dp"
+        android:elevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +50,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="11"
                 android:text="@{item.meetingName}" />
 
         </LinearLayout>
@@ -68,7 +70,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.meetingDescription}" />
+            android:text="@{item.meetingDescription}"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
