@@ -1,0 +1,20 @@
+//get image from gallery
+//then
+
+        if ((requestCode == 1 && resultCode == -1) || (requestCode == 0 && resultCode == -1)) {
+            if (data != null) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = this.getContentResolver().query(
+                        selectedImage, filePath, null, null, null);
+                if (c == null) {
+                    picturePath = selectedImage.getPath();
+                } else {
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    picturePath = c.getString(columnIndex);
+                    c.close();
+                }
+            }
+            //goCropper
+        }
