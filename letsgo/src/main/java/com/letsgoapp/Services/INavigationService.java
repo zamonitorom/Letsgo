@@ -17,4 +17,5 @@ public interface INavigationService {
     void goLogin();
     void goMainFromLogin(String href,String token);
     void goFullscreen(int position);
+    void goEdit();
 }

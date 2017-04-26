@@ -17,7 +17,9 @@ import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.ImagePickService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
@@ -82,13 +84,10 @@ public class ProfileViewModel extends BaseObservable {
             if (!link.isEmpty()) {
                 getUser(link);
                 isMine = false;
-//                setIcToolbar(R.drawable.ic_message_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             } else {
                 getUser(ContextUtill.GetContextApplication().getHref());
-//                getUser("http://37.46.128.134/user-detail/");
                 isMine = true;
-//                setIcToolbar(R.drawable.ic_edit_white_36dp);
                 notifyPropertyChanged(BR.isMine);
             }
         }
@@ -165,9 +164,6 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void openPicker() {
-//        isDateChecking = !isDateChecking;
-//        notifyPropertyChanged(BR.isDateChecking);
-
         int mYear, mMonth, mDay;
 
         final Calendar cal = Calendar.getInstance();
@@ -182,6 +178,11 @@ public class ProfileViewModel extends BaseObservable {
                     getDate().day.set(dayOfMonth);
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
+    }
+
+    public void goEdit(){
+        INavigationService navigationService = new NavigationService();
+        navigationService.goEdit();
     }
 
     public void addPhotoGallery() {

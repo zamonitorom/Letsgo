@@ -81,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Log.d("onOptionsItemSelected",String.valueOf(id));
         if (id == R.id.action_edit) {
+            profileViewModel.goEdit();
             return true;
         }
 

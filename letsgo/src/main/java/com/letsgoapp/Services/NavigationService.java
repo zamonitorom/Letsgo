@@ -10,6 +10,7 @@ import com.letsgoapp.Views.LoginActivity;
 import com.letsgoapp.Views.MainActivity;
 import com.letsgoapp.Views.MeetingActivity;
 import com.letsgoapp.Views.ProfileActivity;
+import com.letsgoapp.Views.ProfileEditActivity;
 import com.letsgoapp.Views.SetMeetingActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -138,6 +139,15 @@ public class NavigationService implements INavigationService {
         Activity activity = (Activity) GetTopContext();
         Intent intent = new Intent(activity, FullScreenActivity.class);
         intent.putExtra("position",position);
+        if (activity != null) {
+            activity.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void goEdit() {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, ProfileEditActivity.class);
         if (activity != null) {
             activity.startActivity(intent);
         }

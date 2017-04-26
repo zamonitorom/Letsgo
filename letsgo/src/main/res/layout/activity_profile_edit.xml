@@ -14,8 +14,8 @@
         <import type="com.letsgoapp.Utils.LayoutManagers" />
 
         <variable
-            name="profileVM"
-            type="com.letsgoapp.ViewModels.ProfileViewModel" />
+            name="editVM"
+            type="com.letsgoapp.ViewModels.EditViewModel" />
     </data>
 
 
@@ -27,6 +27,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.letsgoapp.Utils.ExtendedEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                app:binding="@{editVM.firstName}" />
+
+            <com.letsgoapp.Utils.ExtendedEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                app:binding="@{editVM.about}" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{editVM.dateText}"
+                app:onClick="@{editVM::openPicker}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Space
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:background="@drawable/roundcorner"
+                    android:elevation="5dp"
+                    android:shape="rectangle"
+                    android:text="Send"
+                    android:textColor="#FFFFFF"
+                    app:onClick="@{editVM::sendChanges}" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
