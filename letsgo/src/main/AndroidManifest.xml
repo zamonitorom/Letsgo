@@ -58,11 +58,10 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
         <activity
-            android:name=".Views.FullScreenViewActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar">
-        </activity>
+            android:name=".Views.FullScreenActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
+        <activity android:name=".Views.ProfileEditActivity"></activity>
     </application>
 
 </manifest>

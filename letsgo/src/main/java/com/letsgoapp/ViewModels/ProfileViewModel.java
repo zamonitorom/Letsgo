@@ -2,38 +2,28 @@ package com.letsgoapp.ViewModels;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.Log;
-import android.widget.DatePicker;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Models.PickedDate;
-import com.letsgoapp.R;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.ImagePickService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
-import com.letsgoapp.Views.FullScreenViewActivity;
 
 import java.net.URI;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.function.Supplier;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

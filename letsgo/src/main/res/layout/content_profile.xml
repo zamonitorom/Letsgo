@@ -81,17 +81,6 @@
                         android:text="Выбрать дату"
                         app:onClick="@{profileVM::openPicker}"/>
 
-                    <!--<DatePicker-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:padding="8dp"-->
-                        <!--android:visibility="@{profileVM.isDateChecking ? View.VISIBLE : View.GONE}"-->
-                        <!--android:day="@{profileVM.date.day}"-->
-                        <!--android:month="@{profileVM.date.month}"-->
-                        <!--android:onDateChanged="@{profileVM.date.dateChanged}"-->
-                        <!--android:year="@{profileVM.date.year}" />-->
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

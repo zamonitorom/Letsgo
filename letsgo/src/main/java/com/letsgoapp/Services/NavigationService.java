@@ -2,11 +2,10 @@ package com.letsgoapp.Services;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.letsgoapp.Views.FullScreenViewActivity;
+import com.letsgoapp.Views.FullScreenActivity;
 import com.letsgoapp.Views.LoginActivity;
 import com.letsgoapp.Views.MainActivity;
 import com.letsgoapp.Views.MeetingActivity;
@@ -137,7 +136,7 @@ public class NavigationService implements INavigationService {
     @Override
     public void goFullscreen(int position) {
         Activity activity = (Activity) GetTopContext();
-        Intent intent = new Intent(activity, FullScreenViewActivity.class);
+        Intent intent = new Intent(activity, FullScreenActivity.class);
         intent.putExtra("position",position);
         if (activity != null) {
             activity.startActivity(intent);

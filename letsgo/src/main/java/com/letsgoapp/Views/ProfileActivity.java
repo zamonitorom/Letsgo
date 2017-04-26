@@ -9,6 +9,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
@@ -59,9 +61,31 @@ public class ProfileActivity extends AppCompatActivity {
         activityProfile2Binding.content.setProfileVM(profileViewModel);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+//        toolbar.setMenu();
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        String fail = getIntent().getExtras().getString("link");
+        if (fail != null && fail.isEmpty()) {
+            getMenuInflater().inflate(R.menu.menu_profile, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        Log.d("onOptionsItemSelected",String.valueOf(id));
+        if (id == R.id.action_edit) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onResume(){
         super.onResume();
