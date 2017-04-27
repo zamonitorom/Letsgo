@@ -100,7 +100,7 @@ public class APIService implements IDataService {
     }
 
     public Observable<Owner> getUser(String link) {
-        return iapiService.getUser(link, token);
+        return iapiService3.getUser(link, token);
     }
 
     public Observable<Object> setUserData(Object editableUser,

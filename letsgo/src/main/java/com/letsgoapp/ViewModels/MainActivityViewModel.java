@@ -58,7 +58,7 @@ public class MainActivityViewModel extends BaseObservable {
                 });
     }
     private void getUser(String link) {
-        Log.d("ProfileViewModel", "getUser");
+        Log.d("MainActivityViewModel", "getUser");
         dataService.getUser(link)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

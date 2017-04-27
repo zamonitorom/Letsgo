@@ -34,7 +34,7 @@
                     android:id="@+id/ava"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:scaleY="1.1"
+                    android:scaleY="1.0"
                     app:layout_collapseMode="parallax"
                     app:imageURL="@{profileVM.avatar}"/>
 

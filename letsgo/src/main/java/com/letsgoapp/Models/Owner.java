@@ -75,7 +75,7 @@ public class Owner {
         this.avatar = avatar;
     }
 
-    public Object getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 

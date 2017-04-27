@@ -97,9 +97,6 @@ public class SetMeetingViewModel extends BaseObservable {
     }
 
     public void openPicker(){
-//        isDateChecking = true;
-//        notifyPropertyChanged(BR.isDateChecking);
-
         int mYear, mMonth, mDay;
 
         final Calendar cal = Calendar.getInstance();
