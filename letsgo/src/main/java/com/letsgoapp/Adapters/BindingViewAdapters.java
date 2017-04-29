@@ -111,7 +111,6 @@ public class BindingViewAdapters {
         }
         adapter.setItems(items);
         final BindingRecyclerViewAdapter finalAdapter = adapter;
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 

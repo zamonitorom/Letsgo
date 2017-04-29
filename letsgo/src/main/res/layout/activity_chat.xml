@@ -28,7 +28,7 @@
             android:layout_weight="10"
             app:itemLayout="@{@layout/item_message}"
             app:items="@{chatVM.messages}"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layoutManager="@{LayoutManagers.linear(true)}"
             app:variable="@{Variables.Item}" />
 
         <LinearLayout
@@ -36,10 +36,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1">
-            <EditText
+            <com.letsgoapp.Utils.ExtendedEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                app:binding="@{chatVM.newMessage}"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

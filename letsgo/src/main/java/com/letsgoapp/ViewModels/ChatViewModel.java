@@ -7,6 +7,7 @@ import android.databinding.ObservableArrayList;
 import android.os.Build;
 import android.util.Log;
 
+import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Utils.ContextUtill;
@@ -16,6 +17,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,11 +34,14 @@ public class ChatViewModel extends BaseObservable {
     private Integer id;
     private boolean isConnected;
 
+    public MyObservableString newMessage;
+
     @Bindable
     public ObservableArrayList<MessageViewModel> messages;
     public ChatViewModel(Integer id) {
         dataService = new APIService();
         messages = new ObservableArrayList<>();
+        newMessage = new MyObservableString();
         this.id = id;
         getMessages();
         isConnected = false;
@@ -45,14 +50,20 @@ public class ChatViewModel extends BaseObservable {
 
     public void sendMessage(){
         if(mWebSocketClient!=null&&isConnected){
-            mWebSocketClient.send("123");
+            mWebSocketClient.send(newMessage.get());
+            newMessage.set("");
+        }
+        if(mWebSocketClient!=null&&!isConnected){
+            mWebSocketClient.connect();
+            mWebSocketClient.send(newMessage.get());
         }
     }
 
     private void connectWebSocket() {
         URI uri;
         try {
-            uri = new URI("ws://37.46.128.134/chat/"+"qwerty"+"/?token=ee6d9b6dcdb03b6d7666c4cc14be644272e8c150");
+            String token = ContextUtill.GetContextApplication().getToken().replace("Token ","");
+            uri = new URI("ws://37.46.128.134/chat/"+"qwerty"+"/?token="+token);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
@@ -63,7 +74,6 @@ public class ChatViewModel extends BaseObservable {
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.d(TAG, "Opened");
                 isConnected = true;
-//                mWebSocketClient.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
             }
 
             @Override
@@ -96,11 +106,14 @@ public class ChatViewModel extends BaseObservable {
     private void getMessages(){
         dataService.getMessages(String.valueOf(id))
                 .subscribeOn(Schedulers.io())
+//                .doOnNext(Collections::reverse)
                 .flatMap(Observable::from)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(chat->{
-                    messages.add(new MessageViewModel(chat.getText(),false));
+                    messages.add(new MessageViewModel(chat.getAuthor().getFirstName(),chat.getText(),false));
                 })
-                .subscribe();
+                .subscribe(message -> {},throwable -> {},()->{
+
+                });
     }
 }
