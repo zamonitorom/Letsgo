@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.Message;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.UnreadConfirm;
@@ -39,5 +40,6 @@ public interface IDataService {
     Observable<Object> sendReject(String id,String status);
     Observable<UnreadConfirm> getUnreadConfirms();
     Observable<List<Chat>> getChatList();
+    Observable<List<Message>> getMessages(String id);
 //    Observable<RequestBody> sendReject();
 }

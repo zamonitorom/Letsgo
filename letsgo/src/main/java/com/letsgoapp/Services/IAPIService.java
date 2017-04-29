@@ -5,6 +5,7 @@ import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.Message;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.SendMeeting;
@@ -102,4 +103,8 @@ public interface IAPIService {
 
     @GET("chats-list/")
     Observable<List<Chat>> getChatList(@Header("Authorization") String authorization);
+
+    @GET("message-list/{id}/")
+    Observable<List<Message>> getMessages(@Path("id") String id,
+                                          @Header("Authorization") String authorization);
 }

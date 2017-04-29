@@ -8,6 +8,8 @@ import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ChatViewModel;
 import com.letsgoapp.databinding.ActivityChatBinding;
 
+import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
+
 public class ChatActivity extends AppCompatActivity {
 
     @Override
@@ -16,5 +18,6 @@ public class ChatActivity extends AppCompatActivity {
         ActivityChatBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_chat);
         ChatViewModel chatViewModel = new ChatViewModel(getIntent().getIntExtra("id",0));
         binding.setChatVM(chatViewModel);
+        SetTopContext(this);
     }
 }

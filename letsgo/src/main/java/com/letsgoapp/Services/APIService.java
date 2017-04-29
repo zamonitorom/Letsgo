@@ -3,6 +3,7 @@ package com.letsgoapp.Services;
 import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
+import com.letsgoapp.Models.Message;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.UnreadConfirm;
@@ -130,6 +131,11 @@ public class APIService implements IDataService {
 
     @Override
     public Observable<List<Chat>> getChatList(){
-        return iapiService3.getChatList(token);
+        return iapiService.getChatList(token);
+    }
+
+    @Override
+    public Observable<List<Message>> getMessages(String id) {
+        return iapiService.getMessages(id,token);
     }
 }
