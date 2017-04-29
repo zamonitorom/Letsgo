@@ -6,6 +6,8 @@ import android.databinding.ObservableArrayList;
 
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -17,6 +19,7 @@ import rx.schedulers.Schedulers;
 
 public class ChatsViewModel extends BaseObservable {
     private IDataService dataService;
+
 
 
     @Bindable

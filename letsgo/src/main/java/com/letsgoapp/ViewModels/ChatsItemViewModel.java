@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.letsgoapp.BR;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 
 /**
  * Created by normalteam on 29.04.17.
@@ -11,9 +13,19 @@ import com.letsgoapp.BR;
 
 public class ChatsItemViewModel extends BaseObservable{
     private final String TAG = "ChatsItemViewModel";
+    private INavigationService navigationService;
     private String title;
     private String lastMessage;
     private String avatar;
+    private Integer id;
+
+    public ChatsItemViewModel() {
+        navigationService = new NavigationService();
+    }
+
+    public void click(){
+        navigationService.goChat(1);
+    }
 
     @Bindable
     public String getTitle() {
@@ -43,5 +55,13 @@ public class ChatsItemViewModel extends BaseObservable{
     public void setAvatar(String avatar) {
         this.avatar = avatar;
         notifyPropertyChanged(BR.avatar);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

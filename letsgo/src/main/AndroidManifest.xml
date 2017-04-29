@@ -60,8 +60,9 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".Views.FullScreenActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
-        <activity android:name=".Views.ProfileEditActivity"></activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar" />
+        <activity android:name=".Views.ProfileEditActivity" />
+        <activity android:name=".Views.ChatActivity"></activity>
     </application>
 
 </manifest>

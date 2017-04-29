@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.letsgoapp.Views.ChatActivity;
 import com.letsgoapp.Views.FullScreenActivity;
 import com.letsgoapp.Views.LoginActivity;
 import com.letsgoapp.Views.MainActivity;
@@ -148,6 +149,16 @@ public class NavigationService implements INavigationService {
     public void goEdit() {
         Activity activity = (Activity) GetTopContext();
         Intent intent = new Intent(activity, ProfileEditActivity.class);
+        if (activity != null) {
+            activity.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void goChat(Integer id) {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra("id",id);
         if (activity != null) {
             activity.startActivity(intent);
         }
