@@ -1,38 +1,24 @@
 package com.letsgoapp.Services;
 
-import android.annotation.SuppressLint;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
+import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
-import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
 import com.letsgoapp.Models.PhotoAnswer;
-import com.letsgoapp.Models.SendMeeting;
 import com.letsgoapp.Models.UnreadConfirm;
 import com.letsgoapp.Models.UserResponse;
 import com.letsgoapp.Utils.ContextUtill;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okio.BufferedSink;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -44,27 +30,23 @@ import rx.Observable;
 
 public class APIService implements IDataService {
 
-    private String baseUrl = "http://37.46.128.134/";
     private String token ;
-    private HttpLoggingInterceptor interceptor;
-    OkHttpClient client;
-    private Retrofit postmeeting;
-    private Retrofit retrofit;
     private IAPIService iapiService;
     private IAPIService iapiService3;
 
     public APIService() {
         try {
             token = ContextUtill.GetContextApplication().getToken();
-            interceptor = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-            retrofit = new Retrofit.Builder()
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+            String baseUrl = "http://37.46.128.134/";
+            Retrofit retrofit = new Retrofit.Builder()
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(baseUrl)
                     .build();
-            postmeeting = new Retrofit.Builder()
+            Retrofit postmeeting = new Retrofit.Builder()
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(baseUrl)
@@ -77,8 +59,6 @@ public class APIService implements IDataService {
         }
 
     }
-
-
 
     public Observable<List<Meeting>> getMeetingList() {
         return iapiService.getMeetingList(token);
@@ -146,5 +126,10 @@ public class APIService implements IDataService {
     @Override
     public Observable<UnreadConfirm> getUnreadConfirms() {
         return iapiService.getUnreadConfirms(token);
+    }
+
+    @Override
+    public Observable<List<Chat>> getChatList(){
+        return iapiService3.getChatList(token);
     }
 }

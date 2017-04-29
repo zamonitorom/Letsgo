@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.MyObservableString;
-import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
@@ -41,14 +40,6 @@ public class EditViewModel extends BaseObservable{
         date = new PickedDate();
         dataService = new APIService();
         getUser(ContextUtill.GetContextApplication().getHref());
-        setGender(true);
-//
-//        int mYear, mMonth, mDay;
-//        final Calendar cal = Calendar.getInstance();
-//        mYear = cal.get(Calendar.YEAR);
-//        mMonth = cal.get(Calendar.MONTH);
-//        mDay = cal.get(Calendar.DAY_OF_MONTH);
-//        setDateText(String.valueOf(mDay)+"."+String.valueOf(mMonth)+"."+String.valueOf(mYear));
     }
 
     private void getUser(String link) {
@@ -60,7 +51,12 @@ public class EditViewModel extends BaseObservable{
                     firstName.set(user.getFirstName());
                     about.set(user.getAbout());
                     setDateText(user.getBirthDate());
-//                    setGender(Integer.valueOf(user.getGender()));
+                    if(user.getGender()==1){
+                        setGender(true);
+                    }
+                    if(user.getGender()==0){
+                        setGender(false);
+                    }
                 })
                 .subscribe(user -> {
                 }, throwable -> {
@@ -94,7 +90,7 @@ public class EditViewModel extends BaseObservable{
     }
 
     public void changeGender(Boolean b) {
-        Log.d("ViewModel", String.valueOf(b));
+        Log.d(TAG, String.valueOf(b));
         setGender(b);
 //        setType(integer);
 //        notifyPropertyChanged(BR.isChecked);

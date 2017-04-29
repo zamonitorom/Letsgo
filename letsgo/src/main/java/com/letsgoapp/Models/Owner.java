@@ -20,7 +20,7 @@ public class Owner {
     private String firstName;
     @SerializedName("gender")
     @Expose
-    private Object gender;
+    private Integer gender;
     @SerializedName("href")
     @Expose
     private String href;
@@ -47,7 +47,7 @@ public class Owner {
      * @param avatar
      * @param href
      */
-    public Owner(String about, String avatar, String birthDate, String firstName, Object gender, String href, Integer id, List<Photo> photos) {
+    public Owner(String about, String avatar, String birthDate, String firstName, Integer gender, String href, Integer id, List<Photo> photos) {
         super();
         this.about = about;
         this.avatar = avatar;
@@ -91,11 +91,11 @@ public class Owner {
         this.firstName = firstName;
     }
 
-    public Object getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(Object gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

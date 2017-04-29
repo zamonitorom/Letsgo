@@ -2,6 +2,7 @@ package com.letsgoapp.Services;
 
 import android.databinding.ObservableArrayList;
 
+import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Owner;
@@ -37,5 +38,6 @@ public interface IDataService {
     Observable<Object> sendApprove(String id,String status);
     Observable<Object> sendReject(String id,String status);
     Observable<UnreadConfirm> getUnreadConfirms();
+    Observable<List<Chat>> getChatList();
 //    Observable<RequestBody> sendReject();
 }

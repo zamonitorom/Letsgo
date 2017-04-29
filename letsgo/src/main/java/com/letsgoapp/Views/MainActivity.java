@@ -28,6 +28,7 @@ import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.ViewModels.MainActivityViewModel;
 import com.letsgoapp.Views.Fragments.ActionFragment;
 import com.letsgoapp.Views.Fragments.AddMeetingFragment;
+import com.letsgoapp.Views.Fragments.ChatsFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.Views.Fragments.MyConfirmsFragment;
 import com.letsgoapp.databinding.ActivityMainBinding;
@@ -267,6 +268,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_messages) {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, new ChatsFragment()).commit();
+            toolbar.setTitle("Сообщения");
             button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_create_action) {

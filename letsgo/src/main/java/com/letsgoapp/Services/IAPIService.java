@@ -1,6 +1,7 @@
 package com.letsgoapp.Services;
 
 import com.google.gson.JsonObject;
+import com.letsgoapp.Models.Chat;
 import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.Meeting;
@@ -98,4 +99,7 @@ public interface IAPIService {
 
     @GET("unread-confirms/")
     Observable<UnreadConfirm> getUnreadConfirms(@Header("Authorization") String authorization);
+
+    @GET("chats-list/")
+    Observable<List<Chat>> getChatList(@Header("Authorization") String authorization);
 }
