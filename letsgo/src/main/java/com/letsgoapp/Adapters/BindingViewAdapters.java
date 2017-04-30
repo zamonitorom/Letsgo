@@ -2,6 +2,7 @@ package com.letsgoapp.Adapters;
 
 import android.app.Activity;
 import android.databinding.BindingAdapter;
+import android.databinding.BindingBuildInfo;
 import android.databinding.BindingConversion;
 import android.databinding.ObservableList;
 
@@ -100,8 +101,9 @@ public class BindingViewAdapters {
         }
     }
 
-    @BindingAdapter({"items", "itemLayout", "variable"})
-    public static void setAdapter(RecyclerView recyclerView, final ObservableList items, int layoutId, int brVarId) {
+
+    @BindingAdapter({"items", "itemLayout", "variable","scrollOn"})
+    public static void setAdapter(RecyclerView recyclerView, final ObservableList items, int layoutId, int brVarId, boolean scroll)  {
         BindingRecyclerViewAdapter adapter = (BindingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter == null) {
 
@@ -113,12 +115,14 @@ public class BindingViewAdapters {
 
         final BindingRecyclerViewAdapter finalAdapter = adapter;
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter.runnable = new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.scrollToPosition(items.size()-1);
-            }
-        };
+        if(scroll) {
+            adapter.runnable = new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.scrollToPosition(items.size() - 1);
+                }
+            };
+        }
 
     }
 

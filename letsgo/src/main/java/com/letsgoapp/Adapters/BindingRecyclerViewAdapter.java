@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class BindingRecyclerViewAdapter
         extends RecyclerView.Adapter<BindingRecyclerViewAdapter.ViewHolder> {
@@ -30,6 +31,10 @@ public class BindingRecyclerViewAdapter
     public BindingRecyclerViewAdapter(int brVarId, int layoutId) {
         this.brVarId = brVarId;
         this.layoutId = layoutId;
+    }
+
+    public ObservableList getItems(){
+        return items;
     }
 
     public void setItems(@Nullable ObservableList items) {

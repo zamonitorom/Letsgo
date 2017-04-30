@@ -56,11 +56,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
+            android:layout_above="@+id/textView"
             app:itemLayout="@{@layout/item_message}"
             app:items="@{chatVM.messages}"
             app:layoutManager="@{LayoutManagers.linear(true)}"
             app:variable="@{Variables.Item}"
-            android:layout_above="@+id/textView" />
+            app:scrollOn="@{true}"
+            />
 
         <com.letsgoapp.Utils.ExtendedEditText
             android:id="@+id/textView"

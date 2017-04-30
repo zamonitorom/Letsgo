@@ -35,7 +35,8 @@ public class ChatViewModel extends BaseObservable {
     private WebSocketClient mWebSocketClient;
     private Integer id;
     private String slug;
-    private boolean isConnected;
+    @Bindable
+    public boolean isConnected;
 
     @Bindable
     public Boolean isInput = false;
