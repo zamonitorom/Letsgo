@@ -30,13 +30,11 @@ public class LayoutManagers {
     }
 
     public static LayoutManagerFactory linear(final boolean stackFromEnd) {
-        return new LayoutManagerFactory() {
-            @Override
-            public RecyclerView.LayoutManager create(RecyclerView recyclerView) {
-                LinearLayoutManager manager = new LinearLayoutManager(recyclerView.getContext());
-                manager.setStackFromEnd(stackFromEnd);
-                return  manager;
-            }
+        return recyclerView -> {
+            LinearLayoutManager manager = new LinearLayoutManager(recyclerView.getContext());
+            manager.setStackFromEnd(stackFromEnd);
+            manager.setSmoothScrollbarEnabled(true);
+            return  manager;
         };
     }
 

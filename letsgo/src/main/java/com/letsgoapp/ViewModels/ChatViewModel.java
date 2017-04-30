@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 import android.os.Build;
 import android.util.Log;
 
+import com.letsgoapp.BR;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
@@ -32,31 +34,70 @@ public class ChatViewModel extends BaseObservable {
     private IDataService dataService;
     private WebSocketClient mWebSocketClient;
     private Integer id;
+    private String slug;
     private boolean isConnected;
+
+    @Bindable
+    public Boolean isInput = false;
 
     public MyObservableString newMessage;
 
     @Bindable
     public ObservableArrayList<MessageViewModel> messages;
-    public ChatViewModel(Integer id) {
+    public ChatViewModel(Integer id,String slug) {
         dataService = new APIService();
         messages = new ObservableArrayList<>();
+        messages.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<MessageViewModel>>() {
+            @Override
+            public void onChanged(ObservableList<MessageViewModel> messageViewModels) {
+
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
+
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
+
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<MessageViewModel> messageViewModels, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
+
+            }
+        });
         newMessage = new MyObservableString();
         this.id = id;
+        this.slug = slug;
         getMessages();
         isConnected = false;
         connectWebSocket();
     }
 
     public void sendMessage(){
+        messages.add(new MessageViewModel("123",newMessage.get(),true));
         if(mWebSocketClient!=null&&isConnected){
-            mWebSocketClient.send(newMessage.get());
+//            mWebSocketClient.send(newMessage.get());
+
             newMessage.set("");
         }
-        if(mWebSocketClient!=null&&!isConnected){
-            mWebSocketClient.connect();
-            mWebSocketClient.send(newMessage.get());
-        }
+//        if(mWebSocketClient!=null&&!isConnected){
+//            mWebSocketClient.connect();
+//            mWebSocketClient.send(newMessage.get());
+//        }
+//        mWebSocketClient.send(newMessage.get());
+    }
+
+    public void setInput(){
+        isInput = true;
+        notifyPropertyChanged(BR.isInput);
     }
 
     private void connectWebSocket() {
@@ -78,15 +119,8 @@ public class ChatViewModel extends BaseObservable {
 
             @Override
             public void onMessage(String s) {
-                final String message = s;
                 Log.d(TAG,"message" +s);
-//                ((Activity)ContextUtill.GetTopContext()).runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        TextView textView = (TextView)findViewById(R.id.messages);
-//                        textView.setText(textView.getText() + "\n" + message);
-//                    }
-//                });
+                messages.add(new MessageViewModel("",s,false));
             }
 
             @Override
@@ -106,7 +140,6 @@ public class ChatViewModel extends BaseObservable {
     private void getMessages(){
         dataService.getMessages(String.valueOf(id))
                 .subscribeOn(Schedulers.io())
-//                .doOnNext(Collections::reverse)
                 .flatMap(Observable::from)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(chat->{

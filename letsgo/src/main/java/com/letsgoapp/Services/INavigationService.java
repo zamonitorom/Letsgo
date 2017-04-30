@@ -18,5 +18,5 @@ public interface INavigationService {
     void goMainFromLogin(String href,String token);
     void goFullscreen(int position);
     void goEdit();
-    void goChat(Integer id);
+    void goChat(Integer id,String slug);
 }

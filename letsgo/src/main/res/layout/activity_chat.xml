@@ -18,33 +18,67 @@
     </data>
 
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="10"-->
+            <!--android:scrollbars="vertical"-->
+            <!--app:itemLayout="@{@layout/item_message}"-->
+            <!--app:items="@{chatVM.messages}"-->
+            <!--app:layoutManager="@{LayoutManagers.linear(true)}"-->
+            <!--app:variable="@{Variables.Item}" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1">-->
+            <!--<com.letsgoapp.Utils.ExtendedEditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--app:binding="@{chatVM.newMessage}"/>-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:onClick="@{chatVM.sendMessage}"/>-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             app:itemLayout="@{@layout/item_message}"
             app:items="@{chatVM.messages}"
             app:layoutManager="@{LayoutManagers.linear(true)}"
-            app:variable="@{Variables.Item}" />
+            app:variable="@{Variables.Item}"
+            android:layout_above="@+id/textView" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.letsgoapp.Utils.ExtendedEditText
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-            <com.letsgoapp.Utils.ExtendedEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:binding="@{chatVM.newMessage}"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:onClick="@{chatVM.sendMessage}"/>
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/button3"
+            android:layout_alignTop="@+id/button3"
+            app:binding="@{chatVM.newMessage}"/>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="Button"
+            app:onClick="@{chatVM.sendMessage}"/>
+    </RelativeLayout>
 </layout>

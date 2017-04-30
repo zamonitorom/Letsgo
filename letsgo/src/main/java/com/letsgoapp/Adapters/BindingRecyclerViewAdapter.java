@@ -25,6 +25,7 @@ public class BindingRecyclerViewAdapter
     private LayoutInflater inflater;
     private int recyclerViewRefCount = 0;
 
+    public Runnable runnable;
 
     public BindingRecyclerViewAdapter(int brVarId, int layoutId) {
         this.brVarId = brVarId;
@@ -103,7 +104,10 @@ public class BindingRecyclerViewAdapter
         }
     }
 
-    private static class WeakReferenceOnListChangedCallback extends ObservableList.OnListChangedCallback<ObservableList> {
+
+
+
+    private class WeakReferenceOnListChangedCallback extends ObservableList.OnListChangedCallback<ObservableList> {
         final WeakReference<BindingRecyclerViewAdapter> adapterRef;
 
         WeakReferenceOnListChangedCallback(BindingRecyclerViewAdapter adapter) {
@@ -136,9 +140,11 @@ public class BindingRecyclerViewAdapter
             if (adapter == null) {
                 return;
             }
-
             adapter.notifyItemRangeInserted(positionStart, itemCount);
             adapter.notifyItemRangeChanged(positionStart, itemCount);
+            if(runnable!=null) {
+                runnable.run();
+            }
         }
 
         @Override

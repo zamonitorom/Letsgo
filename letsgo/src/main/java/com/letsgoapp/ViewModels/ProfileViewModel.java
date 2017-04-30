@@ -137,6 +137,7 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void sendChanges() {
+        //todo неправильная отправка даты
         Log.d("ProfileViewModel", "sendChanges");
         if (isTouchable && isMine) {
             subscriber.onNext(firstName.get());

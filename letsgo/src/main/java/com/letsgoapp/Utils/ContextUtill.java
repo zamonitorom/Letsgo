@@ -1,8 +1,12 @@
 package com.letsgoapp.Utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.letsgoapp.Views.MainActivity;
 
@@ -72,4 +76,5 @@ public class ContextUtill {
     public static void setDataChanged(Boolean data) {
         dataChanged = data;
     }
+
 }

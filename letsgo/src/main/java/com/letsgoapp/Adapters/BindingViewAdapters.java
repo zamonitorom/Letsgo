@@ -110,8 +110,16 @@ public class BindingViewAdapters {
             recyclerView.setAdapter(adapter);
         }
         adapter.setItems(items);
+
         final BindingRecyclerViewAdapter finalAdapter = adapter;
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        adapter.runnable = new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(items.size()-1);
+            }
+        };
+
     }
 
     @BindingAdapter("layoutManager")

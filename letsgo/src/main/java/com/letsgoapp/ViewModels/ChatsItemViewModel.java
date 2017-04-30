@@ -17,6 +17,7 @@ public class ChatsItemViewModel extends BaseObservable{
     private String title;
     private String lastMessage;
     private String avatar;
+    private String slug;
     private Integer id;
 
     public ChatsItemViewModel() {
@@ -24,7 +25,7 @@ public class ChatsItemViewModel extends BaseObservable{
     }
 
     public void click(){
-        navigationService.goChat(1);
+        navigationService.goChat(1,slug);
     }
 
     @Bindable
@@ -63,5 +64,13 @@ public class ChatsItemViewModel extends BaseObservable{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

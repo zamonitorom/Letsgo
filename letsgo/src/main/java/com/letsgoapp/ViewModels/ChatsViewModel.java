@@ -38,8 +38,9 @@ public class ChatsViewModel extends BaseObservable {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(chat->{
                     ChatsItemViewModel chatsItemViewModel = new ChatsItemViewModel();
-                    chatsItemViewModel.setAvatar(chat.getOwner().getAvatar());
+                    chatsItemViewModel.setAvatar(chat.getLastMessage().getAuthor().getAvatar());
                     chatsItemViewModel.setTitle(chat.getTitle());
+                    chatsItemViewModel.setSlug(chat.getChannelSlug());
                     chatsItemViewModel.setLastMessage(chat.getLastMessage().getText());
                     items.add(chatsItemViewModel);
                 })

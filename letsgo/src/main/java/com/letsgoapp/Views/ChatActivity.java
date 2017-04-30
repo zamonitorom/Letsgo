@@ -16,7 +16,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityChatBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_chat);
-        ChatViewModel chatViewModel = new ChatViewModel(getIntent().getIntExtra("id",0));
+        ChatViewModel chatViewModel = new ChatViewModel(getIntent().getIntExtra("id",0),getIntent().getStringExtra("slug"));
         binding.setChatVM(chatViewModel);
         SetTopContext(this);
     }

@@ -155,10 +155,11 @@ public class NavigationService implements INavigationService {
     }
 
     @Override
-    public void goChat(Integer id) {
+    public void goChat(Integer id,String slug) {
         Activity activity = (Activity) GetTopContext();
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("id",id);
+        intent.putExtra("slug",slug);
         if (activity != null) {
             activity.startActivity(intent);
         }
