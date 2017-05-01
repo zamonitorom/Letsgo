@@ -149,8 +149,7 @@ public class ProfileViewModel extends BaseObservable {
             data.setDate(date);
             data.setGender(0);
             Log.d("ProfileViewModel", firstName.get() + "  " + about.get());
-            dataService.setUserData(data,
-                    "application/json")
+            dataService.setUserData(data)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(data1 -> {

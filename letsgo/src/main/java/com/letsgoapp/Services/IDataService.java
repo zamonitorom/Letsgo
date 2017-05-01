@@ -30,8 +30,7 @@ public interface IDataService {
     Observable<Object> postMeeting(Object sendMeeting,
                                    String contentType,String length);
     Observable<Owner> getUser(String link);
-    Observable<Object> setUserData(Object editableUser,
-                                   String contentType);
+    Observable<Object> setUserData(Object editableUser);
     Observable<PhotoAnswer> putPhoto(URI fileUri, String path);
     Observable<Object> sendConfirm(String id,Object body);
     Observable<List<Confirm>> getConfirms();

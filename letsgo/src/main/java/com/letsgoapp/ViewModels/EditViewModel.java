@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 import android.util.Log;
 
 import com.letsgoapp.BR;
+import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.Services.APIService;
@@ -23,7 +24,7 @@ import rx.schedulers.Schedulers;
  * Created by normalteam on 26.04.17.
  */
 
-public class EditViewModel extends BaseObservable{
+public class EditViewModel extends BaseObservable {
     private final String TAG = "EditViewModel";
     private String dateText;
     private PickedDate date;
@@ -51,10 +52,10 @@ public class EditViewModel extends BaseObservable{
                     firstName.set(user.getFirstName());
                     about.set(user.getAbout());
                     setDateText(user.getBirthDate());
-                    if(user.getGender()==1){
+                    if (user.getGender() == 1) {
                         setGender(true);
                     }
-                    if(user.getGender()==0){
+                    if (user.getGender() == 0) {
                         setGender(false);
                     }
                 })
@@ -78,15 +79,35 @@ public class EditViewModel extends BaseObservable{
         DatePickerDialog datePickerDialog = new DatePickerDialog((Activity) ContextUtill.GetTopContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {
                     getDate().year.set(year);
-                    getDate().month.set(monthOfYear+1);
+                    getDate().month.set(monthOfYear + 1);
                     getDate().day.set(dayOfMonth);
-                    setDateText(String.valueOf(year)+"-"+String.valueOf(monthOfYear+1)+"-"+String.valueOf(dayOfMonth));
+                    setDateText(String.valueOf(year) + "-" + String.valueOf(monthOfYear + 1) + "-" + String.valueOf(dayOfMonth));
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
 
-    public void sendChanges(){
+    public void sendChanges() {
+        String date = String.valueOf(getDate().year.get()) + "-"
+                + String.valueOf(getDate().month.get() + 1) + "-"
+                + String.valueOf(getDate().day.get());
+        EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
+        if (!data.equals(dateText)) {
+            data.setDate(date);
+        }else {
+            data.setDate(dateText);
+        }
+        data.setGender(0);
+        Log.d(TAG, firstName.get() + "  " + about.get());
+        dataService.setUserData(data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data1 -> {
+                }, throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                });
 
+        ContextUtill.setDataChanged(true);
     }
 
     public void changeGender(Boolean b) {

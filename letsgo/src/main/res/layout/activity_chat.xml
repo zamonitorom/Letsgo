@@ -17,37 +17,6 @@
             type="com.letsgoapp.ViewModels.ChatViewModel" />
     </data>
 
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical">-->
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="10"-->
-            <!--android:scrollbars="vertical"-->
-            <!--app:itemLayout="@{@layout/item_message}"-->
-            <!--app:items="@{chatVM.messages}"-->
-            <!--app:layoutManager="@{LayoutManagers.linear(true)}"-->
-            <!--app:variable="@{Variables.Item}" />-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_weight="1">-->
-            <!--<com.letsgoapp.Utils.ExtendedEditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--app:binding="@{chatVM.newMessage}"/>-->
-            <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:onClick="@{chatVM.sendMessage}"/>-->
-        <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

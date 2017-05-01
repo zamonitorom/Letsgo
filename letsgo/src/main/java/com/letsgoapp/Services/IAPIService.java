@@ -67,8 +67,7 @@ public interface IAPIService {
 
     @PUT("user-detail/")
     Observable<Object> setUserData(@Body Object EditableUser,
-                                   @Header("Authorization") String authorization,
-                                   @Header("Content-Type") String contentType);
+                                   @Header("Authorization") String authorization);
 
     @PUT("upload-photo/{adress}")
     Observable<PhotoAnswer> putPhoto(@Body RequestBody file,

@@ -84,9 +84,8 @@ public class APIService implements IDataService {
         return iapiService3.getUser(link, token);
     }
 
-    public Observable<Object> setUserData(Object editableUser,
-                                          String contentType) {
-        return iapiService3.setUserData(editableUser, token, contentType);
+    public Observable<Object> setUserData(Object editableUser) {
+        return iapiService3.setUserData(editableUser, token);
     }
 
     public Observable<PhotoAnswer> putPhoto(URI fileUri, String path) {

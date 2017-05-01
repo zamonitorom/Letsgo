@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-import android.os.Build;
 import android.util.Log;
 
 import com.letsgoapp.BR;
@@ -48,32 +46,6 @@ public class ChatViewModel extends BaseObservable {
     public ChatViewModel(Integer id,String slug) {
         dataService = new APIService();
         messages = new ObservableArrayList<>();
-        messages.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<MessageViewModel>>() {
-            @Override
-            public void onChanged(ObservableList<MessageViewModel> messageViewModels) {
-
-            }
-
-            @Override
-            public void onItemRangeChanged(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
-
-            }
-
-            @Override
-            public void onItemRangeInserted(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
-
-            }
-
-            @Override
-            public void onItemRangeMoved(ObservableList<MessageViewModel> messageViewModels, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onItemRangeRemoved(ObservableList<MessageViewModel> messageViewModels, int i, int i1) {
-
-            }
-        });
         newMessage = new MyObservableString();
         this.id = id;
         this.slug = slug;
@@ -83,10 +55,9 @@ public class ChatViewModel extends BaseObservable {
     }
 
     public void sendMessage(){
-        messages.add(new MessageViewModel("123",newMessage.get(),true));
+//        messages.add(new MessageViewModel("123",newMessage.get(),true));
         if(mWebSocketClient!=null&&isConnected){
-//            mWebSocketClient.send(newMessage.get());
-
+            mWebSocketClient.send(newMessage.get());
             newMessage.set("");
         }
 //        if(mWebSocketClient!=null&&!isConnected){
@@ -105,7 +76,7 @@ public class ChatViewModel extends BaseObservable {
         URI uri;
         try {
             String token = ContextUtill.GetContextApplication().getToken().replace("Token ","");
-            uri = new URI("ws://37.46.128.134/chat/"+"qwerty"+"/?token="+token);
+            uri = new URI("ws://37.46.128.134/chat/"+slug+"/?token="+token);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
