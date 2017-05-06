@@ -43,6 +43,33 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/fab228"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:text="Галерея"
+                        android:drawableLeft="@drawable/ic_image_white_36dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="4dp"
+                        app:onClick="@{profileVM::addPhotoGallery}" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:text=" Фото  "
+                        android:drawableLeft="@drawable/ic_add_a_photo_white_36dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        app:onClick="@{profileVM::addPhotoCamera}"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="@{!profileVM.isTouchable ? View.VISIBLE : View.GONE}"
                     android:orientation="vertical">
@@ -55,52 +82,52 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"
-                    android:orientation="vertical">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"-->
+                    <!--android:orientation="vertical">-->
 
-                    <com.letsgoapp.Utils.ExtendedEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
+                    <!--<com.letsgoapp.Utils.ExtendedEditText-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="@dimen/text_margin"-->
 
-                        android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                        app:binding="@{profileVM.firstName}" />
+                        <!--android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"-->
+                        <!--app:binding="@{profileVM.firstName}" />-->
 
-                    <com.letsgoapp.Utils.ExtendedEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"
-                        app:binding="@{profileVM.about}" />
+                    <!--<com.letsgoapp.Utils.ExtendedEditText-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="@dimen/text_margin"-->
+                        <!--android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"-->
+                        <!--app:binding="@{profileVM.about}" />-->
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Выбрать дату"
-                        app:onClick="@{profileVM::openPicker}"/>
+                    <!--<Button-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Выбрать дату"-->
+                        <!--app:onClick="@{profileVM::openPicker}"/>-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <Space
-                            android:layout_width="260dp"
-                            android:layout_height="wrap_content" />
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/text_margin"
-                            android:background="@drawable/roundcorner"
-                            android:clickable="@{profileVM.isTouchable? true: false}"
-                            android:elevation="5dp"
-                            android:shape="rectangle"
-                            android:text="Send"
-                            android:textColor="#FFFFFF"
-                            app:onClick="@{profileVM::sendChanges}" />
-                    </LinearLayout>
-                </LinearLayout>
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
+                        <!--<Space-->
+                            <!--android:layout_width="260dp"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<Button-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_margin="@dimen/text_margin"-->
+                            <!--android:background="@drawable/roundcorner"-->
+                            <!--android:clickable="@{profileVM.isTouchable? true: false}"-->
+                            <!--android:elevation="5dp"-->
+                            <!--android:shape="rectangle"-->
+                            <!--android:text="Send"-->
+                            <!--android:textColor="#FFFFFF"-->
+                            <!--app:onClick="@{profileVM::sendChanges}" />-->
+                    <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
 
 
             </LinearLayout>

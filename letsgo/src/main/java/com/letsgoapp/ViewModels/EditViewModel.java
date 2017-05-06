@@ -96,7 +96,12 @@ public class EditViewModel extends BaseObservable {
         }else {
             data.setDate(dateText);
         }
-        data.setGender(0);
+        if(gender) {
+            data.setGender(1);
+        }
+        if(!gender) {
+            data.setGender(0);
+        }
         Log.d(TAG, firstName.get() + "  " + about.get());
         dataService.setUserData(data)
                 .subscribeOn(Schedulers.io())

@@ -55,7 +55,9 @@ public class MainActivityViewModel extends BaseObservable {
                 .subscribe(unreadConfirm -> {
                     setUnreadConfirms(unreadConfirm.getData());
                     subscriber.onNext(getUnreadConfirms());
-                });
+                }, throwable -> {
+                    Log.d("ProfileViewModel",throwable.toString());
+                }, () -> {});
     }
     private void getUser(String link) {
         Log.d("MainActivityViewModel", "getUser");
