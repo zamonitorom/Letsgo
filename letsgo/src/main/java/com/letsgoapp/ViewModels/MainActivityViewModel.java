@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.letsgoapp.BR;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
@@ -34,6 +35,7 @@ public class MainActivityViewModel extends BaseObservable {
         dataService = new APIService();
         navigationService = new NavigationService();
         this.subscriber = subscriber;
+        sendToken();
         if(ContextUtill.GetContextApplication()!=null) {
             getUser(ContextUtill.GetContextApplication().getHref());
         }
@@ -75,6 +77,10 @@ public class MainActivityViewModel extends BaseObservable {
                 }, () -> {});
     }
 
+    public void sendToken(){
+        String string = FirebaseInstanceId.getInstance().getToken();
+//        Log.d(TAG,string);
+    }
 
     public void getProfile() {
         navigationService.goProfile(null);

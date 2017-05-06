@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.letsgoapp.R;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
@@ -159,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //This method will initialize the count value
         initializeCountDrawer();
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+
+        String string = FirebaseInstanceId.getInstance().getToken();
     }
 
     private void initializeCountDrawer() {

@@ -2,6 +2,7 @@ package com.letsgoapp.Utils;
 
 import android.app.Application;
 
+import com.google.firebase.FirebaseApp;
 import com.letsgoapp.Models.Owner;
 import com.vk.sdk.VKSdk;
 
@@ -19,6 +20,7 @@ public class ContextApplication extends Application {
     public void onCreate() {
         super.onCreate();
         VKSdk.initialize(this);
+        FirebaseApp.initializeApp(this);
     }
 
     public Object getGlobalVarValue() {
