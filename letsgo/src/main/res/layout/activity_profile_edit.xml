@@ -17,93 +17,113 @@
             type="com.letsgoapp.ViewModels.EditViewModel" />
     </data>
 
-
-    <ScrollView
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/text_margin"
-                android:text="Имя:" />
-
-            <com.letsgoapp.Utils.ExtendedEditText
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                app:binding="@{editVM.firstName}" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/text_margin"
-                android:text="О себе:" />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
-            <com.letsgoapp.Utils.ExtendedEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                app:binding="@{editVM.about}" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="М"
-                    android:textSize="18sp"
-                    android:checked="@{editVM.gender}"
-                    app:onClick="@{()->editVM.changeGender(true)}" />
-
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ж"
-                    android:checked="@{!editVM.gender}"
-                    android:textSize="18sp"
-                    app:onClick="@{()->editVM.changeGender(false)}" />
-            </RadioGroup>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{editVM.dateText}"
-                app:onClick="@{editVM::openPicker}" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <Space
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
+                <TextView
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="Имя:" />
+
+                <com.letsgoapp.Utils.ExtendedEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
-                    android:background="@drawable/roundcorner"
-                    android:elevation="5dp"
-                    android:shape="rectangle"
-                    android:text="Применить изменения"
-                    android:textColor="#FFFFFF"
-                    app:onClick="@{editVM::sendChanges}" />
+                    app:binding="@{editVM.firstName}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="О себе:" />
+
+                <com.letsgoapp.Utils.ExtendedEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    app:binding="@{editVM.about}" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="@{editVM.gender}"
+                        android:text="М"
+                        android:textSize="18sp"
+                        app:onClick="@{()->editVM.changeGender(true)}" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="@{!editVM.gender}"
+                        android:text="Ж"
+                        android:textSize="18sp"
+                        app:onClick="@{()->editVM.changeGender(false)}" />
+                </RadioGroup>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{editVM.dateText}"
+                    app:onClick="@{editVM::openPicker}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Space
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:background="@drawable/roundcorner"
+                        android:elevation="5dp"
+                        android:shape="rectangle"
+                        android:text="Применить изменения"
+                        android:textColor="#FFFFFF"
+                        app:onClick="@{editVM::sendChanges}" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

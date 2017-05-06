@@ -17,39 +17,61 @@
             type="com.letsgoapp.ViewModels.ChatViewModel" />
     </data>
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <android.support.v7.widget.RecyclerView
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_above="@+id/textView"
-            app:itemLayout="@{@layout/item_message}"
-            app:items="@{chatVM.messages}"
-            app:layoutManager="@{LayoutManagers.linear(true)}"
-            app:variable="@{Variables.Item}"
-            app:scrollOn="@{true}"
-            />
-
-        <com.letsgoapp.Utils.ExtendedEditText
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/button3"
-            android:layout_alignTop="@+id/button3"
-            app:binding="@{chatVM.newMessage}"/>
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:text="Button"
-            app:onClick="@{chatVM.sendMessage}"/>
-    </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/textView"
+                android:layout_alignParentStart="true"
+                app:itemLayout="@{@layout/item_message}"
+                app:items="@{chatVM.messages}"
+                app:layoutManager="@{LayoutManagers.linear(true)}"
+                app:scrollOn="@{true}"
+                app:variable="@{Variables.Item}" />
+
+            <com.letsgoapp.Utils.ExtendedEditText
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/button3"
+                android:layout_toStartOf="@+id/button3"
+                app:binding="@{chatVM.newMessage}" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:text="Button"
+                app:onClick="@{chatVM.sendMessage}" />
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

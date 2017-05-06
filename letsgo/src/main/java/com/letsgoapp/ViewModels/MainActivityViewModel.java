@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class MainActivityViewModel extends BaseObservable {
-
+    private final String TAG = "MainActivityViewModel";
     private String ava;
     private String name;
     private String unreadConfirms;
@@ -53,14 +53,14 @@ public class MainActivityViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(unreadConfirm -> {
-                    setUnreadConfirms(unreadConfirm.getData());
+                    setUnreadConfirms(unreadConfirm.getData().getUnread().toString());
                     subscriber.onNext(getUnreadConfirms());
                 }, throwable -> {
-                    Log.d("ProfileViewModel",throwable.toString());
+                    Log.d(TAG,throwable.toString());
                 }, () -> {});
     }
     private void getUser(String link) {
-        Log.d("MainActivityViewModel", "getUser");
+        Log.d(TAG, "getUser");
         dataService.getUser(link)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +71,7 @@ public class MainActivityViewModel extends BaseObservable {
                 })
                 .subscribe(user -> {
                 }, throwable -> {
-                    Log.d("ProfileViewModel",throwable.toString());
+                    Log.d(TAG,throwable.toString());
                 }, () -> {});
     }
 

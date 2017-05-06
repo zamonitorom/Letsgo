@@ -24,6 +24,17 @@ public class Message {
     @SerializedName("text")
     @Expose
     private String text;
+    @SerializedName("is_my")
+    @Expose
+    private Boolean isMy;
+
+    public Boolean getIsMy() {
+        return isMy;
+    }
+
+    public void setIsMy(Boolean isMy) {
+        this.isMy = isMy;
+    }
 
     public Owner getAuthor() {
         return author;

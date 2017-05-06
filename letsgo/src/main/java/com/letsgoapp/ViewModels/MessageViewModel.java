@@ -12,10 +12,12 @@ import com.letsgoapp.BR;
 public class MessageViewModel extends BaseObservable {
     private String name;
     private String text;
+    private String avatar;
     @Bindable
     public Boolean isMine;
 
-    public MessageViewModel(String name,String text, Boolean isMine) {
+    public MessageViewModel(String name, String text, Boolean isMine, String avatar) {
+        setAvatar(avatar);
         setName(name);
         setText(text);
         setMine(isMine);
@@ -44,5 +46,15 @@ public class MessageViewModel extends BaseObservable {
     public void setName(String name) {
         this.name = name;
         notifyPropertyChanged(BR.name);
+    }
+
+    @Bindable
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+        notifyPropertyChanged(BR.avatar);
     }
 }
