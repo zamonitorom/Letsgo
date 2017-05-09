@@ -124,6 +124,12 @@ public class ChatViewModel extends BaseObservable {
         notifyPropertyChanged(BR.isInput);
     }
 
+    public void finish(){
+        if(mWebSocketClient!=null){
+            mWebSocketClient.close();
+        }
+    }
+
     private void getMessages(){
         dataService.getMessages(String.valueOf(id))
                 .subscribeOn(Schedulers.io())

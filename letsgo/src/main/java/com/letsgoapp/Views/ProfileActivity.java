@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.ProfileViewModel;
@@ -51,7 +53,9 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activityProfile2Binding = DataBindingUtil.setContentView(this,R.layout.activity_profile);
         toolbar = activityProfile2Binding.toolbar;
         collapsingToolbarLayout = activityProfile2Binding.toolbarLayout;

@@ -35,10 +35,12 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="2dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:nestedScrollingEnabled="false"
                     app:scrollOn="@{false}"
                     app:itemLayout="@{@layout/item_photo_recycler}"
                     app:items="@{profileVM.photos}"
-                    app:layoutManager="@{LayoutManagers.grid(1,0,false)}"
+                    app:layoutManager="@{LayoutManagers.linear(0,false)}"
                     app:variable="@{Variables.Item}" />
 
                 <LinearLayout

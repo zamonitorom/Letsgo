@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
+            android:maxWidth="200dp"
             android:orientation="vertical"
             android:background="@drawable/my_msg_back"
             android:layout_gravity="center_vertical|end"
@@ -31,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="10sp"
+                android:layout_gravity="center_vertical|end"
                 android:text="@{item.name}" />
 
             <TextView
@@ -45,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
+            android:maxWidth="200dp"
             android:background="@drawable/msg_back"
             android:layout_gravity="center_vertical|start"
             android:orientation="vertical"
@@ -56,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="10sp"
+                android:layout_gravity="center_vertical|start"
                 android:text="@{item.name}" />
 
             <TextView
