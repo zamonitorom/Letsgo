@@ -137,4 +137,9 @@ public class APIService implements IDataService {
     public Observable<List<Message>> getMessages(String id) {
         return iapiService.getMessages(id,token);
     }
+
+    @Override
+    public Observable<Object> sendKey(String key) {
+        return iapiService3.sendToken(key,token);
+    }
 }

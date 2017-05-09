@@ -40,5 +40,6 @@ public interface IDataService {
     Observable<UnreadConfirm> getUnreadConfirms();
     Observable<List<Chat>> getChatList();
     Observable<List<Message>> getMessages(String id);
+    Observable<Object> sendKey(String key);
 //    Observable<RequestBody> sendReject();
 }

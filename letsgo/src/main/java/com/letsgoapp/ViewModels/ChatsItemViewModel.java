@@ -25,7 +25,7 @@ public class ChatsItemViewModel extends BaseObservable{
     }
 
     public void click(){
-        navigationService.goChat(1,slug,title);
+        navigationService.goChat(id,slug,title);
     }
 
     @Bindable

@@ -106,4 +106,9 @@ public interface IAPIService {
     @GET("message-list/{id}/")
     Observable<List<Message>> getMessages(@Path("id") String id,
                                           @Header("Authorization") String authorization);
+    @FormUrlEncoded
+    @PUT("set-client-key/")
+    Observable<Object> sendToken(@Field("client_key") String key,
+                                  @Header("Authorization") String authorization);
+
 }

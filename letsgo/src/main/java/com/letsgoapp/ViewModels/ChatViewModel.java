@@ -111,11 +111,11 @@ public class ChatViewModel extends BaseObservable {
         if(mWebSocketClient!=null&&isConnected){
             mWebSocketClient.send(newMessage.get());
             newMessage.set("");
+        }else {
+            if(mWebSocketClient!=null){
+                mWebSocketClient.connect();
+            }
         }
-//        if(mWebSocketClient!=null&&!isConnected){
-//            mWebSocketClient.connect();
-//            mWebSocketClient.send(newMessage.get());
-//        }
 //        mWebSocketClient.send(newMessage.get());
     }
 

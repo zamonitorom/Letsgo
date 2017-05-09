@@ -42,9 +42,11 @@ public class ChatsViewModel extends BaseObservable {
                     chatsItemViewModel.setTitle(chat.getTitle());
                     chatsItemViewModel.setSlug(chat.getChannelSlug());
                     chatsItemViewModel.setLastMessage(chat.getLastMessage().getText());
-//                    chatsItemViewModel.setId(chat.);
+                    chatsItemViewModel.setId(chat.getId());
                     items.add(chatsItemViewModel);
                 })
-                .subscribe();
+                .subscribe(chat -> {},throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 }

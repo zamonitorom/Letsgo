@@ -36,21 +36,21 @@ public class MainActivityViewModel extends BaseObservable {
         navigationService = new NavigationService();
         this.subscriber = subscriber;
         sendToken();
-        if(ContextUtill.GetContextApplication()!=null) {
+        if (ContextUtill.GetContextApplication() != null) {
             getUser(ContextUtill.GetContextApplication().getHref());
         }
     }
 
-    public void updateData(){
-        if(ContextUtill.isDataChanged()) {
-            if(ContextUtill.GetContextApplication()!=null) {
+    public void updateData() {
+        if (ContextUtill.isDataChanged()) {
+            if (ContextUtill.GetContextApplication() != null) {
                 getUser(ContextUtill.GetContextApplication().getHref());
             }
             ContextUtill.setDataChanged(false);
         }
     }
 
-    public void getUnreadConfirm(){
+    public void getUnreadConfirm() {
         dataService.getUnreadConfirms()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,9 +58,11 @@ public class MainActivityViewModel extends BaseObservable {
                     setUnreadConfirms(unreadConfirm.getData().getUnread().toString());
                     subscriber.onNext(getUnreadConfirms());
                 }, throwable -> {
-                    Log.d(TAG,throwable.toString());
-                }, () -> {});
+                    Log.d(TAG, throwable.toString());
+                }, () -> {
+                });
     }
+
     private void getUser(String link) {
         Log.d(TAG, "getUser");
         dataService.getUser(link)
@@ -73,12 +75,16 @@ public class MainActivityViewModel extends BaseObservable {
                 })
                 .subscribe(user -> {
                 }, throwable -> {
-                    Log.d(TAG,throwable.toString());
-                }, () -> {});
+                    Log.d(TAG, throwable.toString());
+                }, () -> {
+                });
     }
 
-    public void sendToken(){
+    public void sendToken() {
         String string = FirebaseInstanceId.getInstance().getToken();
+        dataService.sendKey(string)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
 //        Log.d(TAG,string);
     }
 

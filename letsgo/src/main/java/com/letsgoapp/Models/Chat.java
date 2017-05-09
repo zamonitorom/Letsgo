@@ -21,6 +21,9 @@ public class Chat {
     @SerializedName("users")
     @Expose
     private List<Owner> users = null;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
 
     public String getChannelSlug() {
         return channelSlug;
@@ -62,4 +65,11 @@ public class Chat {
         this.users = users;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

@@ -160,7 +160,7 @@ public class NavigationService implements INavigationService {
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("id",id);
         intent.putExtra("slug",slug);
-        intent.putExtra("title",slug);
+        intent.putExtra("title",title);
         if (activity != null) {
             activity.startActivity(intent);
         }
