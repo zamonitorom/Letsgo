@@ -19,55 +19,85 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:maxWidth="200dp"
-            android:orientation="vertical"
-            android:background="@drawable/my_msg_back"
-            android:layout_gravity="center_vertical|end"
+            android:orientation="horizontal"
             android:visibility="@{item.isMine? View.VISIBLE: View.GONE}"
-            android:padding="10dp">
-
-            <TextView
+            android:layout_gravity="center_vertical|end">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="10sp"
-                android:layout_gravity="center_vertical|end"
-                android:text="@{item.name}" />
+                android:elevation="5dp"
+                android:maxWidth="200dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@drawable/my_msg_back"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@{item.text}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="@{item.name}"
+                    android:textSize="10sp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:maxWidth="200dp"
+                    android:minWidth="20dp"
+                    android:text="@{item.text}" />
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                app:imageURL2="@{item.avatar}"/>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:maxWidth="200dp"
-            android:background="@drawable/msg_back"
-            android:layout_gravity="center_vertical|start"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:visibility="@{!item.isMine? View.VISIBLE: View.GONE}"
-            android:padding="10dp">
+            android:layout_gravity="center_vertical|start">
 
-            <TextView
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                app:imageURL2="@{item.avatar}"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="10sp"
-                android:layout_gravity="center_vertical|start"
-                android:text="@{item.name}" />
+                android:background="@drawable/msg_back"
+                android:elevation="5dp"
+                android:maxWidth="200dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@{item.text}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="@{item.name}"
+                    android:textSize="10sp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:maxWidth="200dp"
+                    android:minWidth="20dp"
+                    android:text="@{item.text}" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

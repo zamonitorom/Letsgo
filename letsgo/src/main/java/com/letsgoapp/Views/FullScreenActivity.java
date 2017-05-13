@@ -3,6 +3,8 @@ package com.letsgoapp.Views;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.letsgoapp.Adapters.FullScreenImageAdapter;
 import com.letsgoapp.R;
@@ -20,10 +22,11 @@ public class FullScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fulscreen);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_fulscreen);
         viewPager = (ViewPager) findViewById(R.id.pager);
 
 

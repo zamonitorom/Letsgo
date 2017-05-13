@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:text="Button"
+                android:text="отправить"
                 app:onClick="@{chatVM.sendMessage}" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>

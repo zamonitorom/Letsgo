@@ -82,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         Log.d("onOptionsItemSelected",String.valueOf(id));
         if (id == R.id.action_edit) {
             profileViewModel.goEdit();
