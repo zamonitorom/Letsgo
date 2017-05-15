@@ -1,0 +1,100 @@
+//navSrvice
+                //Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent intents = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Uri fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                //api<23  fileUri = file:///storage/sdcard/Pictures/Instagram/IMG_20170425_102320.jpg
+                //api>23 fileUri = content://ru.dixy.ubiworkerchecklistsmobile.provider/external_files/Pictures/Instagram/IMG_20170425_102718.jpg
+                intents.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+                // start the image capture Intent
+                ((Activity) topActivity).startActivityForResult(intents, 1);
+
+                //api<23 getPath = /storage/sdcard/Pictures/Instagram/IMG_20170425_102320.jpg;
+                //api>23 getPath = /external_files/Pictures/Instagram/IMG_20170425_102718.jpg;
+                filepathICallback.onResponse(fileUri.getPath(), "");
+                
+                   public static File getOutputMediaFile(int type) {
+        final String IMAGE_DIRECTORY_NAME = "Instagram";
+        // External sdcard location
+        File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), IMAGE_DIRECTORY_NAME);
+
+        File tmp = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+                        + IMAGE_DIRECTORY_NAME + " directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                    + "IMG_" + timeStamp + ".jpg");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+    
+    //viewModel
+    //        String urlfinal2 =  photoPath.replace("external_files","storage/emulated/0");
+    //push
+//view
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String picturePath = null;
+/*
+content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Ffile%2F75/ORIGINAL/NONE/1722440873
+ */
+/*
+/storage/emulated/0/DCIM/Camera/IMG_20170330_093520.jpg
+ */
+        if ((requestCode == 1 && resultCode == -1) || (requestCode == 0 && resultCode == -1)) {
+            if (data != null) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = this.getContentResolver().query(
+                        selectedImage, filePath, null, null, null);
+                if (c == null) {
+                    picturePath = selectedImage.getPath();
+                } else {
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    picturePath = c.getString(columnIndex);
+                    c.close();
+                }
+            }
+            categoriesVM.currentCategoryItem.pullCurrentPhoto(picturePath);//   /storage/emulated/0/Pictures/Instagram/IMG_20170206_160804.jpg
+        }
+
+        if (requestCode == 9004 ) {
+            if(resultCode == -1) {
+                Long siteId = (long) data.getIntExtra("SiteID", 0);
+                Long siteCode = (long) data.getIntExtra("SiteCode", 0);
+                categoriesVM.getPhotoFileBySite(siteId.intValue(), siteCode.intValue());
+            }if(resultCode == 0){
+                onBackPressed();
+            }
+//            onBackPressed();
+        }
+
+        if (requestCode == 9002 ) {
+            if(resultCode == -1) {
+                categoriesVM.refreshCurrent();
+            }if(resultCode == 0){
+//                onBackPressed();
+            }
+//            onBackPressed();
+        }
+
+    }
+    
+    
