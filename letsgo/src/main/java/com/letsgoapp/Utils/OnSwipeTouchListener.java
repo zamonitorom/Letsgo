@@ -11,8 +11,10 @@ import android.view.View.OnTouchListener;
  * Created by normalteam on 16.04.17.
  */
 
-public class OnSwipeTouchListener implements OnTouchListener {
-
+public class OnSwipeTouchListener implements View.OnTouchListener {
+    private static final int SWIPE_THRESHOLD = 10;
+    private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+    private float downX, downY, upX, upY;
     private final GestureDetector gestureDetector;
 
     public OnSwipeTouchListener (Context ctx){
@@ -21,13 +23,64 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                downX = event.getX();
+                downY = event.getY();
+                return true;
+            }
+            case MotionEvent.ACTION_UP: {
+                upX = event.getX();
+                upY = event.getY();
+
+                float deltaX = downX - upX;
+                float deltaY = downY - upY;
+
+                //HORIZONTAL SCROLL
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                        // left or right
+                        if (deltaX < 0) {
+                            onSwipeRight();
+                            return true;
+                        }
+                        if (deltaX > 0) {
+                            onSwipeLeft();
+                            return true;
+                        }
+                    } else {
+                        //not long enough swipe...
+                        return false;
+                    }
+                }
+                //VERTICAL SCROLL
+                else {
+                    if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+                        // top or down
+                        if (deltaY < 0) {
+                            onSwipeBottom();
+                            return true;
+                        }
+                        if (deltaY > 0) {
+                            onSwipeTop();
+                            return true;
+                        }
+                    } else {
+                        //not long enough swipe...
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+        return false;
     }
 
-    private final class GestureListener extends SimpleOnGestureListener {
+    private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+
 
         @Override
         public boolean onDown(MotionEvent e) {
