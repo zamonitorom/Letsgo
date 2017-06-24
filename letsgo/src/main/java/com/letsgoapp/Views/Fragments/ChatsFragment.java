@@ -44,4 +44,11 @@ public class ChatsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(chatsViewModel!=null){
+            chatsViewModel.getChats();
+        }
+    }
 }

@@ -145,9 +145,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             gMapFragment = new GMapFragment();
             gMapFragment.setSubscriber(buttonSubscriber);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
+            mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
+            activityMainBinding.setMainVM(mainActivityViewModel);
         }
-        mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
-        activityMainBinding.setMainVM(mainActivityViewModel);
+
 
 //        requestPermissions();
         //
@@ -182,7 +183,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         SetTopContext(this);
-        mainActivityViewModel.updateData();
+        if(mainActivityViewModel!=null) {
+            mainActivityViewModel.updateData();
+        }
         super.onResume();
     }
 
@@ -206,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SetTopContext(this);
         if (resultCode == RESULT_OK) {
             if (data.getExtras().getBoolean("auth")) {
+                mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
+                activityMainBinding.setMainVM(mainActivityViewModel);
                 mainActivityViewModel.updateData();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (data.getStringExtra("token") != null) {

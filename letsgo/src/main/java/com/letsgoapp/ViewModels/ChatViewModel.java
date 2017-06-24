@@ -13,6 +13,7 @@ import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Utils.ContextUtill;
 
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -34,8 +35,6 @@ public class ChatViewModel extends BaseObservable {
     private WebSocketClient mWebSocketClient;
     private Integer id;
     private String slug;
-    @Bindable
-    public boolean isConnected;
 
     @Bindable
     public Boolean isInput = false;
@@ -59,7 +58,6 @@ public class ChatViewModel extends BaseObservable {
                     @Override
                     public void onOpen(ServerHandshake serverHandshake) {
                         Log.d(TAG, "Opened");
-                        isConnected = true;
                     }
 
                     @Override
@@ -71,7 +69,6 @@ public class ChatViewModel extends BaseObservable {
                     @Override
                     public void onClose(int i, String s, boolean b) {
                         Log.d(TAG, "Closed " + s);
-                        isConnected = false;
                     }
 
                     @Override
@@ -93,7 +90,6 @@ public class ChatViewModel extends BaseObservable {
         this.id = id;
         this.slug = slug;
         getMessages();
-        isConnected = false;
 //        connectWebSocket();
         chatObservable()
                 .subscribeOn(Schedulers.io())
@@ -108,15 +104,23 @@ public class ChatViewModel extends BaseObservable {
 
     public void sendMessage(){
 //        messages.add(new MessageViewModel("123",newMessage.get(),true));
-        if(mWebSocketClient!=null&&isConnected){
-            mWebSocketClient.send(newMessage.get());
-            newMessage.set("");
-        }else {
-            if(mWebSocketClient!=null){
-                mWebSocketClient.connect();
+        WebSocket socket =  mWebSocketClient.getConnection();
+        mWebSocketClient.send(newMessage.get());
+        newMessage.set("");
+        /*
+        try {
+            if(mWebSocketClient!=null&&mWebSocketClient.getConnection().isConnecting()){
+                mWebSocketClient.send(newMessage.get());
+                newMessage.set("");
+            }else {
+                if(mWebSocketClient!=null){
+                    mWebSocketClient.connect();
+                }
             }
+        }catch (Exception e){
+            Dialogs.ShowMessage("Не удалось отправить сообщение.");
         }
-//        mWebSocketClient.send(newMessage.get());
+*/
     }
 
     public void setInput(){
