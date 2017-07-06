@@ -16,6 +16,7 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.util.VKUtil;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         ActivityLoginBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         loginViewModel = new LoginViewModel();
         binding.setLoginVM(loginViewModel);
-
+        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
 //        loginViewModel.goVk();
     }
 

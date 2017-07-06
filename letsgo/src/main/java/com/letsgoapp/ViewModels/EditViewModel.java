@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.letsgoapp.BR;
 import com.letsgoapp.Models.EditableUser;
 import com.letsgoapp.Models.MyObservableString;
@@ -103,6 +104,7 @@ public class EditViewModel extends BaseObservable {
             data.setGender(0);
         }
         Log.d(TAG, firstName.get() + "  " + about.get());
+        data.setKey(FirebaseInstanceId.getInstance().getToken());
         dataService.setUserData(data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

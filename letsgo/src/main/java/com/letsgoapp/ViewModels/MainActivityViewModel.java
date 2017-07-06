@@ -84,7 +84,11 @@ public class MainActivityViewModel extends BaseObservable {
         String string = FirebaseInstanceId.getInstance().getToken();
         dataService.sendKey(string)
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(o->{
+                }, throwable -> {
+                    Log.d(TAG, throwable.toString());
+                }, () -> {
+                });
 //        Log.d(TAG,string);
     }
 

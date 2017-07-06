@@ -22,10 +22,12 @@ import com.letsgoapp.Services.ImagePickService;
 import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
+import com.letsgoapp.Utils.ICallback;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.StringJoiner;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,6 +43,7 @@ public class ProfileViewModel extends BaseObservable {
     private String avatar;
     private Integer icToolbar;
     private String uhref;
+    private Uri fileUri;
     public MyObservableString about;
     public MyObservableString firstName;
     @Bindable
@@ -190,7 +193,13 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void addPhotoCamera() {
-        imagePickService.getPictureCamera();
+        imagePickService.getPictureCamera(new ICallback() {
+            @Override
+            public void onResponse(Object object) {
+//                fileUri = String.valueOf(object);
+                fileUri = (Uri) object;
+            }
+        });
     }
 
     public void startCropper(Uri uri) {
@@ -200,6 +209,17 @@ public class ProfileViewModel extends BaseObservable {
     public void startCropper(Bundle bundle) {
         Bitmap imageBitmap = (Bitmap) bundle.get("data");
         imagePickService.startCropper(imageBitmap);
+    }
+
+    public void startCropper(String path) {
+        if (path == null) {
+//            path = fileUri;
+        }
+//        path = path.replace("/external_files","/storage/emulated/0");
+        //content://com.letsgoapp.provider/external_files/Pictures/Instagram/IMG_20170706_220728.jpg
+        ///storage/emulated/0
+//        Uri uri = Uri.parse(path);
+        imagePickService.startCropper(fileUri);
     }
 
     public void sendPicture(Uri uri) {

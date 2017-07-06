@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Utils.Dialogs;
-
+import com.letsgoapp.Utils.ICallback;
 
 
 import java.io.File;
@@ -63,10 +63,10 @@ public class ImagePickService {
         }
     }
 
-    public void getPictureCamera() {
+    public void getPictureCamera(ICallback callback) {
         if (activity != null) {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                navigationService.goCameraPick();
+                navigationService.goCameraPick(callback);
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.CAMERA},

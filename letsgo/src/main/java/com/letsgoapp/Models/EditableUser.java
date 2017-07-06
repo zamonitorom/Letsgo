@@ -24,6 +24,10 @@ public class EditableUser {
     @SerializedName("gender")
     @Expose
     private Integer gender;
+    @SerializedName("client_key")
+    @Expose
+    private String key;
+
 
 
     /**
@@ -84,5 +88,13 @@ public class EditableUser {
 
     public void setGender(Integer gender) {
         this.gender = gender;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

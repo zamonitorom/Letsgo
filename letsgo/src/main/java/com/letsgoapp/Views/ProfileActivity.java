@@ -1,10 +1,12 @@
 package com.letsgoapp.Views;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -100,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        String picturePath = null;
 
         switch (requestCode) {
             case GALLERY_REQUEST:
@@ -119,8 +122,22 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
-                    Bundle extras = imageReturnedIntent.getExtras();
-                    profileViewModel.startCropper(extras);
+//                    Bundle extras = imageReturnedIntent.getExtras();
+//                    if (imageReturnedIntent != null) {
+//                        Uri selectedImage = imageReturnedIntent.getData();
+//                        String[] filePath = {MediaStore.Images.Media.DATA};
+//                        Cursor c = this.getContentResolver().query(
+//                                selectedImage, filePath, null, null, null);
+//                        if (c == null) {
+//                            picturePath = selectedImage.getPath();
+//                        } else {
+//                            c.moveToFirst();
+//                            int columnIndex = c.getColumnIndex(filePath[0]);
+//                            picturePath = c.getString(columnIndex);
+//                            c.close();
+//                        }
+//                    }
+                    profileViewModel.startCropper(picturePath);
                 }
                 break;
         }

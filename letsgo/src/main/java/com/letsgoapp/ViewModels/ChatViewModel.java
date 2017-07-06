@@ -48,7 +48,7 @@ public class ChatViewModel extends BaseObservable {
                 URI uri;
                 try {
                     String token = ContextUtill.GetContextApplication().getToken().replace("Token ","");
-                    uri = new URI("ws://37.46.128.134/chat/" + slug + "/?token=" + token);
+                    uri = new URI("ws://80.87.201.72/chat/" + slug + "/?token=" + token);
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                     return;
