@@ -20,25 +20,30 @@ import rx.schedulers.Schedulers;
 public class ChatsViewModel extends BaseObservable {
     private IDataService dataService;
 
-
-
     @Bindable
     public ObservableArrayList<ChatsItemViewModel> items;
 
     public ChatsViewModel() {
         items = new ObservableArrayList<>();
         dataService = new APIService();
-        getChats();
+//        getChats();
     }
 
     public void getChats(){
+        if(items.size()>0){
+            items.clear();
+        }
         dataService.getChatList()
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(chat->{
                     ChatsItemViewModel chatsItemViewModel = new ChatsItemViewModel();
-                    chatsItemViewModel.setAvatar(chat.getLastMessage().getAuthor().getAvatar());
+                    if(chat.getLastMessage().getAuthor().getAvatar()!=null) {
+                        chatsItemViewModel.setAvatar(chat.getLastMessage().getAuthor().getAvatar());
+                    }else {
+                        chatsItemViewModel.setAvatar(chat.getOwner().getAvatar());
+                    }
                     chatsItemViewModel.setTitle(chat.getTitle());
                     chatsItemViewModel.setSlug(chat.getChannelSlug());
                     chatsItemViewModel.setLastMessage(chat.getLastMessage().getText());
@@ -47,6 +52,13 @@ public class ChatsViewModel extends BaseObservable {
                 })
                 .subscribe(chat -> {},throwable -> {
                     throwable.printStackTrace();
+                    throwable.printStackTrace();
                 });
+    }
+    
+    public void updateAvatars(){
+        for (ChatsItemViewModel chatItemViewModel: items) {
+            
+        }
     }
 }

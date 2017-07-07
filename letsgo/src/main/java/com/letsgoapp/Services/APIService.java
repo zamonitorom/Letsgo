@@ -125,17 +125,17 @@ public class APIService implements IDataService {
 
     @Override
     public Observable<UnreadConfirm> getUnreadConfirms() {
-        return iapiService.getUnreadConfirms(token);
+        return iapiService3.getUnreadConfirms(token);
     }
 
     @Override
     public Observable<List<Chat>> getChatList(){
-        return iapiService.getChatList(token);
+        return iapiService3.getChatList(token);
     }
 
     @Override
     public Observable<List<Message>> getMessages(String id) {
-        return iapiService.getMessages(id,token);
+        return iapiService3.getMessages(id,token);
     }
 
     @Override
