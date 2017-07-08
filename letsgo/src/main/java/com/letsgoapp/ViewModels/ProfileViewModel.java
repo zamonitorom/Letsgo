@@ -27,7 +27,6 @@ import com.letsgoapp.Utils.ICallback;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.StringJoiner;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,12 +45,13 @@ public class ProfileViewModel extends BaseObservable {
     private Uri fileUri;
     public MyObservableString about;
     public MyObservableString firstName;
+    private Boolean editPhoto;
     @Bindable
     public Boolean isMine;
     @Bindable
     public Boolean isTouchable;
-    @Bindable
-    public Boolean isDateChecking = false;
+
+
 
     @Bindable
     public ObservableArrayList<PhotoItemViewModel> photos = null;
@@ -76,6 +76,7 @@ public class ProfileViewModel extends BaseObservable {
         firstName = new MyObservableString();
         isMine = false;
         isTouchable = false;
+        editPhoto = false;
         loadData(link);
         notifyPropertyChanged(BR.isMine);
         notifyPropertyChanged(BR.isTouchable);
@@ -112,8 +113,22 @@ public class ProfileViewModel extends BaseObservable {
                     subscriber.onNext(user.getFirstName());
                     int i = 0;
                     for (Photo photo : user.getPhotos()) {
-                        PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto());
+                        PhotoItemViewModel model = new PhotoItemViewModel(photo.getPhoto(), new ICallback() {
+                            @Override
+                            public void onResponse(Object object) {
+                                photos.remove((int) object);
+                                images.remove((int) object);
+                            }
+                        }, new ICallback() {
+                            @Override
+                            public void onResponse(Object object) {
+                                setAvatar(photo.getPhoto());
+                            }
+                        });
                         model.setPosition(i);
+                        model.setDeleteLink(photo.getDeletePhoto());
+                        model.setAvatarLink(photo.getSetAvatar());
+                        model.setEditable(false);
                         photos.add(model);
                         images.add(photo.getPhoto());
                         i++;
@@ -202,6 +217,14 @@ public class ProfileViewModel extends BaseObservable {
         });
     }
 
+    public void setEditable(){
+        editPhoto = !editPhoto;
+        notifyPropertyChanged(BR.editPhoto);
+        for (PhotoItemViewModel model: photos) {
+            model.setEditable(editPhoto);
+        }
+    }
+
     public void startCropper(Uri uri) {
         imagePickService.startCropper(uri);
     }
@@ -212,6 +235,7 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     public void startCropper(String path) {
+        //потому что ури приходит коллбэком
         if (path == null) {
 //            path = fileUri;
         }
@@ -241,10 +265,29 @@ public class ProfileViewModel extends BaseObservable {
                             dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
                         }, () -> {
                             Log.d(TAG, answer.getPhoto());
-                            photos.add(new PhotoItemViewModel(answer.getPhoto()));
+                            PhotoItemViewModel photoItemViewModel = new PhotoItemViewModel(answer.getPhoto(), new ICallback() {
+                                @Override
+                                public void onResponse(Object object) {
+                                    photos.remove((int) object);
+                                    images.remove((int) object);
+                                }
+                            }, new ICallback() {
+                                @Override
+                                public void onResponse(Object object) {
+                                    setAvatar(answer.getPhoto());
+                                }
+                            });
+                            photoItemViewModel.setPosition(photos.size());
+                            photoItemViewModel.setAvatarLink(answer.getSetAvatar());
+                            photoItemViewModel.setDeleteLink(answer.getDeletePhoto());
+                            photoItemViewModel.setEditable(false);
+                            images.add(answer.getPhoto());
+                            photos.add(photoItemViewModel);
                         });
 
     }
+
+
 
     @Bindable
     public String getAvatar() {
@@ -281,5 +324,15 @@ public class ProfileViewModel extends BaseObservable {
 
     public void setDate(PickedDate date) {
         this.date = date;
+    }
+
+    @Bindable
+    public Boolean getEditPhoto() {
+        return editPhoto;
+    }
+
+    public void setEditPhoto(Boolean editable) {
+        editPhoto = editable;
+        notifyPropertyChanged(BR.editPhoto);
     }
 }

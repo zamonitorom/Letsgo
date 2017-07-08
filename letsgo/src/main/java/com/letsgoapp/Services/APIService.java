@@ -142,4 +142,14 @@ public class APIService implements IDataService {
     public Observable<Object> sendKey(String key) {
         return iapiService3.sendToken(key,token);
     }
+
+    @Override
+    public Observable<Object> deletePhoto(String url) {
+        return iapiService3.deletePhoto(url,token);
+    }
+
+    @Override
+    public Observable<Object> setAvatar(String url) {
+        return iapiService3.setAvatar(url,token);
+    }
 }

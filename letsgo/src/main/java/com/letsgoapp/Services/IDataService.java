@@ -41,5 +41,7 @@ public interface IDataService {
     Observable<List<Chat>> getChatList();
     Observable<List<Message>> getMessages(String id);
     Observable<Object> sendKey(String key);
+    Observable<Object> deletePhoto(String url);
+    Observable<Object> setAvatar(String url);
 //    Observable<RequestBody> sendReject();
 }

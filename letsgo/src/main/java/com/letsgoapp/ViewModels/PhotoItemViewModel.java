@@ -1,20 +1,18 @@
 package com.letsgoapp.ViewModels;
 
-import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.letsgoapp.BR;
-import com.letsgoapp.R;
+import com.letsgoapp.Services.APIService;
+import com.letsgoapp.Services.IDataService;
 import com.letsgoapp.Services.INavigationService;
 import com.letsgoapp.Services.NavigationService;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.letsgoapp.Utils.Dialogs;
+import com.letsgoapp.Utils.ICallback;
 
-import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -24,10 +22,19 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class PhotoItemViewModel extends BaseObservable {
 
     private String link;
-    private Bitmap bitmap;
+    private String deleteLink;
+    private String avatarLink;
     private Integer position;
+    private ICallback deleteCallback;
+    private ICallback avaCallback;
+    private Boolean editable;
 
-    public PhotoItemViewModel(String link) {
+    private IDataService dataService;
+
+    public PhotoItemViewModel(String link, ICallback callback,ICallback avaCallback) {
+        dataService = new APIService();
+        this.deleteCallback = callback;
+        this.avaCallback = avaCallback;
         if (link != null) {
             this.link = link;
             //loadBitmap(link);
@@ -51,41 +58,29 @@ public class PhotoItemViewModel extends BaseObservable {
         notifyPropertyChanged(BR.link);
     }
 
-    public void loadBitmap(String link) {
-        Picasso.with((Context) GetTopContext())
-                .load(link)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        Log.d("PhotoItemViewModel", "onBitmapLoaded");
-                        setBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        Log.d("PhotoItemViewModel", "onBitmapFailed");
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Log.d("PhotoItemViewModel", "onPrepareLoad");
-                    }
-                });
-    }
-
     public void click(){
         INavigationService navigationService = new NavigationService();
         navigationService.goFullscreen(position);
     }
 
-    @Bindable
-    public Bitmap getBitmap() {
-        return bitmap;
+    public void deletePhoto(){
+        dataService.deletePhoto(deleteLink)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {},throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                },()-> deleteCallback.onResponse(position));
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-        notifyPropertyChanged(BR.bitmap);
+    public void setAvatar(){
+        dataService.setAvatar(avatarLink)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {},throwable -> {
+                    Dialogs dialogs = new Dialogs();
+                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                },()-> avaCallback.onResponse(position));
     }
 
     @Bindable
@@ -96,5 +91,23 @@ public class PhotoItemViewModel extends BaseObservable {
     public void setPosition(Integer position) {
         this.position = position;
         notifyPropertyChanged(BR.position);
+    }
+
+    public void setDeleteLink(String deleteLink) {
+        this.deleteLink = deleteLink;
+    }
+
+    public void setAvatarLink(String avatarLink) {
+        this.avatarLink = avatarLink;
+    }
+
+    @Bindable
+    public Boolean getEditable() {
+        return editable;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
+        notifyPropertyChanged(BR.editable);
     }
 }

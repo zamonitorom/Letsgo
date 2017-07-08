@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -18,122 +17,97 @@
             type="com.letsgoapp.ViewModels.ProfileViewModel" />
     </data>
 
-        <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:descendantFocusability="blocksDescendants"
+                android:nestedScrollingEnabled="false"
+                android:padding="2dp"
+                app:itemLayout="@{@layout/item_photo_recycler}"
+                app:items="@{profileVM.photos}"
+                app:layoutManager="@{LayoutManagers.linear(0,false)}"
+                app:scrollOn="@{false}"
+                app:variable="@{Variables.Item}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:padding="2dp"
-                    android:descendantFocusability="blocksDescendants"
-                    android:nestedScrollingEnabled="false"
-                    app:scrollOn="@{false}"
-                    app:itemLayout="@{@layout/item_photo_recycler}"
-                    app:items="@{profileVM.photos}"
-                    app:layoutManager="@{LayoutManagers.linear(0,false)}"
-                    app:variable="@{Variables.Item}" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:visibility="@{profileVM.isMine? View.VISIBLE: View.GONE}"
-                        android:text="Галерея"
-                        android:drawableLeft="@drawable/ic_image_white_36dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="4dp"
-                        app:onClick="@{profileVM::addPhotoGallery}" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text=" Фото  "
-                        android:drawableLeft="@drawable/ic_add_a_photo_white_36dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginLeft="4dp"
-                        android:visibility="@{profileVM.isMine? View.VISIBLE: View.GONE}"
-                        android:layout_weight="1"
-                        app:onClick="@{profileVM::addPhotoCamera}"
-                        />
-                </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{profileVM.isMine? View.VISIBLE: View.GONE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{!profileVM.isTouchable ? View.VISIBLE : View.GONE}"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:visibility="@{!profileVM.editPhoto ? View.VISIBLE : View.GONE}">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{profileVM.about.get()}"/>
+                    <ImageView
+                        android:id="@+id/button4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="#148800"
+                        android:src="@drawable/ic_image_white_36dp"
+                        app:onClick="@{profileVM::addPhotoGallery}" />
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="#123456"
+                        android:src="@drawable/ic_add_a_photo_white_36dp"
+                        app:onClick="@{profileVM::addPhotoCamera}" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="#993999"
+                        android:src="@drawable/ic_edit_white_36dp"
+                        app:onClick="@{profileVM::setEditable}" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#993999"
+                    android:orientation="horizontal"
+                    android:visibility="@{profileVM.editPhoto ? View.VISIBLE : View.GONE}"
+                    app:onClick="@{profileVM::setEditable}"
+                    >
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:visibility="@{profileVM.isTouchable ? View.VISIBLE : View.GONE}"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<com.letsgoapp.Utils.ExtendedEditText-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="@dimen/text_margin"-->
-
-                        <!--android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"-->
-                        <!--app:binding="@{profileVM.firstName}" />-->
-
-                    <!--<com.letsgoapp.Utils.ExtendedEditText-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_margin="@dimen/text_margin"-->
-                        <!--android:inputType="@{profileVM.isTouchable? InputType.TYPE_CLASS_TEXT:InputType.TYPE_NULL}"-->
-                        <!--app:binding="@{profileVM.about}" />-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Выбрать дату"-->
-                        <!--app:onClick="@{profileVM::openPicker}"/>-->
-
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content">-->
-                        <!--<Space-->
-                            <!--android:layout_width="260dp"-->
-                            <!--android:layout_height="wrap_content" />-->
-                        <!--<Button-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_margin="@dimen/text_margin"-->
-                            <!--android:background="@drawable/roundcorner"-->
-                            <!--android:clickable="@{profileVM.isTouchable? true: false}"-->
-                            <!--android:elevation="5dp"-->
-                            <!--android:shape="rectangle"-->
-                            <!--android:text="Send"-->
-                            <!--android:textColor="#FFFFFF"-->
-                            <!--app:onClick="@{profileVM::sendChanges}" />-->
-                    <!--</LinearLayout>-->
-                <!--</LinearLayout>-->
-
-
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_horizontal|center"
+                        android:text="Завершить редактирование"
+                        android:textSize="22sp" />
+                </LinearLayout>
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@{profileVM.about.get()}"
+                app:onClick="@{profileVM::setEditable}"/>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
 </layout>

@@ -4,26 +4,64 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="com.letsgoapp.ViewModels.PhotoItemViewModel" />
     </data>
 
     <FrameLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="2dp"
-            app:imageURL3="@{item.link}"
-            app:onClick="@{item::click}"/>
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:padding="2dp"
+                app:imageURL3="@{item.link}"
+                app:onClick="@{item::click}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:visibility="@{item.editable? View.VISIBLE:View.GONE}">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#45cc8f8c"
+                android:padding="12dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_delete_forever_red_500_24dp"
+                app:onClick="@{item::deletePhoto}"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#459bcc8c"
+                android:padding="12dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_contacts_teal_200_24dp"
+                app:onClick="@{item::setAvatar}"
+                />
+        </LinearLayout>
+
     </FrameLayout>
 
 

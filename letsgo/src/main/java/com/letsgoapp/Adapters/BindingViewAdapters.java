@@ -64,7 +64,7 @@ public class BindingViewAdapters {
     public static void bindImage2(final ImageView view, String url) {
         Log.d("imageURL2", "start");
         Log.d("imageURL2", "url = " + url);
-        view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         try {
             Picasso.with(view.getContext())
                     .load(url)

@@ -23,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -75,7 +76,7 @@ public interface IAPIService {
                                      @Header("Authorization") String authorization);
 
     @POST("meeting-confirm/{id}/")
-    Observable<Object> sendConfirm(@Path("id") String id,@Body Object object,
+    Observable<Object> sendConfirm(@Path("id") String id, @Body Object object,
                                    @Header("Authorization") String authorization);
 
     @GET("confirms-list/")
@@ -84,18 +85,19 @@ public interface IAPIService {
     @POST("api-token-auth/")
     Observable<UserResponse> createUser(@Body Object newUser,
                                         @Header("Content-Type") String contentType);
-//                                   @Header("Content-Length") String length);
+
+    //                                   @Header("Content-Length") String length);
     @FormUrlEncoded
     @PUT("confirm-action/{id}/")
     Observable<Object> sendConfirm(@Path("id") String id,
-                                        @Field("is_approved") String status,
-                                        @Header("Authorization") String authorization);
+                                   @Field("is_approved") String status,
+                                   @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @PUT("confirm-action/{id}/")
     Observable<Object> sendReject(@Path("id") String id,
-                                   @Field("is_rejected") String status,
-                                   @Header("Authorization") String authorization);
+                                  @Field("is_rejected") String status,
+                                  @Header("Authorization") String authorization);
 
     @GET("unread-confirms/")
     Observable<UnreadConfirm> getUnreadConfirms(@Header("Authorization") String authorization);
@@ -106,9 +108,18 @@ public interface IAPIService {
     @GET("message-list/{id}/")
     Observable<List<Message>> getMessages(@Path("id") String id,
                                           @Header("Authorization") String authorization);
+
     @FormUrlEncoded
     @PUT("set-client-key/")
     Observable<Object> sendToken(@Field("client_key") String key,
-                                  @Header("Authorization") String authorization);
+                                 @Header("Authorization") String authorization);
+
+    @DELETE
+    Observable<Object> deletePhoto(@Url String url,
+                                   @Header("Authorization") String authorization);
+
+    @PUT
+    Observable<Object> setAvatar(@Url String url,
+                                 @Header("Authorization") String authorization);
 
 }
