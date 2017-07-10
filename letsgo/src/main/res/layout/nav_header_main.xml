@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="mainVM"
             type="com.letsgoapp.ViewModels.MainActivityViewModel" />
@@ -23,9 +22,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:paddingStart="@dimen/nav_header_vertical_spacing"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
             app:imageURL2="@{mainVM.ava}"
             app:onClick="@{mainVM::getProfile}"
             />

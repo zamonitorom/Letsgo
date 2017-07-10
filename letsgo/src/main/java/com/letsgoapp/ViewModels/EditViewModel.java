@@ -13,6 +13,8 @@ import com.letsgoapp.Models.MyObservableString;
 import com.letsgoapp.Models.PickedDate;
 import com.letsgoapp.Services.APIService;
 import com.letsgoapp.Services.IDataService;
+import com.letsgoapp.Services.INavigationService;
+import com.letsgoapp.Services.NavigationService;
 import com.letsgoapp.Utils.ContextUtill;
 import com.letsgoapp.Utils.Dialogs;
 
@@ -109,6 +111,8 @@ public class EditViewModel extends BaseObservable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data1 -> {
+                    INavigationService navigationService = new NavigationService();
+                    navigationService.goMainWithFinish();
                 }, throwable -> {
                     Dialogs dialogs = new Dialogs();
                     dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");

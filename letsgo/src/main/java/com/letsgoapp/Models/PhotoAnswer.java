@@ -18,7 +18,7 @@ public class PhotoAnswer {
     private String msg;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private Photo data;
 
     public Integer getStatus() {
         return status;
@@ -36,11 +36,11 @@ public class PhotoAnswer {
         this.msg = msg;
     }
 
-    public Data getData() {
+    public Photo getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(Photo data) {
         this.data = data;
     }
 

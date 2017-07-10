@@ -106,24 +106,24 @@ public class ImagePickService {
         return outputFileUri;
     }
 
-    public Photo sendPicture(Uri uri) {
-        URI uri2 = URI.create(uri.toString());
-        String path = uri2.getPath();
-        int cut = path.lastIndexOf('/');
-        if (cut != -1) {
-            path = path.substring(cut + 1);
-        }
-        Photo answer = new Photo();
-        apiService.putPhoto(uri2, path)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
-                .subscribe(responseBody -> {},throwable -> {
-                    Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
-                });
-        return answer;
-    }
+//    public Photo sendPicture(Uri uri) {
+//        URI uri2 = URI.create(uri.toString());
+//        String path = uri2.getPath();
+//        int cut = path.lastIndexOf('/');
+//        if (cut != -1) {
+//            path = path.substring(cut + 1);
+//        }
+//        Photo answer = new Photo();
+//        apiService.putPhoto(uri2, path)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
+//                .subscribe(responseBody -> {},throwable -> {
+//                    Dialogs dialogs = new Dialogs();
+//                    dialogs.ShowDialogAgree("Ошибка","Не удалось отправить данные");
+//                });
+//        return answer;
+//    }
 
     public boolean checkResolution(Uri uri) {
         Bitmap bitmap = null;

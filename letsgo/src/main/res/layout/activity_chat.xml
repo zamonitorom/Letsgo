@@ -64,13 +64,13 @@
                 android:layout_toStartOf="@+id/button3"
                 app:binding="@{chatVM.newMessage}" />
 
-            <Button
+            <ImageView
                 android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:text="отправить"
+                android:src="@drawable/ic_forward_black_24dp"
                 app:onClick="@{chatVM.sendMessage}" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>

@@ -13,80 +13,73 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="180dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        app:swipe="@{preVM::closePreview}">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="120"
-            android:orientation="vertical">
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#01a569"
-            android:padding="7dp"
-            android:orientation="vertical"
-            app:swipe="@{preVM::closePreview}"
-            >
-
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="спрятать страшную телку"-->
-                <!--android:elevation="10dp"-->
-                <!--app:onClick="@{preVM::closePreview}"/>-->
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:text="@{preVM.currentMeeting.title}"/>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{preVM.currentMeeting.title}"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:layout_gravity="center_vertical"
-                    android:text="Это событие органихзует пользователь:"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/ava"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
-                        app:imageURL2="@{preVM.preAva}"
-                        app:onClick="@{preVM::onAvaClick}"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@{preVM.currentMeeting.owner.firstName}"/>
-                </LinearLayout>
-
+                    android:layout_gravity="center_vertical|bottom"
+                    android:paddingTop="32dp"
+                    android:gravity="bottom"
+                    android:textSize="12sp"
+                    android:text="Это событие организует пользователь:" />
             </LinearLayout>
 
-            <Button
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="go ебаться"
-                app:onClick="@{preVM::confirm}"/>
+                android:layout_weight="0.9"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ava"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    app:imageURL2="@{preVM.preAva}"
+                    app:onClick="@{preVM::onAvaClick}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{preVM.currentMeeting.owner.firstName}" />
+            </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#305ea3"
+            android:text="Хочу присоединиться"
+            android:textColor="#FFFFFF"
+            app:onClick="@{preVM::confirm}" />
+
     </LinearLayout>
 </layout>

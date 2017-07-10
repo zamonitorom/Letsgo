@@ -118,6 +118,7 @@ public class ProfileViewModel extends BaseObservable {
                             public void onResponse(Object object) {
                                 photos.remove((int) object);
                                 images.remove((int) object);
+                                refreshPositions(photos);
                             }
                         }, new ICallback() {
                             @Override
@@ -132,6 +133,7 @@ public class ProfileViewModel extends BaseObservable {
                         photos.add(model);
                         images.add(photo.getPhoto());
                         i++;
+                        ContextUtill.setDataChanged(true);
                     }
                 })
                 .subscribe(user -> {
@@ -253,41 +255,49 @@ public class ProfileViewModel extends BaseObservable {
         if (cut != -1) {
             path = path.substring(cut + 1);
         }
-        Photo answer = new Photo();
         dataService.putPhoto(uri2, path)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(photoAnswer -> answer.setPhoto(photoAnswer.getData().getHref()))
+                .doOnNext(photoAnswer -> {
+                    Photo answer = photoAnswer.getData();
+                    Log.d(TAG, answer.getPhoto());
+                    PhotoItemViewModel photoItemViewModel = new PhotoItemViewModel(answer.getPhoto(), new ICallback() {
+                        @Override
+                        public void onResponse(Object object) {
+                            photos.remove((int) object);
+                            images.remove((int) object);
+                            refreshPositions(photos);
+                        }
+                    }, new ICallback() {
+                        @Override
+                        public void onResponse(Object object) {
+                            setAvatar(answer.getPhoto());
+                            ContextUtill.setDataChanged(true);
+                        }
+                    });
+                    photoItemViewModel.setPosition(photos.size());
+                    photoItemViewModel.setAvatarLink(answer.getSetAvatar());
+                    photoItemViewModel.setDeleteLink(answer.getDeletePhoto());
+                    photoItemViewModel.setEditable(false);
+                    images.add(answer.getPhoto());
+                    photos.add(photoItemViewModel);
+                })
                 .subscribe(responseBody -> {
                         },
                         throwable -> {
                             Dialogs dialogs = new Dialogs();
                             dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
                         }, () -> {
-                            Log.d(TAG, answer.getPhoto());
-                            PhotoItemViewModel photoItemViewModel = new PhotoItemViewModel(answer.getPhoto(), new ICallback() {
-                                @Override
-                                public void onResponse(Object object) {
-                                    photos.remove((int) object);
-                                    images.remove((int) object);
-                                }
-                            }, new ICallback() {
-                                @Override
-                                public void onResponse(Object object) {
-                                    setAvatar(answer.getPhoto());
-                                }
-                            });
-                            photoItemViewModel.setPosition(photos.size());
-                            photoItemViewModel.setAvatarLink(answer.getSetAvatar());
-                            photoItemViewModel.setDeleteLink(answer.getDeletePhoto());
-                            photoItemViewModel.setEditable(false);
-                            images.add(answer.getPhoto());
-                            photos.add(photoItemViewModel);
+
                         });
 
     }
 
-
+    private void refreshPositions(ObservableArrayList<PhotoItemViewModel> list){
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setPosition(i);
+        }
+    }
 
     @Bindable
     public String getAvatar() {

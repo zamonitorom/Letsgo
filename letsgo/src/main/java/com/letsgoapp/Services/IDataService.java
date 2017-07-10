@@ -7,6 +7,7 @@ import com.letsgoapp.Models.Confirm;
 import com.letsgoapp.Models.Meeting;
 import com.letsgoapp.Models.Message;
 import com.letsgoapp.Models.Owner;
+import com.letsgoapp.Models.Photo;
 import com.letsgoapp.Models.PhotoAnswer;
 import com.letsgoapp.Models.UnreadConfirm;
 import com.letsgoapp.Models.UserResponse;
