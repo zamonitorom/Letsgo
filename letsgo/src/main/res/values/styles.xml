@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -23,5 +23,10 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--<style name="FloatingButton" parent="AppTheme" >-->
+        <!--<item name="app:backgroundTint">@color/colorAccent3</item>-->
+        <!--<item name="android:tint">@color/colorPrimaryDark</item>-->
+    <!--</style>-->
 
 </resources>

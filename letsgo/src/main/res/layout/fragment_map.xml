@@ -27,12 +27,17 @@
             android:id="@+id/preview"/>
 
         <android.support.design.widget.FloatingActionButton
+            app:backgroundTint="@color/colorAccent3"
+            android:tint="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fab_margin"
             android:layout_marginBottom="70dp"
-            android:layout_gravity="center|end"/>
+            android:layout_gravity="center|end"
+            app:srcCompat="@drawable/ic_my_location_white_36dp"/>
         <android.support.design.widget.FloatingActionButton
+            app:backgroundTint="@color/colorAccent3"
+            android:tint="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fab_margin"
