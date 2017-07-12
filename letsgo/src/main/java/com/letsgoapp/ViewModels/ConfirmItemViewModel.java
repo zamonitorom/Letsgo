@@ -36,6 +36,7 @@ public class ConfirmItemViewModel extends BaseObservable{
     private String meetingDescription;
     private String userName;
     private String id;
+    private Boolean isHidden;
 
     private IDataService dataService;
 
@@ -45,6 +46,7 @@ public class ConfirmItemViewModel extends BaseObservable{
 
     public ConfirmItemViewModel(String link,Boolean approved) {
         dataService = new APIService();
+        setHidden(false);
         if (link != null) {
             this.link = link;
             this.isApproved = approved;
@@ -54,16 +56,19 @@ public class ConfirmItemViewModel extends BaseObservable{
     }
 
     public void approve(){
-
         dataService.sendApprove(getId(),"True")
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(o -> {},throwable -> {},()->{
+                    setHidden(true);
+                });
     }
 
     public void reject(){
         dataService.sendReject(getId(),"True")
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(o -> {},throwable -> {},()->{
+                    setHidden(true);
+                });
     }
 
     @Bindable
@@ -112,5 +117,15 @@ public class ConfirmItemViewModel extends BaseObservable{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Bindable
+    public Boolean getHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        isHidden = hidden;
+        notifyPropertyChanged(BR.hidden);
     }
 }

@@ -41,7 +41,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent3">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -54,27 +55,60 @@
                 app:scrollOn="@{true}"
                 app:variable="@{Variables.Item}" />
 
-            <com.letsgoapp.Utils.ExtendedEditText
+            <LinearLayout
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/button3"
-                android:layout_toStartOf="@+id/button3"
+                android:layout_margin="8dp"
+                android:background="@drawable/inpet_text_back">
+                <com.letsgoapp.Utils.ExtendedEditText
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
                 android:background="#00000000"
-                android:hint="  Введите текст . . ."
+                android:layout_margin="4dp"
+                android:hint="Ваше сообщение"
                 app:binding="@{chatVM.newMessage}" />
 
-            <ImageView
+                <ImageView
                 android:id="@+id/button3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="4dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_forward_black_24dp"
                 app:onClick="@{chatVM.sendMessage}" />
+            </LinearLayout>
+
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
+<!--<LinearLayout-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="4dp"-->
+<!--android:background="@drawable/inpet_text_back"-->
+<!--android:orientation="horizontal">-->
+
+<!--<com.letsgoapp.Utils.ExtendedEditText-->
+<!--android:id="@+id/textView"-->
+<!--android:layout_width="0dp"-->
+<!--android:layout_height="match_parent"-->
+<!--android:layout_weight="1"-->
+<!--android:scaleType="centerInside"-->
+<!--android:background="#00000000"-->
+<!--android:layout_margin="4dp"-->
+<!--android:hint="Ваше сообщение"-->
+<!--app:binding="@{chatVM.newMessage}" />-->
+
+<!--<ImageView-->
+<!--android:id="@+id/button3"-->
+<!--android:layout_width="40dp"-->
+<!--android:layout_height="40dp"-->
+<!--android:scaleType="centerInside"-->
+<!--android:src="@drawable/ic_forward_black_24dp"-->
+<!--app:onClick="@{chatVM.sendMessage}" />-->
+    <!--</LinearLayout>-->
