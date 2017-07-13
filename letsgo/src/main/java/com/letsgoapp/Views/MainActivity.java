@@ -287,9 +287,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Создание события");
             button.hide();
             item.setChecked(true);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        }
+//        else if (id == R.id.nav_share) {
+//
+//        }
+        else if (id == R.id.nav_send) {
 
         }
 

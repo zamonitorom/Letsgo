@@ -5,39 +5,39 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_menu_map"
             android:title="Актуальные события" />
         <item
             android:id="@+id/nav_my_confirms"
-            android:icon="@drawable/ic_audiotrack"
+
             android:title="Мои заявки"
             app:actionViewClass="android.widget.TextView"/>
         <item
             android:id="@+id/nav_my_actions"
-            android:icon="@drawable/ic_menu_gallery"
+
             android:title="Мои события" />
         <item
             android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_menu_slideshow"
             app:actionViewClass="android.widget.TextView"
             android:title="Сообщения" />
         <item
             android:id="@+id/nav_create_action"
-            android:icon="@drawable/ic_menu_manage"
+
             android:title="Создать событие" />
+
+        <item
+            android:id="@+id/nav_send"
+
+            android:title="Выход" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Настройки" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Выход" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--&lt;!&ndash;<item&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/nav_share"&ndash;&gt;-->
+
+                <!--&lt;!&ndash;android:title="Настройки" />&ndash;&gt;-->
+
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>
