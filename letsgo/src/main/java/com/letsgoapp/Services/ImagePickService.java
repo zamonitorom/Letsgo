@@ -37,8 +37,8 @@ import static com.letsgoapp.Views.LoginActivity.MY_PERMISSIONS;
 public class ImagePickService {
 
 
-    private static int IMG_HEIGHT = 2400;
-    private static int IMG_WIDTH = 2400;
+    private static int IMG_HEIGHT = 2000;
+    private static int IMG_WIDTH = 2000;
 
     Activity activity;
 

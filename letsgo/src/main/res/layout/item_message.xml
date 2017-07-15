@@ -21,11 +21,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="@{item.isMine? View.VISIBLE: View.GONE}"
-            android:layout_gravity="center_vertical|end">
+            android:layout_gravity="center_vertical|end"
+            android:layout_margin="4dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="5dp"
                 android:maxWidth="200dp"
                 android:orientation="vertical"
                 android:padding="8dp"
@@ -51,8 +51,8 @@
 
             </LinearLayout>
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:padding="4dp"
                 app:imageURL2="@{item.avatar}"/>
         </LinearLayout>
@@ -66,15 +66,14 @@
             android:layout_gravity="center_vertical|start">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:padding="4dp"
                 app:imageURL2="@{item.avatar}"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/msg_back"
-                android:elevation="5dp"
                 android:maxWidth="200dp"
                 android:orientation="vertical"
                 android:padding="8dp"

@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Введите название события" />
+                    android:text="Введите название" />
 
                 <com.letsgoapp.Utils.ExtendedEditText
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Введите описание события" />
+                    android:text="Напишите о событии" />
 
                 <com.letsgoapp.Utils.ExtendedEditText
                     android:layout_width="match_parent"
@@ -110,15 +110,15 @@
                     android:text="Выбрать дату"
                     app:onClick="@{setViewModel::openPicker}"/>
 
-                <DatePicker
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{setViewModel.isDateChecking ? View.VISIBLE : View.GONE}"
-                    android:layout_weight="1"
-                    android:day="@{date.day}"
-                    android:month="@{date.month}"
-                    android:onDateChanged="@{date.dateChanged}"
-                    android:year="@{date.year}" />
+                <!--<DatePicker-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:visibility="@{setViewModel.isDateChecking ? View.VISIBLE : View.GONE}"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:day="@{date.day}"-->
+                    <!--android:month="@{date.month}"-->
+                    <!--android:onDateChanged="@{date.dateChanged}"-->
+                    <!--android:year="@{date.year}" />-->
 
                 <Button
                     android:layout_width="match_parent"

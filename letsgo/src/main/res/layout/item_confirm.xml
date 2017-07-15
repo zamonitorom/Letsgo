@@ -13,9 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffef"
+        android:background="@color/colorInput"
         android:orientation="vertical"
-        android:padding="18dp"
+        android:padding="16dp"
         android:elevation="5dp"
         android:visibility="@{item.hidden? View.GONE : View.VISIBLE}">
 
@@ -50,17 +50,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="5dp">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_weight="1"
+                android:layout_gravity="clip_vertical"
                 android:text="Cобытие: " />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="clip_vertical"
                 android:layout_weight="11"
                 android:text="@{item.meetingName}" />
 
@@ -78,21 +83,23 @@
             android:orientation="horizontal">
 
             <Button
+                style="@style/AccentButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:elevation="5dp"
                 android:text=" Принять "
                 app:onClick="@{item::approve}"/>
 
             <Button
+                style="@style/NotCapsButton"
+                android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="0dp"
                 android:layout_weight="1"
+                android:background="@color/colorInput"
+                android:elevation="0dp"
                 android:text="Отклонить"
-                app:onClick="@{item::reject}"
-                 />
+                app:onClick="@{item::reject}" />
 
         </LinearLayout>
 

@@ -100,9 +100,9 @@ public class SetMeetingViewModel extends BaseObservable {
         int mYear, mMonth, mDay;
 
         final Calendar cal = Calendar.getInstance();
-        mYear = cal.get(Calendar.YEAR);
-        mMonth = cal.get(Calendar.MONTH);
-        mDay = cal.get(Calendar.DAY_OF_MONTH);
+        mYear = date.year.get();
+        mMonth = date.month.get();
+        mDay = date.day.get();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog((Activity) ContextUtill.GetTopContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {
