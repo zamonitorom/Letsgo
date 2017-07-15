@@ -169,12 +169,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initializeCountDrawer() {
         //Gravity property aligns the text
-        confirms.setGravity(Gravity.CENTER_VERTICAL);
+        confirms.setGravity(Gravity.CENTER);
         confirms.setTypeface(null, Typeface.BOLD);
-        confirms.setTextColor(getResources().getColor(R.color.colorAccent));
-        messages.setGravity(Gravity.CENTER_VERTICAL);
+        confirms.setTextColor(getResources().getColor(R.color.colorAccent3));
+        confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        confirms.setBackground(getResources().getDrawable(R.drawable.border));
+        confirms.setWidth(120);
+        confirms.setElevation(4);
+        confirms.setPadding(30,30,30,30);
+
+        messages.setGravity(Gravity.CENTER);
         messages.setTypeface(null, Typeface.BOLD);
-        messages.setTextColor(getResources().getColor(R.color.colorAccent));
+        messages.setTextSize(16);
+        messages.setTextColor(getResources().getColor(R.color.colorAccent3));
+        messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        messages.setBackground(getResources().getDrawable(R.drawable.border));
+        messages.setWidth(120);
+        messages.setPadding(30,30,30,30);
 //count is added
         messages.setText("7");
 

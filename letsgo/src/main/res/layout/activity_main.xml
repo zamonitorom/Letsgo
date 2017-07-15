@@ -29,9 +29,12 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             android:textAlignment="center"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             app:model="@{mainVM}"
-            app:menu="@menu/activity_main_drawer" />
+            app:menu="@menu/activity_main_drawer"
+            app:itemTextColor="@color/colorInput"
+            app:itemIconTint="@color/colorInput"
+            />
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

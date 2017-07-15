@@ -5,7 +5,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_map"
-            android:title="Актуальные события" />
+            android:title="Актуальные события"
+            android:actionLayout="@layout/item_confirm"/>
         <item
             android:id="@+id/nav_my_confirms"
 
@@ -26,7 +27,7 @@
 
         <item
             android:id="@+id/nav_send"
-
+            android:icon="@drawable/ic_exit_to_app_white_24dp"
             android:title="Выход" />
     </group>
 

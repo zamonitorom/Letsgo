@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/side_nav_bar"
         android:gravity="bottom"
         android:orientation="vertical"
@@ -24,7 +24,9 @@
             android:id="@+id/imageView"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             app:imageURL2="@{mainVM.ava}"
             app:onClick="@{mainVM::getProfile}"
             />
@@ -32,8 +34,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="55dp"
             android:text="@{mainVM.name}"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
