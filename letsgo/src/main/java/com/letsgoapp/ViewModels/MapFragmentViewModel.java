@@ -131,18 +131,28 @@ public class MapFragmentViewModel extends BaseObservable {
     }
 
     public void confirm() {
-        dataservice.sendConfirm(getCurrentMeeting().getId().toString(), new Object())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> {
-                }, throwable -> {
-                    Log.d("meetingActivity", throwable.toString());
-                    Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
-                }, () -> {
-                    Dialogs dialogs = new Dialogs();
-                    dialogs.ShowDialogAgree("OK", "Запрос отправлен");
-                });
+        Dialogs dialogs = new Dialogs();
+        if(currentMeeting!=null) {
+            if (currentMeeting.getColorStatus().equals("disapproved")) {
+                dataservice.sendConfirm(getCurrentMeeting().getId().toString(), new Object())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(o -> {
+                        }, throwable -> {
+                            Log.d("meetingActivity", throwable.toString());
+                            dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
+                        }, () -> {
+                            dialogs.ShowDialogAgree("OK", "Запрос отправлен");
+                            closePreview();
+                        });
+            } else {
+                if (currentMeeting.getColorStatus().equals("mine")) {
+                    dialogs.ShowDialogAgree("Ошибка", "Нельзя подтвержить собственное событие");
+                } else if (currentMeeting.getColorStatus().equals("approved")) {
+                    dialogs.ShowDialogAgree("Ошибка", "Вас уже пригласили на это событие");
+                }
+            }
+        }
     }
 
     public void onAvaClick() {
@@ -157,21 +167,6 @@ public class MapFragmentViewModel extends BaseObservable {
 
     public void toMyLocation() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(gpsProvider.getLocation(), mMap.getCameraPosition().zoom));
-    }
-
-    public void getData(Context context) {
-        dataservice.getMeetingList()
-                .subscribeOn(Schedulers.io())
-                .flatMap(Observable::from)
-                .doOnNext(meeting -> Log.d("rx", String.valueOf(meeting.getId())))
-                .doOnNext(meeting -> meetingList.add(meeting))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(meeting -> {
-                }, throwable -> {
-                    Dialogs dialogs = new Dialogs();
-                    Log.d("mapFragment", throwable.toString());
-                    dialogs.ShowDialogAgree("Ошибка", "Не удалось загрузить данные");
-                }, () -> setMarkers(context));
     }
 
     private void checkAndUpdate(CameraPosition cameraPosition) {

@@ -63,13 +63,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="@{!item.isMine? View.VISIBLE: View.GONE}"
-            android:layout_gravity="center_vertical|start">
+            android:layout_gravity="center_vertical|start"
+            android:layout_margin="4dp">
 
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:padding="4dp"
                 app:imageURL2="@{item.avatar}"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

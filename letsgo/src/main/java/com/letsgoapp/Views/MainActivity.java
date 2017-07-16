@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         button.setOnClickListener(v -> {
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
             toolbar.setTitle("Создание события");
+            button.hide();
         });
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -305,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_send) {
 
         }
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
