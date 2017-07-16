@@ -66,6 +66,7 @@
 
                 <com.letsgoapp.Utils.ExtendedEditText
 
+                    android:id="@+id/extendedEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
@@ -76,12 +77,14 @@
                     app:binding="@{chatVM.newMessage}" />
 
                 <ImageView
-                    style="@style/ImageButton"
                     android:id="@+id/button3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    style="@style/ImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_send_white_24dp"
+                    android:visibility="@{chatVM.emptyInput? View.GONE:View.VISIBLE}"
                     app:onClick="@{chatVM.sendMessage}" />
             </LinearLayout>
 

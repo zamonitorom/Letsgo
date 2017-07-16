@@ -38,6 +38,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class SetMeetingViewModel extends BaseObservable {
     public MyObservableString title;
     public MyObservableString description;
+    public final String titleError = "Введите 4 символа!";
     private IDataService apiService;
     private INavigationService navigationService;
 
@@ -46,8 +47,7 @@ public class SetMeetingViewModel extends BaseObservable {
     @Bindable
     public Boolean isChecked = false;
 
-    @Bindable
-    public Boolean isDateChecking = false;
+    private Boolean error = false;
 
     private PickedDate date;
 
@@ -55,7 +55,15 @@ public class SetMeetingViewModel extends BaseObservable {
 
     public SetMeetingViewModel() {
         date = new PickedDate();
-        title = new MyObservableString();
+        title = new MyObservableString(){
+            @Override
+            public void set(String value) {
+                super.set(value);
+                if(value.length()>4){
+                    setError(false);
+                }
+            }
+        };
         description = new MyObservableString();
         apiService = new APIService();
         navigationService = new NavigationService();
@@ -81,7 +89,10 @@ public class SetMeetingViewModel extends BaseObservable {
                             navigationService.goMainWithFinish();
                         });
             } else {
-                Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
+                if(title.get().length() <= 3){
+                    setError(true);
+                }
+//                Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(activity, "Выберите тип события", Toast.LENGTH_LONG).show();
@@ -147,5 +158,15 @@ public class SetMeetingViewModel extends BaseObservable {
 
     public void setDate(PickedDate date) {
         this.date = date;
+    }
+
+    @Bindable
+    public Boolean getError() {
+        return error;
+    }
+
+    public void setError(Boolean error) {
+        this.error = error;
+        notifyPropertyChanged(BR.error);
     }
 }

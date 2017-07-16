@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 
@@ -139,6 +140,14 @@ public class BindingViewAdapters {
             view.setText(newValue);
         }
 
+    }
+
+    @BindingAdapter({"bindError","errorMessage"})
+    public static void bindError(TextInputLayout view, final Boolean isError,final String message) {
+        view.setErrorEnabled(true);
+        if(isError) {
+            view.setError(message);
+        }
     }
 
     @BindingAdapter("imageResource")

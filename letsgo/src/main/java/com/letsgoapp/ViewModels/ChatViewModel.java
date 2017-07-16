@@ -39,7 +39,19 @@ public class ChatViewModel extends BaseObservable {
     @Bindable
     public Boolean isInput = false;
 
-    public MyObservableString newMessage;
+    private Boolean emptyInput = true;
+
+    public MyObservableString newMessage = new MyObservableString(){
+        @Override
+        public void set(String value) {
+            super.set(value);
+            if(value.length()==0){
+                setEmptyInput(true);
+            }else {
+                setEmptyInput(false);
+            }
+        }
+    };
 
     private Observable<String> chatObservable(){
         return Observable.create(new Observable.OnSubscribe<String>() {
@@ -86,7 +98,6 @@ public class ChatViewModel extends BaseObservable {
     public ChatViewModel(Integer id,String slug) {
         dataService = new APIService();
         messages = new ObservableArrayList<>();
-        newMessage = new MyObservableString();
         this.id = id;
         this.slug = slug;
         getMessages();
@@ -107,6 +118,7 @@ public class ChatViewModel extends BaseObservable {
         WebSocket socket =  mWebSocketClient.getConnection();
         mWebSocketClient.send(newMessage.get());
         newMessage.set("");
+
         /*
         try {
             if(mWebSocketClient!=null&&mWebSocketClient.getConnection().isConnecting()){
@@ -146,5 +158,15 @@ public class ChatViewModel extends BaseObservable {
                 .subscribe(message -> {},throwable -> {},()->{
 
                 });
+    }
+
+    @Bindable
+    public Boolean getEmptyInput() {
+        return emptyInput;
+    }
+
+    public void setEmptyInput(Boolean emptyInput) {
+        this.emptyInput = emptyInput;
+        notifyPropertyChanged(BR.emptyInput);
     }
 }
