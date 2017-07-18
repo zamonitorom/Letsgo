@@ -5,7 +5,7 @@
     <data>
 
         <import type="com.letsgoapp.Utils.Variables" />
-
+        <import type="com.letsgoapp.R"/>
         <import type="android.view.View" />
 
         <variable
@@ -55,33 +55,44 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                     app:bindError="@{setViewModel.error}"
                     app:errorMessage="@{setViewModel.titleError}"
                     >
 
                     <com.letsgoapp.Utils.ExtendedEditText
+                        style="@style/EditTextDesign"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Введите название"
+                        android:hint="@string/set_meeting_title"
                         app:binding="@{setViewModel.title}" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                    app:bindError="@{setViewModel.errorDesc}"
+                    app:errorMessage="@{setViewModel.descError}"
+                    >
+
+                    <com.letsgoapp.Utils.ExtendedEditText
+                        style="@style/EditTextDesign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/set_meeting_desc"
+                        app:binding="@{setViewModel.description}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Введите название" />-->
+                    <!--android:text="Напишите о событии" />-->
 
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Напишите о событии" />
-
-                <com.letsgoapp.Utils.ExtendedEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:binding="@{setViewModel.description}" />
+                <!--<com.letsgoapp.Utils.ExtendedEditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--app:binding="@{setViewModel.description}" />-->
 
                 <TextView
                     android:layout_width="match_parent"

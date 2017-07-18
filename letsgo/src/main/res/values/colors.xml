@@ -12,4 +12,5 @@
     <color name="colorInput">#ffffff</color>
     <color name="colorAccent2">#ffddc4</color>
     <color name="colorAccent3">#eaebeb</color>
+    <color name="colorError">#f0de171b</color>
 </resources>

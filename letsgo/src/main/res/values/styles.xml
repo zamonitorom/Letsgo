@@ -13,7 +13,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
@@ -40,8 +40,30 @@
         <item name="android:tint">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="InputText" parent="AppTheme" >
+    <style name="InputText" parent="AppTheme">
         <item name="android:tint">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="DarkText" parent="AppTheme">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DarkTextLarge" parent="AppTheme">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="EditTextDesign" parent="AppTheme">
+        <item name="android:background">@drawable/border_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:minHeight">50dp</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 </resources>

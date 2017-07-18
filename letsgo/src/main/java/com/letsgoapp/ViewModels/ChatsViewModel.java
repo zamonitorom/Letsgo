@@ -46,7 +46,9 @@ public class ChatsViewModel extends BaseObservable {
                     }
                     chatsItemViewModel.setTitle(chat.getTitle());
                     chatsItemViewModel.setSlug(chat.getChannelSlug());
-                    chatsItemViewModel.setLastMessage(chat.getLastMessage().getText());
+                    int maxl = chat.getLastMessage().getText().length()>70? 70:chat.getLastMessage().getText().length();
+                    String postfix = chat.getLastMessage().getText().length()>70? " ... " :"";
+                    chatsItemViewModel.setLastMessage(chat.getLastMessage().getText().substring(0,maxl)+postfix);
                     chatsItemViewModel.setId(chat.getId());
                     items.add(chatsItemViewModel);
                 })

@@ -14,4 +14,8 @@
     <string name="crop_image_menu_crop">Send</string>
     <integer name="com_vk_sdk_AppId">5945764</integer>
     <string name="title_activity_add_meeting">AddMeetingActivity</string>
+
+    <string name="set_meeting_title_error">Введите 4 символа!</string>
+    <string name="set_meeting_title">Введите название</string>
+    <string name="set_meeting_desc">Напишите о событии</string>
 </resources>

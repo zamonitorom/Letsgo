@@ -61,13 +61,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:layout_gravity="center_vertical"
                 android:text="Это событие организует пользователь:   " />
 
             <TextView
+                style="@style/DarkText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:text="@{preVM.currentMeeting.owner.firstName}" />

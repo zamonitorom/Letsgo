@@ -38,7 +38,8 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class SetMeetingViewModel extends BaseObservable {
     public MyObservableString title;
     public MyObservableString description;
-    public final String titleError = "Введите 4 символа!";
+    public final String titleError = "Введите не менее 4 символов";
+    public final String descError = "Введите не менее 10 символов";
     private IDataService apiService;
     private INavigationService navigationService;
 
@@ -48,6 +49,7 @@ public class SetMeetingViewModel extends BaseObservable {
     public Boolean isChecked = false;
 
     private Boolean error = false;
+    private Boolean errorDesc = false;
 
     private PickedDate date;
 
@@ -92,7 +94,10 @@ public class SetMeetingViewModel extends BaseObservable {
                 if(title.get().length() <= 3){
                     setError(true);
                 }
-//                Toast.makeText(activity, "Задайте заголовок и описание!", Toast.LENGTH_LONG).show();
+
+                if(description.get().length() <= 10){
+                    setErrorDesc(true);
+                }
             }
         } else {
             Toast.makeText(activity, "Выберите тип события", Toast.LENGTH_LONG).show();
@@ -168,5 +173,13 @@ public class SetMeetingViewModel extends BaseObservable {
     public void setError(Boolean error) {
         this.error = error;
         notifyPropertyChanged(BR.error);
+    }
+
+    public Boolean getErrorDesc() {
+        return errorDesc;
+    }
+
+    public void setErrorDesc(Boolean errorDesc) {
+        this.errorDesc = errorDesc;
     }
 }
