@@ -101,25 +101,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         Intent intent = getIntent();
         fragmentManager = getFragmentManager();
-        if(intent!=null){
-            if (intent.hasExtra("changeLocation")) {
-                AddMeetingFragment fragment = new AddMeetingFragment();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("changing", true);
-                fragment.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-                toolbar.setTitle("Редактирование события");
-                button.hide();
-            }
-        }
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        SetTopContext(this);
         toolbar = activityMainBinding.toolbar.toolbar2;
-        toolbar.setTitle("Актуальные события");
         button = activityMainBinding.toolbar.fab;
+        SetTopContext(this);
+        toolbar.setTitle("Актуальные события");
         button.setOnClickListener(v -> {
             AddMeetingFragment fragment = new AddMeetingFragment();
             Bundle bundle = new Bundle();
@@ -130,55 +118,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             button.hide();
         });
         setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                mainActivityViewModel.getUnreadConfirm();
-            }
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        if(intent!=null){
+            if (intent.hasExtra("changeLocation")) {
+                AddMeetingFragment fragment = new AddMeetingFragment();
+                Bundle bundle = intent.getExtras();
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                toolbar.setTitle("Редактирование события");
+                button.hide();
+            }else {
+                drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                        mainActivityViewModel.getUnreadConfirm();
+                    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                    }
+                };
+                drawer.setDrawerListener(toggle);
+                toggle.syncState();
 
-        navigationService = new NavigationService();
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                navigationView.setNavigationItemSelectedListener(this);
 
-        sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
-            navigationService.goLogin();
-        } else {
-            ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN, null));
-            ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF, null));
-            gMapFragment = new GMapFragment();
-            gMapFragment.setSubscriber(buttonSubscriber);
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
-            mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
-            activityMainBinding.setMainVM(mainActivityViewModel);
-        }
+                navigationService = new NavigationService();
+
+                sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                if (!sharedPreferences.contains(APP_PREFERENCES_REGISTER)) {
+                    navigationService.goLogin();
+                } else {
+                    ContextUtill.GetContextApplication().setToken(sharedPreferences.getString(APP_PREFERENCES_TOKEN, null));
+                    ContextUtill.GetContextApplication().setHref(sharedPreferences.getString(APP_PREFERENCES_REF, null));
+                    gMapFragment = new GMapFragment();
+                    gMapFragment.setSubscriber(buttonSubscriber);
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, gMapFragment).commit();
+                    mainActivityViewModel = new MainActivityViewModel(confirmSubscriber);
+                    activityMainBinding.setMainVM(mainActivityViewModel);
+                }
 
 
 //        requestPermissions();
-        //
-        //Create these objects above OnCreate()of your main activity
+                //
+                //Create these objects above OnCreate()of your main activity
 //These lines should be added in the OnCreate() of your main activity
-        confirms = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                findItem(R.id.nav_my_confirms));
+                confirms = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                        findItem(R.id.nav_my_confirms));
 
-        messages = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                findItem(R.id.nav_messages));
+                messages = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                        findItem(R.id.nav_messages));
 
 //This method will initialize the count value
-        initializeCountDrawer();
-        FirebaseMessaging.getInstance().subscribeToTopic("news");
+            }
+        }else {
+
+            initializeCountDrawer();
+            FirebaseMessaging.getInstance().subscribeToTopic("news");
+        }
     }
 
     private void initializeCountDrawer() {
@@ -186,20 +188,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         confirms.setGravity(Gravity.CENTER);
         confirms.setTypeface(null, Typeface.BOLD);
         confirms.setTextColor(getResources().getColor(R.color.colorAccent3));
-        confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+//        confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 //        confirms.setBackground(getResources().getDrawable(R.drawable.border));
-        confirms.setWidth(120);
-        confirms.setElevation(4);
-        confirms.setPadding(30,30,30,30);
+//        confirms.setWidth(120);
+//        confirms.setElevation(4);
+//        confirms.setPadding(30,30,30,30);
 
         messages.setGravity(Gravity.CENTER);
         messages.setTypeface(null, Typeface.BOLD);
         messages.setTextSize(16);
         messages.setTextColor(getResources().getColor(R.color.colorAccent3));
-        messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+//        messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 //        messages.setBackground(getResources().getDrawable(R.drawable.border));
-        messages.setWidth(120);
-        messages.setPadding(30,30,30,30);
+//        messages.setWidth(120);
+//        messages.setPadding(30,30,30,30);
 //count is added
         messages.setText("7");
 
@@ -221,9 +223,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        if(drawer!=null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        }else {
             super.onBackPressed();
         }
     }

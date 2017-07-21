@@ -30,7 +30,7 @@ public class AddMeetingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Boolean value = getArguments().getBoolean("changing");
+
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map_add);
         mapFragment.getMapAsync((googleMap)->addMeetingViewModel.setMap(googleMap));
     }
@@ -44,7 +44,12 @@ public class AddMeetingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        addMeetingViewModel = new AddMeetingViewModel();
+        Boolean value = getArguments().getBoolean("changing");
+        Double lat = null;
+        lat = getArguments().getDouble("Lat");
+        Double lng = null;
+        lng = getArguments().getDouble("Lon");
+        addMeetingViewModel = new AddMeetingViewModel(value,lat,lng);
         FragmentAddMeetingBinding fragmentAddMeetingBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_add_meeting, container, false);
         View view = fragmentAddMeetingBinding.getRoot();

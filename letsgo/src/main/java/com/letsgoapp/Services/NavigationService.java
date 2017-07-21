@@ -39,6 +39,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class NavigationService implements INavigationService {
     public static final int GALLERY_REQUEST = 19985;
     public static final int REQUEST_IMAGE_CAPTURE = 19984;
+    public static final int CHANGING_REQUEST = 19980;
 
     private String mCurrentPhotoPath;
 
@@ -208,8 +209,22 @@ public class NavigationService implements INavigationService {
         Activity activity = (Activity) GetTopContext();
         Intent intent = new Intent(activity, MainActivity.class);
         intent.putExtra("changeLocation",true);
+        intent.putExtra("Lat", latitude);
+        intent.putExtra("Lon", longitude);
         if (activity != null) {
-            activity.startActivity(intent);
+            activity.startActivityForResult(intent,CHANGING_REQUEST);
+        }
+    }
+
+    @Override
+    public void goSetFromChange(double latitude, double longitude) {
+        Activity activity = (Activity) GetTopContext();
+        Intent answerIntent = new Intent();
+        answerIntent.putExtra("Lat", latitude);
+        answerIntent.putExtra("Lon", longitude);
+        if (activity != null) {
+            activity.setResult(RESULT_OK, answerIntent);
+            activity.finish();
         }
     }
 

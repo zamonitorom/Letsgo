@@ -1,6 +1,7 @@
 package com.letsgoapp.Views;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.letsgoapp.Views.Fragments.AddMeetingFragment;
 import com.letsgoapp.Views.Fragments.GMapFragment;
 import com.letsgoapp.databinding.ActivitySetMeetingBinding;
 
+import static com.letsgoapp.Services.NavigationService.CHANGING_REQUEST;
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
 
 public class SetMeetingActivity extends AppCompatActivity {
@@ -47,6 +49,22 @@ public class SetMeetingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SetTopContext(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if(requestCode==CHANGING_REQUEST) {
+                setMeetingViewModel.setLat(data.getExtras().getDouble("Lat"));
+                setMeetingViewModel.setLon(data.getExtras().getDouble("Lon"));
+            }
+        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
