@@ -38,7 +38,7 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class SetMeetingViewModel extends BaseObservable {
     public MyObservableString title;
     public MyObservableString description;
-    public final String titleError = "Введите не менее 4 символов";
+    public final String titleErrorMsg = "Введите не менее 4 символов";
     public final String descError = "Введите не менее 10 символов";
     private IDataService apiService;
     private INavigationService navigationService;
@@ -51,8 +51,9 @@ public class SetMeetingViewModel extends BaseObservable {
     private Boolean error = false;
     private Boolean errorDesc = false;
 
-    private PickedDate date;
+    private String dateString = "Выберите дату";
 
+    private PickedDate date;
     private Integer type;
 
     public SetMeetingViewModel() {
@@ -61,12 +62,16 @@ public class SetMeetingViewModel extends BaseObservable {
             @Override
             public void set(String value) {
                 super.set(value);
-                if(value.length()>4){
-                    setError(false);
-                }
+                setError(false);
             }
         };
-        description = new MyObservableString();
+        description = new MyObservableString(){
+            @Override
+            public void set(String value) {
+                super.set(value);
+                setErrorDesc(false);
+            }
+        };
         apiService = new APIService();
         navigationService = new NavigationService();
     }
@@ -125,12 +130,13 @@ public class SetMeetingViewModel extends BaseObservable {
                     getDate().year.set(year);
                     getDate().month.set(monthOfYear);
                     getDate().day.set(dayOfMonth);
+                    setDateString("Дата:  "+getDate().toString());
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
 
-    public void closePicker(){
-
+    public void changeLocation(){
+        navigationService.goChangeLocation(lat,lon);
     }
 
     public double getLat() {
@@ -175,11 +181,23 @@ public class SetMeetingViewModel extends BaseObservable {
         notifyPropertyChanged(BR.error);
     }
 
+    @Bindable
     public Boolean getErrorDesc() {
         return errorDesc;
     }
 
     public void setErrorDesc(Boolean errorDesc) {
         this.errorDesc = errorDesc;
+        notifyPropertyChanged(BR.errorDesc);
+    }
+
+    @Bindable
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+        notifyPropertyChanged(BR.dateString);
     }
 }

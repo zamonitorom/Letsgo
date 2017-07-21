@@ -101,7 +101,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Intent intent = getIntent();
+        fragmentManager = getFragmentManager();
+        if(intent!=null){
+            if (intent.hasExtra("changeLocation")) {
+                AddMeetingFragment fragment = new AddMeetingFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("changing", true);
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                toolbar.setTitle("Редактирование события");
+                button.hide();
+            }
+        }
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         SetTopContext(this);
@@ -109,7 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setTitle("Актуальные события");
         button = activityMainBinding.toolbar.fab;
         button.setOnClickListener(v -> {
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
+            AddMeetingFragment fragment = new AddMeetingFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("changing",true);
+            fragment.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
             toolbar.setTitle("Создание события");
             button.hide();
         });
@@ -134,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragmentManager = getFragmentManager();
         navigationService = new NavigationService();
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
@@ -164,8 +179,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //This method will initialize the count value
         initializeCountDrawer();
         FirebaseMessaging.getInstance().subscribeToTopic("news");
-
-        String string = FirebaseInstanceId.getInstance().getToken();
     }
 
     private void initializeCountDrawer() {
@@ -174,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         confirms.setTypeface(null, Typeface.BOLD);
         confirms.setTextColor(getResources().getColor(R.color.colorAccent3));
         confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        confirms.setBackground(getResources().getDrawable(R.drawable.border));
+//        confirms.setBackground(getResources().getDrawable(R.drawable.border));
         confirms.setWidth(120);
         confirms.setElevation(4);
         confirms.setPadding(30,30,30,30);
@@ -184,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         messages.setTextSize(16);
         messages.setTextColor(getResources().getColor(R.color.colorAccent3));
         messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        messages.setBackground(getResources().getDrawable(R.drawable.border));
+//        messages.setBackground(getResources().getDrawable(R.drawable.border));
         messages.setWidth(120);
         messages.setPadding(30,30,30,30);
 //count is added
@@ -295,7 +308,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             button.hide();
             item.setChecked(true);
         } else if (id == R.id.nav_create_action) {
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMeetingFragment()).commit();
+            AddMeetingFragment fragment = new AddMeetingFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("changing",false);
+            fragment.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
             toolbar.setTitle("Создание события");
             button.hide();
             item.setChecked(true);

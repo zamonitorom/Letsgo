@@ -144,7 +144,7 @@ public class BindingViewAdapters {
 
     @BindingAdapter({"bindError","errorMessage"})
     public static void bindError(TextInputLayout view, final Boolean isError,final String message) {
-        view.setErrorEnabled(true);
+        view.setErrorEnabled(isError);
         if(isError) {
             view.setError(message);
         }

@@ -26,4 +26,11 @@ public class PickedDate {
         this.month.set(monthOfYear);
         this.day.set(dayOfMonth);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(year.get())+"-"
+                +String.valueOf(month.get()+1)+"-"
+                +String.valueOf(day.get());
+    }
 }

@@ -203,6 +203,16 @@ public class NavigationService implements INavigationService {
         }
     }
 
+    @Override
+    public void goChangeLocation(double latitude, double longitude) {
+        Activity activity = (Activity) GetTopContext();
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("changeLocation",true);
+        if (activity != null) {
+            activity.startActivity(intent);
+        }
+    }
+
     public Uri getOutputMediaFileUri(int type) {
         if (Build.VERSION.SDK_INT < 23) {
             return Uri.fromFile(getOutputMediaFile(type));

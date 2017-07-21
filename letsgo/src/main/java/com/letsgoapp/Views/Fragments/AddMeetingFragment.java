@@ -1,7 +1,5 @@
 package com.letsgoapp.Views.Fragments;
 
-import android.content.Intent;
-import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 
 import android.app.Fragment;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapFragment;
 import com.letsgoapp.R;
 import com.letsgoapp.ViewModels.AddMeetingViewModel;
-import com.letsgoapp.Views.SetMeetingActivity;
 import com.letsgoapp.databinding.FragmentAddMeetingBinding;
 
 import static com.letsgoapp.Utils.ContextUtill.SetTopContext;
@@ -27,15 +24,15 @@ public class AddMeetingFragment extends Fragment {
     private MapFragment mapFragment;
     private AddMeetingViewModel addMeetingViewModel;
 
-    public AddMeetingFragment() {
+    public AddMeetingFragment(){
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Boolean value = getArguments().getBoolean("changing");
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map_add);
-
-        mapFragment.getMapAsync((googleMap)->addMeetingViewModel.setMap(googleMap) /*= new AddMeetingViewModel(googleMap)*/);
+        mapFragment.getMapAsync((googleMap)->addMeetingViewModel.setMap(googleMap));
     }
 
     @Override

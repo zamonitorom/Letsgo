@@ -5,7 +5,9 @@
     <data>
 
         <import type="com.letsgoapp.Utils.Variables" />
-        <import type="com.letsgoapp.R"/>
+
+        <import type="com.letsgoapp.R" />
+
         <import type="android.view.View" />
 
         <variable
@@ -18,11 +20,9 @@
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:background="@color/background_material_light">
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -50,15 +50,14 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="80dp">
+                android:paddingTop="60dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                     app:bindError="@{setViewModel.error}"
-                    app:errorMessage="@{setViewModel.titleError}"
-                    >
+                    app:errorMessage="@{setViewModel.titleErrorMsg}"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                     <com.letsgoapp.Utils.ExtendedEditText
                         style="@style/EditTextDesign"
@@ -71,10 +70,9 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                     app:bindError="@{setViewModel.errorDesc}"
                     app:errorMessage="@{setViewModel.descError}"
-                    >
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                     <com.letsgoapp.Utils.ExtendedEditText
                         style="@style/EditTextDesign"
@@ -84,73 +82,71 @@
                         app:binding="@{setViewModel.description}" />
                 </android.support.design.widget.TextInputLayout>
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Напишите о событии" />-->
-
-                <!--<com.letsgoapp.Utils.ExtendedEditText-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--app:binding="@{setViewModel.description}" />-->
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Выберите тип события" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <RadioGroup
-                    android:layout_margin="@dimen/activity_horizontal_margin"
-                    android:id="@+id/radioGroup"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButton1"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/hintText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Для Двоих"
-                        android:textSize="18sp"
-                        android:layout_weight="1"
-                        app:onClick="@{()->setViewModel.click2(0)}"/>
+                        android:text="Выберите тип события" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton2"
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Групповое"
-                        android:textSize="18sp"
-                        android:layout_weight="1"
-                        app:onClick="@{()->setViewModel.click2(1)}"/>
+                        android:orientation="horizontal">
 
-                </RadioGroup>
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            style="@style/RadioButtonDesign"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Для Двоих"
+                            android:textSize="18sp"
+                            app:onClick="@{()->setViewModel.click2(0)}" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            style="@style/RadioButtonDesign"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Групповое"
+                            android:textSize="18sp"
+                            app:onClick="@{()->setViewModel.click2(1)}" />
+
+                    </RadioGroup>
+                </LinearLayout>
 
                 <Button
+                    style="@style/AccentButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Выбрать дату"
-                    app:onClick="@{setViewModel::openPicker}"/>
-
-                <!--<DatePicker-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:visibility="@{setViewModel.isDateChecking ? View.VISIBLE : View.GONE}"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:day="@{date.day}"-->
-                    <!--android:month="@{date.month}"-->
-                    <!--android:onDateChanged="@{date.dateChanged}"-->
-                    <!--android:year="@{date.year}" />-->
+                    android:layout_marginTop="12dp"
+                    android:text="@{setViewModel.dateString}"
+                    app:onClick="@{setViewModel::openPicker}" />
 
                 <Button
+                    style="@style/AccentButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
+                    android:layout_marginTop="20dp"
+                    android:text="Изменить локацию"
+                    app:onClick="@{setViewModel::changeLocation}" />
+
+                <Button
+                    style="@style/AccentButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="Cоздать событие!"
-                    app:onClick="@{setViewModel::sendMeeting}"/>
+                    app:onClick="@{setViewModel::sendMeeting}" />
             </LinearLayout>
         </ScrollView>
-
 
 
     </android.support.design.widget.CoordinatorLayout>

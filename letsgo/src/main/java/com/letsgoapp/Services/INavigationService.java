@@ -21,4 +21,6 @@ public interface INavigationService {
     void goFullscreen(int position);
     void goEdit();
     void goChat(Integer id,String slug,String title);
+    void goChangeLocation(double latitude, double longitude);
+    void goSetFromChange(double latitude, double longitude);
 }
