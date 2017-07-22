@@ -14,7 +14,7 @@ public class MessageViewModel extends BaseObservable {
     private String text;
     private String avatar;
     @Bindable
-    public Boolean isMine;
+    public boolean isMine;
 
     public MessageViewModel(String name, String text, Boolean isMine, String avatar) {
         setAvatar(avatar);

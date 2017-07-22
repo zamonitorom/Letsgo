@@ -32,8 +32,8 @@ import rx.Observable;
 public class APIService implements IDataService {
 
     private String token ;
-    private IAPIService iapiService;
-    private IAPIService iapiService3;
+    private Api api;
+    private Api api3;
 
     public APIService() {
         try {
@@ -53,8 +53,8 @@ public class APIService implements IDataService {
                     .baseUrl(baseUrl)
                     .client(client)
                     .build();
-            iapiService = retrofit.create(IAPIService.class);
-            iapiService3 = postmeeting.create(IAPIService.class);
+            api = retrofit.create(Api.class);
+            api3 = postmeeting.create(Api.class);
         } catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -62,30 +62,30 @@ public class APIService implements IDataService {
     }
 
     public Observable<List<Meeting>> getMeetingList() {
-        return iapiService.getMeetingList(token);
+        return api.getMeetingList(token);
     }
 
     public Observable<List<Meeting>> getLocalMeetingList(Map<String, String> parameters) {
         //7e4e5321b798715b30cf3e76f06dc588b7fd4bb6
-        return iapiService.getLocalMeetingList(parameters, token);
+        return api.getLocalMeetingList(parameters, token);
     }
 
     public Observable<Meeting> getMeeting(String url) {
-        return iapiService.getMeeting(url, token);
+        return api.getMeeting(url, token);
     }
 
 
     public Observable<Object> postMeeting(Object sendMeeting,
                                           String contentType, String length) {
-        return iapiService3.postMeeting(sendMeeting, token, contentType, length);
+        return api3.postMeeting(sendMeeting, token, contentType, length);
     }
 
     public Observable<Owner> getUser(String link) {
-        return iapiService3.getUser(link, token);
+        return api3.getUser(link, token);
     }
 
     public Observable<Object> setUserData(Object editableUser) {
-        return iapiService3.setUserData(editableUser, token);
+        return api3.setUserData(editableUser, token);
     }
 
     public Observable<PhotoAnswer> putPhoto(URI fileUri, String path) {
@@ -95,61 +95,66 @@ public class APIService implements IDataService {
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("image/*"), file);
 
-        return iapiService3.putPhoto(requestFile, path, token);
+        return api3.putPhoto(requestFile, path, token);
 
     }
 
     public Observable<Object> sendConfirm(String id, Object object) {
-        return iapiService3.sendConfirm(id, object, token);
+        return api3.sendConfirm(id, object, token);
     }
 
     @Override
     public Observable<List<Confirm>> getConfirms() {
-        return iapiService.getConfirmList(token);
+        return api.getConfirmList(token);
     }
 
     @Override
     public Observable<UserResponse> createUser(Object newUser) {
-        return iapiService3.createUser(newUser,"application/json");
+        return api3.createUser(newUser,"application/json");
     }
 
     @Override
     public Observable<Object> sendApprove(String id,String status) {
-        return iapiService3.sendConfirm(id,status,token);
+        return api3.sendConfirm(id,status,token);
     }
 
     @Override
     public Observable<Object> sendReject(String id,String status) {
-        return iapiService3.sendReject(id,status,token);
+        return api3.sendReject(id,status,token);
     }
 
     @Override
     public Observable<UnreadConfirm> getUnreadConfirms() {
-        return iapiService3.getUnreadConfirms(token);
+        return api3.getUnreadConfirms(token);
     }
 
     @Override
     public Observable<List<Chat>> getChatList(){
-        return iapiService3.getChatList(token);
+        return api3.getChatList(token);
     }
 
     @Override
     public Observable<List<Message>> getMessages(String id) {
-        return iapiService3.getMessages(id,token);
+        return api3.getMessages(id,token);
     }
 
     @Override
     public Observable<Object> sendKey(String key) {
-        return iapiService3.sendToken(key,token);
+        return api3.sendToken(key,token);
     }
 
     @Override
     public Observable<Object> deletePhoto(String url) {
-        return iapiService3.deletePhoto(url,token);
+        return api3.deletePhoto(url,token);
     }
 
     @Override
     public Observable<Object> setAvatar(String url) {
-        return iapiService3.setAvatar(url,token);
+        return api3.setAvatar(url,token);
+    }
+
+    @Override
+    public Observable<Object> deleteChat(Integer id) {
+        return api3.deleteChat(id,token);
     }
 }

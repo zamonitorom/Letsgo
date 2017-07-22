@@ -16,7 +16,7 @@
         android:elevation="5dp"
         android:orientation="vertical"
         android:padding="10dp"
-        app:onClick="@{item.click}">
+        app:onClick="@{item::click}">
 
 
         <LinearLayout

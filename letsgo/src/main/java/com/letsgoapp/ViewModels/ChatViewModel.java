@@ -37,9 +37,9 @@ public class ChatViewModel extends BaseObservable {
     private String slug;
 
     @Bindable
-    public Boolean isInput = false;
+    public boolean isInput = false;
 
-    private Boolean emptyInput = true;
+    private boolean emptyInput = true;
 
     public MyObservableString newMessage = new MyObservableString(){
         @Override
@@ -146,6 +146,17 @@ public class ChatViewModel extends BaseObservable {
         }
     }
 
+    public void removeChat(){
+        if(mWebSocketClient!=null){
+            mWebSocketClient.close();
+        }
+        dataService.deleteChat(id)
+                .subscribeOn(Schedulers.io())
+                .subscribe(message -> {},throwable -> {},()->{
+
+                });
+    }
+
     private void getMessages(){
         dataService.getMessages(String.valueOf(id))
                 .subscribeOn(Schedulers.io())
@@ -161,11 +172,11 @@ public class ChatViewModel extends BaseObservable {
     }
 
     @Bindable
-    public Boolean getEmptyInput() {
+    public boolean getEmptyInput() {
         return emptyInput;
     }
 
-    public void setEmptyInput(Boolean emptyInput) {
+    public void setEmptyInput(boolean emptyInput) {
         this.emptyInput = emptyInput;
         notifyPropertyChanged(BR.emptyInput);
     }

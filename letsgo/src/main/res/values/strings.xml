@@ -18,4 +18,5 @@
     <string name="set_meeting_title_error">Введите 4 символа!</string>
     <string name="set_meeting_title">Введите название</string>
     <string name="set_meeting_desc">Напишите о событии</string>
+    <string name="string_delete_chat">Удалить чат</string>
 </resources>

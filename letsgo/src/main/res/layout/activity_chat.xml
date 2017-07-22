@@ -85,7 +85,7 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_send_white_24dp"
                     android:visibility="@{chatVM.emptyInput? View.GONE:View.VISIBLE}"
-                    app:onClick="@{chatVM.sendMessage}" />
+                    app:onClick="@{chatVM::sendMessage}" />
             </LinearLayout>
 
         </RelativeLayout>

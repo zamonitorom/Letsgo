@@ -28,15 +28,15 @@ import static com.letsgoapp.Utils.ContextUtill.GetTopContext;
 public class ConfirmItemViewModel extends BaseObservable{
 
     @Bindable
-    public Boolean isApproved;
+    public boolean isApproved;
     @Bindable
-    public Boolean isRejected;
+    public boolean isRejected;
     private String link;
     private String meetingName;
     private String meetingDescription;
     private String userName;
     private String id;
-    private Boolean isHidden;
+    private boolean isHidden;
 
     private IDataService dataService;
 
@@ -120,11 +120,11 @@ public class ConfirmItemViewModel extends BaseObservable{
     }
 
     @Bindable
-    public Boolean getHidden() {
+    public boolean getHidden() {
         return isHidden;
     }
 
-    public void setHidden(Boolean hidden) {
+    public void setHidden(boolean hidden) {
         isHidden = hidden;
         notifyPropertyChanged(BR.hidden);
     }

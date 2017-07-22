@@ -173,12 +173,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 messages = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                         findItem(R.id.nav_messages));
-
+                initializeCountDrawer();
 //This method will initialize the count value
             }
         }else {
-
-            initializeCountDrawer();
             FirebaseMessaging.getInstance().subscribeToTopic("news");
         }
     }
@@ -188,20 +186,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         confirms.setGravity(Gravity.CENTER);
         confirms.setTypeface(null, Typeface.BOLD);
         confirms.setTextColor(getResources().getColor(R.color.colorAccent3));
-//        confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-//        confirms.setBackground(getResources().getDrawable(R.drawable.border));
-//        confirms.setWidth(120);
-//        confirms.setElevation(4);
-//        confirms.setPadding(30,30,30,30);
+        confirms.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        confirms.setBackground(getResources().getDrawable(R.drawable.border));
+        confirms.setWidth(120);
+        confirms.setElevation(4);
+        confirms.setPadding(30,30,30,30);
 
         messages.setGravity(Gravity.CENTER);
         messages.setTypeface(null, Typeface.BOLD);
         messages.setTextSize(16);
         messages.setTextColor(getResources().getColor(R.color.colorAccent3));
-//        messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-//        messages.setBackground(getResources().getDrawable(R.drawable.border));
-//        messages.setWidth(120);
-//        messages.setPadding(30,30,30,30);
+        messages.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        messages.setBackground(getResources().getDrawable(R.drawable.border));
+        messages.setWidth(120);
+        messages.setPadding(30,30,30,30);
 //count is added
         messages.setText("7");
 
@@ -260,28 +258,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-////        if (id == R.id.action_settings) {
-////            return true;
-////        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -314,16 +290,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_create_action) {
             AddMeetingFragment fragment = new AddMeetingFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean("changing",false);
+            bundle.putBoolean("changing",true);
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
             toolbar.setTitle("Создание события");
             button.hide();
             item.setChecked(true);
         }
-//        else if (id == R.id.nav_share) {
-//
-//        }
         else if (id == R.id.nav_send) {
 
         }

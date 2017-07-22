@@ -44,5 +44,6 @@ public interface IDataService {
     Observable<Object> sendKey(String key);
     Observable<Object> deletePhoto(String url);
     Observable<Object> setAvatar(String url);
+    Observable<Object> deleteChat(Integer id);
 //    Observable<RequestBody> sendReject();
 }

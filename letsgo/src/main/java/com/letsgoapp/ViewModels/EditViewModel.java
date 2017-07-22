@@ -34,7 +34,7 @@ public class EditViewModel extends BaseObservable {
     public MyObservableString about;
     public MyObservableString firstName;
     @Bindable
-    public Boolean gender;
+    public boolean gender;
 
     private IDataService dataService;
 

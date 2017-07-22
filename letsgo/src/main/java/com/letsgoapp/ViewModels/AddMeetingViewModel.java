@@ -29,7 +29,7 @@ public class AddMeetingViewModel extends BaseObservable {
     private double lng;
 
     @Bindable
-    public Boolean isButtonOnTop;
+    public boolean isButtonOnTop;
 
     private INavigationService navigationService;
 

@@ -66,7 +66,7 @@ public class MapFragmentViewModel extends BaseObservable {
 
     private GoogleMap mMap;
     @Bindable
-    public Boolean isPreviewed;
+    public boolean isPreviewed;
 
     private Subscriber<Boolean> subscriber;
 

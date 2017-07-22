@@ -43,7 +43,7 @@ import rx.Observable;
  * Created by normalteam on 06.02.17.
  */
 
-public interface IAPIService {
+public interface Api {
 
     @GET("meetings-list/")
     Observable<List<Meeting>> getMeetingList(@Header("Authorization") String authorization);
@@ -121,5 +121,8 @@ public interface IAPIService {
     @PUT
     Observable<Object> setAvatar(@Url String url,
                                  @Header("Authorization") String authorization);
+
+    @DELETE("remove-chat/{id}/")
+    Observable<Object> deleteChat(@Path("id") Integer id, @Header("Authorization") String authorization);
 
 }

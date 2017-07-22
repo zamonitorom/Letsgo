@@ -27,7 +27,7 @@ public class PhotoItemViewModel extends BaseObservable {
     private Integer position;
     private ICallback deleteCallback;
     private ICallback avaCallback;
-    private Boolean editable;
+    private boolean editable;
 
     private IDataService dataService;
 
@@ -102,11 +102,11 @@ public class PhotoItemViewModel extends BaseObservable {
     }
 
     @Bindable
-    public Boolean getEditable() {
+    public boolean getEditable() {
         return editable;
     }
 
-    public void setEditable(Boolean editable) {
+    public void setEditable(boolean editable) {
         this.editable = editable;
         notifyPropertyChanged(BR.editable);
     }

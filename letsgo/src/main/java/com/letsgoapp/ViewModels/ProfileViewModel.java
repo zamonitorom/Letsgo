@@ -45,11 +45,11 @@ public class ProfileViewModel extends BaseObservable {
     private Uri fileUri;
     public MyObservableString about;
     public MyObservableString firstName;
-    private Boolean editPhoto;
+    private boolean editPhoto;
     @Bindable
-    public Boolean isMine;
+    public boolean isMine;
     @Bindable
-    public Boolean isTouchable;
+    public boolean isTouchable;
 
 
 
@@ -143,44 +143,6 @@ public class ProfileViewModel extends BaseObservable {
                 }, () -> {
                     ContextUtill.GetContextApplication().setCurrentPhotos(images);
                 });
-    }
-
-    public void fabClick() {
-        Log.d("fabClick",  " isMine = " + isMine.toString() + " isTouchable = " + isTouchable.toString());
-        if (isMine) {
-            isTouchable = true;
-//            ContextUtill.setDataChanged(true);
-            subscriber.onNext("Редактирование страницы");
-            notifyPropertyChanged(BR.isTouchable);
-        }
-        Log.d("fabClick2", " isMine = " + isMine.toString() + " isTouchable = " + isTouchable.toString());
-    }
-
-    public void sendChanges() {
-        //todo неправильная отправка даты
-        Log.d("ProfileViewModel", "sendChanges");
-        if (isTouchable && isMine) {
-            subscriber.onNext(firstName.get());
-            String date = String.valueOf(getDate().year.get())+"-"
-                    +String.valueOf(getDate().month.get()+1)+"-"
-                    +String.valueOf(getDate().day.get());
-            Log.d("ProfileViewModel", isMine.toString() + "  " + isTouchable.toString());
-            EditableUser data = new EditableUser(firstName.get(), firstName.get(), about.get());
-            data.setDate(date);
-            data.setGender(0);
-            Log.d("ProfileViewModel", firstName.get() + "  " + about.get());
-            dataService.setUserData(data)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(data1 -> {
-                    }, throwable -> {
-                        Dialogs dialogs = new Dialogs();
-                        dialogs.ShowDialogAgree("Ошибка", "Не удалось отправить данные");
-                    });
-        }
-        isTouchable = false;
-        ContextUtill.setDataChanged(true);
-        notifyPropertyChanged(BR.isTouchable);
     }
 
     public void openPicker() {
@@ -337,11 +299,11 @@ public class ProfileViewModel extends BaseObservable {
     }
 
     @Bindable
-    public Boolean getEditPhoto() {
+    public boolean getEditPhoto() {
         return editPhoto;
     }
 
-    public void setEditPhoto(Boolean editable) {
+    public void setEditPhoto(boolean editable) {
         editPhoto = editable;
         notifyPropertyChanged(BR.editPhoto);
     }
